@@ -8,9 +8,10 @@ At the very end, we can convert between this file with a simple one-line command
 It is your responsibility to add your contribution to this file.
 
 | Date        | Member                    | Task Description               | Commit  | Hours | Status | Notes                             |
-|-------------|---------------------------|--------------------------------|---------|-------| ------ |-----------------------------------|
+|-------------|---------------------------|--------------------------------|---------|-------|--------|-----------------------------------|
 | 10 Nov 2025 | Kuba Rodak (24436755)     | Repo set-up                    | 812501a | 0.5   | Done   | Repo created                      |
 | 11 Nov 2025 | Kuba Rodak (24436755)     | Kanban created & members added | e4f5g6h | 0.75  | Done   | Kanban seeded & team complete     |
-| 16 Nov 2025 | Willow Johnson (24408379) | CRC Cards created and added    | 0410772 | 0.5   | Done   | Current CRC cards, may be updated |
+| 16 Nov 2025 | Willow Johnson (24408379) | CRC Cards created and added    | 9191a0b | 0.5   | Done   | Current CRC cards, may be updated |
+| 17 Nov 2025 | Kuba Rodak (24436755)     | Create Code Skeleton           | -       | 2     | Done   | Project MVC skeleton created      |
 | ...         | ...                       | ...                            | ...     | ...   | ...    | ...                               |
 
