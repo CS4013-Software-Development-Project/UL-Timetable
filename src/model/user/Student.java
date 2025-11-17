@@ -4,8 +4,10 @@ import model.grouping.StudentGroup;
 import model.grouping.Subgroup;
 import model.module.Programme;
 
+/**
+ * The Student
+ */
 public class Student extends User {
-
     Programme programme;
     StudentGroup studentGroup;
     Subgroup subgroup;
