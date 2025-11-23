@@ -1,8 +1,8 @@
 unnamed package
-model.grouping
-model.module
-model.room
-model.schedule
-model.user
-persistence
-view.cli
+main.java.model.grouping
+main.java.model.module
+main.java.model.room
+main.java.model.schedule
+main.java.model.user
+main.java.persistence
+main.java.view.cli

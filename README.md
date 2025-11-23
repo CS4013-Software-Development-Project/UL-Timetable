@@ -10,7 +10,7 @@ Download and install from the Releases tab.
 
 Start the program and run the `import` task. This will load all defaults from the provided CSV files.
 
-Next, try the `view` command to display your default timetable.
+Next, try the `main.java.view` command to display your default timetable.
 
 ## Manual build
 
