@@ -1,4 +1,4 @@
-package main.java.model.schedule;
+package model.schedule;
 
 public class Scheduler {
 

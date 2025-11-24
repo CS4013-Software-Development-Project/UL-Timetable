@@ -1,4 +1,4 @@
-package main.java.model.room;
+package model.room;
 
 /**
  * The RoomType enum represents the different kind of rooms available for use on campus.

@@ -1,6 +1,6 @@
-package main.java.model.schedule;
+package model.schedule;
 
-import main.java.model.room.Room;
+import model.room.Room;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;

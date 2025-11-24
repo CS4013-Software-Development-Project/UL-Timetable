@@ -1,6 +1,8 @@
-package main.java.model.module;
-import main.java.model.grouping.StudentGroup;
-import main.java.model.user.Leader;
+package model.module;
+import model.grouping.StudentGroup;
+import model.user.Leader;
+import model.user.Student;
+import persistence.AbstractPersistable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +10,21 @@ import java.util.List;
 /**
  * Represents a Programme course at the University. Is composed of Modules and may have assigned Leaders.
  */
-public class Programme {
+public class Programme extends AbstractPersistable {
     String name;
     List<Module> modules;
     List<Leader> leaders;
     StudentGroup studentGroup;
+
+    /**
+     * Creates a new instance of Programme.
+     * @param name The localized name representing this Programme.
+     */
+    public Programme(String name) {
+        this.name = name;
+        this.modules = new ArrayList<>();
+        this.leaders = new ArrayList<>();
+    }
 
     /**
      * Creates a new instance of Programme.
@@ -36,11 +48,59 @@ public class Programme {
     }
 
     /**
-     * Gets a list of Module this Programme is composed of.
-     * @return The list of Module this Programme is composed of.
+     * Gets a list of Modules this Programme is composed of.
+     * @return The list of Modules this Programme is composed of.
      */
     public List<Module> getModules() {
         return this.modules;
+    }
+
+    /**
+     * Sets the Module list this Programme is composed of.
+     * @param modules The list of Modules this Programme should be composed of.
+     */
+    public void setModules(List<Module> modules) {
+        this.modules = modules;
+    }
+
+    /**
+     * Adds a Module from this Programme.
+     * @param module The Module to remove from this Programme.
+     */
+    public void removeModule(Module module) {
+        this.modules.remove(module);
+    }
+
+    /**
+     * Adds a Student to the StudentGroup associated with this Programme.
+     * @param student The Student to be added to the StudentGroup associated with this Programme.
+     */
+    public void addStudent(Student student) {
+        this.studentGroup.addStudent(student);
+    }
+
+    /**
+     * Removes a Student from the StudentGroup associated with this Programme.
+     * @param student The Student to be removed from the StudentGroup associated with this Programme.
+     */
+    public void removeStudent(Student student) {
+        this.studentGroup.removeStudent(student);
+    }
+
+    /**
+     * Gets the StudentGroup taking this Programme.
+     * @return The StudentGroup taking this Programme.
+     */
+    public StudentGroup getStudentGroup() {
+        return this.studentGroup;
+    }
+
+    /**
+     * Sets the StudentGroup taking this Programme.
+     * @param studentGroup The StudentGroup taking this Programme.
+     */
+    public void setStudentGroup(StudentGroup studentGroup) {
+        this.studentGroup = studentGroup;
     }
 
     /**
@@ -57,5 +117,50 @@ public class Programme {
      */
     public void removeLeader(Leader leader) {
         this.leaders.remove(leader);
+    }
+
+    /**
+     * Gets a list of Leaders leading this Programme.
+     * @return The list of Leaders leading this Programme.
+     */
+    public List<Leader> getLeaders() {
+        return leaders;
+    }
+
+    /**
+     * Sets the list of Leaders leading this Programme.
+     * @param leaders The list of Leaders to lead this Programme.
+     */
+    public void setLeaders(List<Leader> leaders) {
+        this.leaders = leaders;
+    }
+
+    @Override
+    public String serialize() {
+        StringBuilder line = new StringBuilder();
+        line.append(this.getUUID()).append(",");
+
+        line.append(this.name).append(",");
+
+        for (Module module : this.modules)
+            line.append(module.getUUID()).append("|");
+        line.append(",");
+        for (Leader leader : this.leaders)
+            line.append(leader.getUUID()).append("|");
+        line.append(",");
+
+        //TODO: This
+        //line.append(studentGroup.getUUID());
+
+        return line.toString();
+    }
+
+    public static Programme deserialize(String line) {
+        String[] tokens = line.split(",");
+
+        Programme p = new Programme(tokens[1]);
+        p.setUUID(tokens[0]);
+
+        return p;
     }
 }

@@ -1,8 +1,9 @@
-package main.java.model.module;
+package model.module;
 
-import main.java.model.grouping.Subgroup;
-import main.java.model.schedule.Timeslot;
-import main.java.model.user.Leader;
+import model.grouping.Subgroup;
+import model.schedule.Timeslot;
+import model.user.Leader;
+import persistence.AbstractPersistable;
 
 /**
  * A Session represents the performance of a Module during a Timeslot. It is attended by a Subgroup of Students, and is conducted by a Leader.

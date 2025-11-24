@@ -1,4 +1,6 @@
-package main.java.model.module;
+package model.module;
+
+import persistence.AbstractPersistable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +8,7 @@ import java.util.List;
 /**
  * Module represents a subject that is part of a Programme.
  */
-public class Module {
+public class Module extends AbstractPersistable {
     String moduleCode;
     String moduleName;
 
@@ -49,5 +51,23 @@ public class Module {
      */
     public List<Session> getSessions() {
         return sessions;
+    }
+
+    @Override
+    public String serialize() {
+        String line = "";
+
+        line += this.getUUID() + ",";
+        line += this.moduleCode + ",";
+        line += this.moduleName;
+
+        return line;
+    }
+
+    public static Module deserialize(String line) {
+        String[] tokens = line.split(",");
+        Module m = new Module(tokens[1], tokens[2]);
+        m.setUUID(tokens[0]);
+        return m;
     }
 }

@@ -1,4 +1,4 @@
-package main.java.view.cli;
+package view.cli;
 
 public class StudentCLI extends MainCLI {
 

@@ -1,31 +1,31 @@
-package main.java.model.room;
+package model.room;
 
 /**
  * Represents the capabilities of a physical Room where Timeslots become available in.
  */
 public class Room {
-    String id;
+    String roomNumber;
     int capacity;
     RoomType roomType;
 
     /**
      * Instantiates a new Room.
-     * @param id The ID/Room Number etc. of a room.
+     * @param roomNumber The roomNumber/Room Number etc. of a room.
      * @param capacity The room capacity.
      * @param roomType The type of room this is.
      */
-    public Room(String id, int capacity, RoomType roomType) {
-        this.id = id;
+    public Room(String roomNumber, int capacity, RoomType roomType) {
+        this.roomNumber = roomNumber;
         this.capacity = capacity;
         this.roomType = roomType;
     }
 
     /**
-     * Gets the Room ID.
-     * @return The Room ID.
+     * Gets the Room roomNumber.
+     * @return The Room roomNumber.
      */
-    public String getId() {
-        return this.id;
+    public String getroomNumber() {
+        return this.roomNumber;
     }
 
     /**

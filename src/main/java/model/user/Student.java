@@ -1,8 +1,8 @@
-package main.java.model.user;
+package model.user;
 
-import main.java.model.grouping.StudentGroup;
-import main.java.model.grouping.Subgroup;
-import main.java.model.module.Programme;
+import model.grouping.StudentGroup;
+import model.grouping.Subgroup;
+import model.module.Programme;
 
 /**
  * The Student
@@ -12,6 +12,16 @@ public class Student extends User {
     StudentGroup studentGroup;
     Subgroup subgroup;
 
+    /**
+     * Creates a new Student.
+     */
+    public Student(String username, String password) {
+        super(username, password);
+    }
+
+    /**
+     * Creates a new Student.
+     */
     public Student(String username, String passwordHash, Programme programme, StudentGroup studentGroup, Subgroup subgroup) {
         super(username, passwordHash);
 
@@ -24,11 +34,23 @@ public class Student extends User {
         return this.programme;
     }
 
+    public void setProgramme(Programme programme) {
+        this.programme = programme;
+    }
+
     public StudentGroup getStudentGroup() {
         return this.studentGroup;
     }
 
+    public void setStudentGroup(StudentGroup studentGroup) {
+        this.studentGroup = studentGroup;
+    }
+
     public Subgroup getSubgroup() {
         return this.subgroup;
+    }
+
+    public void setSubgroup(Subgroup subgroup) {
+        this.subgroup = subgroup;
     }
 }

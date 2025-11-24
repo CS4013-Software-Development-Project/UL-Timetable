@@ -1,14 +1,16 @@
-package main.java.model.user;
+package model.user;
 
-import main.java.model.module.Programme;
+import model.module.Programme;
 
 /**
  * The Admin can appoint and remove Leaders from Programmes.
  */
 public class Admin extends User {
 
-    public Admin(String username, String passwordHash) {
-        super(username, passwordHash);
+    private Admin() { super(); }
+
+    public Admin(String username, String password) {
+        super(username, password);
     }
 
     /**
@@ -29,5 +31,26 @@ public class Admin extends User {
     public void removeLeader(Leader leader, Programme programme) {
         programme.removeLeader(leader);
         leader.removeLedProgramme(programme);
+    }
+
+    @Override
+    public String serialize() {
+        StringBuilder line = new StringBuilder();
+        line.append(this.getUUID()).append(",");
+        line.append(this.getUsername()).append(",");
+        line.append(this.passwordHash).append(",");
+
+        return line.toString();
+    }
+
+    public static Admin deserialize(String line) {
+        String[] tokens = line.split(",");
+        Admin admin = new Admin();
+
+        admin.setUUID(tokens[0]);
+        admin.setUsername(tokens[1]);
+        admin.setPasswordHash(tokens[2]);
+
+        return admin;
     }
 }

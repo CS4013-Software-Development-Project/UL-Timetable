@@ -1,7 +1,7 @@
-package main.java.model.grouping;
+package model.grouping;
 
-import main.java.model.module.Session;
-import main.java.model.user.Student;
+import model.module.Session;
+import model.user.Student;
 import java.util.List;
 
 /**

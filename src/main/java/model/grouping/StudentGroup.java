@@ -1,7 +1,7 @@
-package main.java.model.grouping;
+package model.grouping;
 
-import main.java.model.module.Programme;
-import main.java.model.user.Student;
+import model.module.Programme;
+import model.user.Student;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,5 +45,13 @@ public class StudentGroup {
      */
     public void addStudent(Student student) {
         this.students.add(student);
+    }
+
+    /**
+     * Remove a Student from this StudentGroup.
+     * @param student The Student to be removed from this StudentGroup.
+     */
+    public void removeStudent(Student student) {
+        this.students.remove(student);
     }
 }
