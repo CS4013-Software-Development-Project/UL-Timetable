@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Repository {
     private final Path path;
+    private String[] fileContents;
 
     public Repository(String filePath) {
 
@@ -32,12 +33,22 @@ public class Repository {
     }
 
     public String[] readAll() {
+
+        if (this.fileContents != null) {
+            return this.fileContents;
+        }
+
         try {
             List<String> lines = Files.readAllLines(path);
-            return lines.toArray(new String[0]);
+            this.fileContents = lines.toArray(new String[0]);
+            return this.fileContents;
         }
         catch(Exception e) {
             throw new RuntimeException("Error reading from repository", e);
         }
+    }
+
+    public void clear() {
+        this.fileContents = null;
     }
 }
