@@ -14,28 +14,36 @@ public class AdminController extends TimetableController{
         boolean more = true;
 
         while(more){
-            view.displayAdminPanel();
+            view.displayPanel();
             String command = input.nextLine();
 
             if(command == "A"){
                 view.promptLeaderUsername();
                 String username = input.nextLine();
-                Leader leader = new Leader(username, "");
+                Leader leader = new Leader(username, "welcome2025");
                 view.promptProgrammeName();
                 String programmeName = input.nextLine();
                 Programme programme = new Programme(programmeName);
                 admin.appointLeader(leader, programme);
-                view.showSuccess("Leader added to module");
+                view.print("Leader added to module");
             }
             else if(command == "R"){
                 view.promptLeaderUsername();
                 String username = input.nextLine();
-                Leader leader = new Leader(username, "");
+                //update when serialisation is done with leader list.
+                Leader leader = new Leader(username, "welcome2025");
                 view.promptProgrammeName();
                 String programmeName = input.nextLine();
                 Programme programme = new Programme(programmeName);
                 admin.removeLeader(leader, programme);
-                view.showSuccess("Leader removed from module");
+                view.print("Leader removed from module");
+            }
+            else if(command == "C"){
+                view.changePassword();
+                String username = input.nextLine();
+                String password = input.nextLine();
+                Leader leader = new Leader(username, "welcome2025");
+                leader.resetPassword(password);
             }
             else if(command == "Q"){
                 more = false;

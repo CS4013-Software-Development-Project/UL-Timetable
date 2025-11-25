@@ -1,8 +1,9 @@
 package view.cli;
 
 public class AdminCLI extends MainCLI {
-    public void displayAdminPanel(){
-        System.out.println("A)ppoint Leader R)emove Leader Q)uit");
+    @Override
+    public void displayPanel() {
+        System.out.println("A)ppoint Leader R)emove Leader C)hange Password Q)uit");
     }
 
     public void promptLeaderUsername() {
@@ -12,12 +13,17 @@ public class AdminCLI extends MainCLI {
     public void promptProgrammeName() {
         System.out.print("Enter Programme username: ");
     }
-
-    public void showSuccess(String message){
-        System.out.println("[Success] " + message);
+    public void changePassword(){
+        System.out.println("Enter New Password: ");
     }
 
-    public void showError(String message){
-        System.out.println("[Error] " + message);
+    @Override
+    public void print(String msg){
+        System.out.println("[Success] "+msg);
+    }
+
+    @Override
+    public void error(String msg){
+        System.out.println("[Error] "+msg);
     }
 }

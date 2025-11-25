@@ -8,6 +8,7 @@ public interface ICLIView {
     void print(String msg);
     void error(String msg);
     String prompt(String msg);
+    void displayPanel();
 
     void run();
 
