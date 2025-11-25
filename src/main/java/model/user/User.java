@@ -18,6 +18,10 @@ public abstract class User extends AbstractPersistable {
 
     protected User() {}
 
+
+    public User(String username) {
+        this.username = username;
+    }
     /**
      * Constructs a new User with the username and password.
      * @param username The username String.

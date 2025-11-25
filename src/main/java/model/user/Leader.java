@@ -11,6 +11,11 @@ import java.util.List;
 public class Leader extends User {
     List<Programme> ledProgrammes;
 
+    public Leader(String username) {
+        super(username);
+        this.ledProgrammes = new ArrayList<Programme>();
+    }
+
     public Leader(String username, String password) {
         super(username, password);
         this.ledProgrammes = new ArrayList<Programme>();
