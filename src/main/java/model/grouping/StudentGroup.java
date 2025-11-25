@@ -57,6 +57,26 @@ public class StudentGroup extends AbstractPersistable {
         this.students.remove(student);
     }
 
+    public void setStudentList(List<Student> students) {
+        this.students = students;
+    }
+
+    public void setProgramme(Programme programme) {
+        this.programme = programme;
+    }
+
+    public void setLectureGroups(List<Subgroup> lectureGroups) {
+        this.lectureGroups = lectureGroups;
+    }
+
+    public void setLabGroups(List<Subgroup> labGroups) {
+        this.labGroups = labGroups;
+    }
+
+    public void setTutorialGroups(List<Subgroup> tutorialGroups) {
+        this.tutorialGroups = tutorialGroups;
+    }
+
     public String serialize() {
         StringBuilder line = new StringBuilder();
         line.append(this.getUUID()).append(",");

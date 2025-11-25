@@ -16,4 +16,14 @@ public enum Period {
     Period(int hour) {
         this.hour = hour;
     }
+
+    @Override
+    public String toString() {
+        if (this ==  H09) {
+            return "09:00";
+        }
+        else {
+            return this.hour + ":00";
+        }
+    }
 }

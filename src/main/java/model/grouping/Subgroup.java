@@ -58,13 +58,17 @@ public class Subgroup extends AbstractPersistable {
         return students;
     }
 
+    public void setParentGroup(StudentGroup parentGroup) {
+        this.parentGroup = parentGroup;
+    }
+
     @Override
     public String serialize() {
         StringBuilder line = new StringBuilder();
         line.append(this.getUUID()).append(",");
         line.append(this.id).append(",");
         line.append(this.parentGroup.getUUID()).append(",");
-        line.append("TODO").append(",");
+        line.append(this.session.getUUID()).append(","); //TODO: Session Serialization
 
         for (Student student : students) {
             line.append(student.getUUID()).append("|");

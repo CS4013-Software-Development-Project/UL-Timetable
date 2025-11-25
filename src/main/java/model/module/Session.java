@@ -8,7 +8,7 @@ import persistence.AbstractPersistable;
 /**
  * A Session represents the performance of a Module during a Timeslot. It is attended by a Subgroup of Students, and is conducted by a Leader.
  */
-public class Session {
+public class Session extends AbstractPersistable {
     Module module;
     Timeslot timeslot;
 
@@ -17,6 +17,7 @@ public class Session {
 
     SessionType sessionType;
 
+    private Session() {};
     /**
      * Creates a new Session.
      * @param module The Module this Session belongs to.
@@ -67,5 +68,37 @@ public class Session {
      */
     public void setTimeslot(Timeslot timeslot) {
         this.timeslot = timeslot;
+    }
+
+    /**
+     * Assigns a Module to this Session.
+     * @param module The Module to assign to this Session.
+     */
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
+    @Override
+    public String serialize() {
+        StringBuilder line = new StringBuilder();
+        line.append(this.getUUID()).append(",");
+
+        line.append(module.getUUID()).append(",");
+        line.append(timeslot.getUUID()).append(",");
+        line.append(groupAttending.getUUID()).append(",");
+        line.append(leader.getUUID()).append(",");
+        line.append(this.sessionType.ordinal());
+
+        return line.toString();
+    }
+
+    public static Session deserialize(String line) {
+        String[] tokens = line.split(",");
+
+        Session session = new Session();
+        session.setUUID(tokens[0]);
+        session.sessionType = SessionType.values()[Integer.parseInt(tokens[5])];
+
+        return session;
     }
 }
