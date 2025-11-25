@@ -23,7 +23,8 @@ public class Student extends User {
      * Creates a new Student.
      */
     public Student(String username, String passwordHash, Programme programme, StudentGroup studentGroup, Subgroup subgroup) {
-        super(username, passwordHash);
+        super(username, "");
+        this.setPasswordHash(passwordHash);
 
         this.programme = programme;
         this.studentGroup = studentGroup;
@@ -52,5 +53,27 @@ public class Student extends User {
 
     public void setSubgroup(Subgroup subgroup) {
         this.subgroup = subgroup;
+    }
+
+    @Override
+    public String serialize() {
+        StringBuilder line = new StringBuilder();
+        line.append(this.getUUID()).append(",");
+        line.append(this.getUsername()).append(",");
+        line.append(this.passwordHash).append(",");
+        line.append(this.programme.getUUID()).append(",");
+        line.append(this.studentGroup.getUUID()).append(",");
+        line.append(this.subgroup.getUUID()).append(",");
+
+        return line.toString();
+    }
+
+    public static Student deserialize(String line) {
+        String[] tokens = line.split(",");
+        Student student = new Student(tokens[1], "");
+        student.setPasswordHash(tokens[2]);
+        student.setUUID(tokens[0]);
+
+        return student;
     }
 }

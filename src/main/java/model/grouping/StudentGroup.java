@@ -2,6 +2,7 @@ package model.grouping;
 
 import model.module.Programme;
 import model.user.Student;
+import persistence.AbstractPersistable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * StudentGroup represents a group of students assigned to a Programme. They may not necessarily all attend the same sessions.
  */
-public class StudentGroup {
+public class StudentGroup extends AbstractPersistable {
     String id;
     Programme programme;
 
@@ -19,6 +20,7 @@ public class StudentGroup {
     List<Subgroup> labGroups;
     List<Subgroup> tutorialGroups;
 
+    private StudentGroup() {}
     /**
      * Creates a new instance of StudentGroup.
      * @param id The String ID representing this StudentGroup.
@@ -53,5 +55,42 @@ public class StudentGroup {
      */
     public void removeStudent(Student student) {
         this.students.remove(student);
+    }
+
+    public String serialize() {
+        StringBuilder line = new StringBuilder();
+        line.append(this.getUUID()).append(",");
+        line.append(this.getId()).append(",");
+        line.append(this.programme.getUUID()).append(",");
+
+        for (Student student : this.students) {
+            line.append(student.getUUID()).append("|");
+        }
+        line.append(",");
+
+        for (Subgroup group : this.lectureGroups) {
+            line.append(group.getUUID()).append("|");
+        }
+        line.append(",");
+
+        for (Subgroup group : this.labGroups) {
+            line.append(group.getUUID()).append("|");
+        }
+        line.append(",");
+
+        for (Subgroup group : this.tutorialGroups) {
+            line.append(group.getUUID()).append("|");
+        }
+
+        return line.toString();
+    }
+
+    public static StudentGroup deserialize(String line) {
+        String[] tokens = line.split(",");
+        StudentGroup group = new StudentGroup();
+        group.setUUID(tokens[0]);
+        group.id = tokens[1];
+
+        return group;
     }
 }

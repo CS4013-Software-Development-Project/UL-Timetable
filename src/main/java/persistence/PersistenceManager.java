@@ -4,6 +4,7 @@ import model.module.Module;
 import model.module.Programme;
 import model.user.Admin;
 import model.user.Leader;
+import model.user.Student;
 
 import java.util.HashMap;
 
@@ -14,6 +15,7 @@ public class PersistenceManager {
     Repository programmeRepo;
     Repository adminRepo;
     Repository leaderRepo;
+    Repository studentRepo;
 
 
     public PersistenceManager(String dataDirectory) {
@@ -22,6 +24,7 @@ public class PersistenceManager {
         programmeRepo = new Repository(dataDirectory + "programmes");
         adminRepo = new Repository(dataDirectory + "admins");
         leaderRepo = new Repository(dataDirectory + "leaders");
+        studentRepo = new Repository(dataDirectory + "students");
     }
 
     private void load() {
@@ -66,6 +69,13 @@ public class PersistenceManager {
             for (String leaderUUID : tokens[3].split("\\|")) {
                 programme.addLeader(leaders.get(leaderUUID));
             }
+        }
+
+        //Phase 5: Load Students
+        HashMap<String, Student> students = new HashMap<>();
+        for (String line : studentRepo.readAll()) {
+            String[] tokens = line.split(",");
+            students.put(tokens[0], Student.deserialize(line));
         }
     }
 }

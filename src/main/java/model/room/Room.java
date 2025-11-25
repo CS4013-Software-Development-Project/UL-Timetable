@@ -1,12 +1,14 @@
 package model.room;
 
+import persistence.AbstractPersistable;
+
 /**
  * Represents the capabilities of a physical Room where Timeslots become available in.
  */
-public class Room {
-    String roomNumber;
-    int capacity;
-    RoomType roomType;
+public class Room extends AbstractPersistable {
+    private String roomNumber;
+    private int capacity;
+    private RoomType roomType;
 
     /**
      * Instantiates a new Room.
@@ -28,6 +30,10 @@ public class Room {
         return this.roomNumber;
     }
 
+    public void setroomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
     /**
      * Gets the Room capacity.
      * @return The Room capacity.
@@ -36,11 +42,39 @@ public class Room {
         return this.capacity;
     }
 
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
     /**
      * Gets the Room Type.
      * @return The Room Type.
      */
     public RoomType getRoomType() {
         return this.roomType;
+    }
+
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
+    }
+
+    @Override
+    public String serialize() {
+        StringBuilder sb = new StringBuilder();
+
+        return "";
+    }
+
+    public static Room deserialize(String line) {
+        String[] tokens = line.split(",");
+        Room room = new Room(
+                tokens[1],
+                Integer.parseInt(tokens[2]),
+                RoomType.values()[Integer.parseInt(tokens[2])]
+        );
+
+        room.setUUID(tokens[0]);
+
+        return room;
     }
 }

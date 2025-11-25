@@ -9,22 +9,19 @@ import java.time.LocalTime;
  * The Timeslot represents the availability of a specific Room during a specific Time.
  */
 public class Timeslot {
-    DayOfWeek day;
-    LocalTime startTime;
-    int hoursDuration;
-    Room room;
+    private final Day day;
+    private final Period period;
+    private final Room room;
 
     /**
      * Creates a new Timeslot.
-     * @param day The DayOfWeek this Timeslot takes place on.
-     * @param startTime The LocalTime start time of this Timeslot.
-     * @param hoursDuration The length of this timeslot, in hours.
+     * @param day The Day this Timeslot takes place on.
+     * @param period The Period of this Timeslot.
      * @param room The Room this Timeslot references.
      */
-    public Timeslot(DayOfWeek day, LocalTime startTime, int hoursDuration, Room room) {
+    public Timeslot(Day day, Period period, Room room) {
         this.day = day;
-        this.startTime = startTime;
-        this.hoursDuration = hoursDuration;
+        this.period = period;
         this.room = room;
     }
 }

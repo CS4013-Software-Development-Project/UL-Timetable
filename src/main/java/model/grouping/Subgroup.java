@@ -2,18 +2,21 @@ package model.grouping;
 
 import model.module.Session;
 import model.user.Student;
+import persistence.AbstractPersistable;
+
 import java.util.List;
 
 /**
  * Subgroup represents a group of Students that attends a Session together.
  */
-public class Subgroup {
+public class Subgroup extends AbstractPersistable {
     String id;
 
     StudentGroup parentGroup;
     Session session;
     List<Student> students;
 
+    private Subgroup() {}
     /**
      * Creates a new instance of Subgroup.
      * @param id The String ID representing this Subgroup.
@@ -35,8 +38,8 @@ public class Subgroup {
     /**
      * Gets the Session that this Subgroup attends.
      */
-    public void getSession() {
-        this.session = session;
+    public Session getSession() {
+        return this.session;
     }
 
     /**
@@ -53,5 +56,29 @@ public class Subgroup {
      */
     public List<Student> getStudents() {
         return students;
+    }
+
+    @Override
+    public String serialize() {
+        StringBuilder line = new StringBuilder();
+        line.append(this.getUUID()).append(",");
+        line.append(this.id).append(",");
+        line.append(this.parentGroup.getUUID()).append(",");
+        line.append("TODO").append(",");
+
+        for (Student student : students) {
+            line.append(student.getUUID()).append("|");
+        }
+
+        return line.toString();
+    }
+
+    public static Subgroup deserialize(String line) {
+        String[] tokens = line.split(",");
+        Subgroup subgroup = new Subgroup();
+        subgroup.setUUID(tokens[0]);
+        subgroup.id = tokens[1];
+
+        return subgroup;
     }
 }

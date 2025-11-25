@@ -63,7 +63,6 @@ public class Leader extends User {
         for (Programme programme : this.ledProgrammes) {
             line.append(programme.getUUID()).append("|");
         }
-        line.append(",");
 
         return line.toString();
     }
