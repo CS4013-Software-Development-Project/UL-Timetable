@@ -2,7 +2,7 @@ package persistence;
 
 import java.util.UUID;
 
-public abstract class AbstractPersistable implements Persistable {
+public abstract class AbstractPersistable implements IPersistable {
     private String uuid = UUID.randomUUID().toString();
 
     @Override

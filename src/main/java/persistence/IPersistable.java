@@ -1,6 +1,6 @@
 package persistence;
 
-public interface Persistable {
+public interface IPersistable {
     String getUUID();
     void setUUID(String uuid);
 
