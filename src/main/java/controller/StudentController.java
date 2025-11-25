@@ -17,19 +17,19 @@ public class StudentController {
             view.displayPanel();
             String command = input.nextLine();
 
-            if (command == "D") {
+            if (command.equals("D")) {
                 view.displayProgramme(student);
                 view.print("Leader Modules Successfully Shown");
             }
-            else if(command == "G"){
+            else if(command.equals("G")){
                 view.getGroups(student);
                 view.print("Groups successfully Shown");
             }
-            else if(command == "S"){
+            else if(command.equals("s")){
                 view.displayTimetable(student);
                 view.print("Timetable successfully Shown");
             }
-            else if (command == "Q") {
+            else if (command.equals("q")) {
                 more = false;
             }
         }

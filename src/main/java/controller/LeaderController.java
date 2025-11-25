@@ -15,11 +15,11 @@ public class LeaderController {
             view.displayPanel();
             String command = input.nextLine();
 
-            if (command == "D") {
+            if (command.equals("D")) {
                 view.displayLeaderProgrammes(leader);
                 view.print("Leader Modules Successfully Shown");
             }
-            else if(command == "T"){
+            else if(command.equals("S")){
                 view.displayTimetable(leader);
                 view.print("Timetable successfully Shown");
             }
