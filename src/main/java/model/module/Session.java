@@ -39,7 +39,6 @@ public class Session extends AbstractPersistable {
      */
     public void setSubgroup(Subgroup subgroup) {
         this.groupAttending = subgroup;
-        subgroup.setSession(this);
     }
 
     /**

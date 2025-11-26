@@ -1,3 +1,6 @@
+/// Needs to be adapted to Group Rework
+
+
 package persistence;
 
 import model.grouping.Subgroup;
@@ -8,6 +11,7 @@ import model.room.Room;
 import model.schedule.Day;
 import model.schedule.Period;
 import model.schedule.Timeslot;
+import model.schedule.Timetable;
 import model.user.Admin;
 import model.user.Leader;
 import model.user.Student;
@@ -38,7 +42,8 @@ public class PersistenceManager {
     private static LinkedHashMap<String, Student> students = new LinkedHashMap<>();
     private static LinkedHashMap<String, Room> rooms = new LinkedHashMap<>();
     private static LinkedHashMap<String, Subgroup> subgroups = new LinkedHashMap<>();
-    private static LinkedHashMap<String, StudentGroup> studentGroups = new LinkedHashMap<>();
+    //TODO: Remove
+    // private static LinkedHashMap<String, StudentGroup> studentGroups = new LinkedHashMap<>();
     private static LinkedHashMap<String, Timeslot> timeslots = new LinkedHashMap<>();
     private static LinkedHashMap<String, Session> sessions = new LinkedHashMap<>();
     private static LinkedHashMap<String, Timetable> timetables = new LinkedHashMap<>();

@@ -16,7 +16,15 @@ public class Subgroup extends AbstractPersistable {
 
     List<Student> students;
 
-    private Subgroup() {}
+    public Subgroup() {}
+    /**
+     * Creates a new instance of Subgroup.
+     * @param id The String ID representing this Subgroup.
+     */
+    public Subgroup(String id) {
+        this.id = id;
+        this.students = new ArrayList<Student>();
+    }
     /**
      * Creates a new instance of Subgroup.
      * @param id The String ID representing this Subgroup.
@@ -26,6 +34,12 @@ public class Subgroup extends AbstractPersistable {
         this.id = id;
         this.students = students;
     }
+
+    /**
+     * Splits students into a list of ceil(number_of_students/maxStudentsPerGroup) Subgroups.
+     * @param maxStudentsPerGroup Maximum amount of students to have in each group.
+     */
+    public List<Subgroup> splitGroup(int maxStudentsPerGroup) {return null;}
 
     /**
      * Adds a Student to this Subgroup.
@@ -41,12 +55,6 @@ public class Subgroup extends AbstractPersistable {
     public void removeStudent(Student student) {
         students.remove(student);
     }
-
-    /**
-     * Splits students into a list of ceil(number_of_students/maxStudentsPerGroup) SubGroups.
-     * @param maxStudentsPerGroup Maximum amount of students to have in each group.
-     */
-    public List<Subgroup> splitGroup(int maxStudentsPerGroup) {return null;}
 
     /**
      * Gets the list of Students currently assigned to this Subgroup.
