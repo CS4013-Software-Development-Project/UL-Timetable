@@ -1,10 +1,20 @@
+/// Needs to be adapted to Group Rework
+
+
 package persistence;
 
-import model.grouping.*;
-import model.module.*;
-import model.room.*;
-import model.schedule.*;
-import model.user.*;
+import model.grouping.Subgroup;
+import model.module.Module;
+import model.module.Programme;
+import model.module.Session;
+import model.room.Room;
+import model.schedule.Day;
+import model.schedule.Period;
+import model.schedule.Timeslot;
+import model.schedule.Timetable;
+import model.user.Admin;
+import model.user.Leader;
+import model.user.Student;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -32,7 +42,8 @@ public class PersistenceManager {
     private static LinkedHashMap<String, Student> students = new LinkedHashMap<>();
     private static LinkedHashMap<String, Room> rooms = new LinkedHashMap<>();
     private static LinkedHashMap<String, Subgroup> subgroups = new LinkedHashMap<>();
-    private static LinkedHashMap<String, StudentGroup> studentGroups = new LinkedHashMap<>();
+    //TODO: Remove
+    // private static LinkedHashMap<String, StudentGroup> studentGroups = new LinkedHashMap<>();
     private static LinkedHashMap<String, Timeslot> timeslots = new LinkedHashMap<>();
     private static LinkedHashMap<String, Session> sessions = new LinkedHashMap<>();
     private static LinkedHashMap<String, Timetable> timetables = new LinkedHashMap<>();
@@ -183,7 +194,6 @@ public class PersistenceManager {
             StudentGroup grp = studentGroups.get(tokens[2]);
             if (grp == null)
                 tokenNotFound(tokens[2]);
-            subgroup.setParentGroup(grp);
         }
 
         //Phase 8.2: Fill in StudentGroup in Students
@@ -205,7 +215,8 @@ public class PersistenceManager {
             StudentGroup grp = studentGroups.get(tokens[4]);
             if (grp == null)
                 tokenNotFound(tokens[4]);
-            programme.setStudentGroup(grp);
+            //TODO: change to subgroup
+            //programme.setSubgroup(grp);
         }
 
         //Phase 9: Timeslots

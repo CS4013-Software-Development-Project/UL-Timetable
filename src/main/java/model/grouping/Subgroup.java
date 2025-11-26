@@ -14,37 +14,32 @@ import java.util.List;
 public class Subgroup extends AbstractPersistable {
     String id;
 
-    StudentGroup parentGroup;
-    Session session;
     List<Student> students;
 
-    private Subgroup() {}
+    public Subgroup() {}
     /**
      * Creates a new instance of Subgroup.
      * @param id The String ID representing this Subgroup.
-     * @param parentGroup The StudentGroup this Subgroup belongs to.
      */
-    public Subgroup(String id, StudentGroup parentGroup) {
+    public Subgroup(String id) {
         this.id = id;
-        this.parentGroup = parentGroup;
-        this.students = new ArrayList<>();
+        this.students = new ArrayList<Student>();
+    }
+    /**
+     * Creates a new instance of Subgroup.
+     * @param id The String ID representing this Subgroup.
+     * @param students List of Student(s) in this SubGroup
+     */
+    public Subgroup(String id, List<Student> students) {
+        this.id = id;
+        this.students = students;
     }
 
     /**
-     * Sets the Session that this Subgroup attends.
-     * @param session The Session that this Subgroup attends.
+     * Splits students into a list of ceil(number_of_students/maxStudentsPerGroup) Subgroups.
+     * @param maxStudentsPerGroup Maximum amount of students to have in each group.
      */
-    public void setSession(Session session) {
-        this.session = session;
-        session.setSubgroup(this);
-    }
-
-    /**
-     * Gets the Session that this Subgroup attends.
-     */
-    public Session getSession() {
-        return this.session;
-    }
+    public List<Subgroup> splitGroup(int maxStudentsPerGroup) {return null;}
 
     /**
      * Adds a Student to this Subgroup.
@@ -52,6 +47,13 @@ public class Subgroup extends AbstractPersistable {
      */
     public void addStudent(Student student) {
         students.add(student);
+    }
+    /**
+     * Removes a Student from this Subgroup.
+     * @param student The Student to add to this Subgroup.
+     */
+    public void removeStudent(Student student) {
+        students.remove(student);
     }
 
     /**
@@ -62,18 +64,12 @@ public class Subgroup extends AbstractPersistable {
         return students;
     }
 
-    public void setParentGroup(StudentGroup parentGroup) {
-        this.parentGroup = parentGroup;
-    }
-
     @Override
     public String serialize() {
         StringBuilder line = new StringBuilder();
         line.append(this.getUUID()).append(",");
 
         line.append(this.id).append(",");
-        line.append(this.parentGroup.getUUID()).append(",");
-        line.append(this.session.getUUID()).append(",");
 
         line.append(SaveUtil.fastList(this.students)).append(",");
 

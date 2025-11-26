@@ -1,6 +1,5 @@
 package model.user;
 
-import model.grouping.StudentGroup;
 import model.grouping.Subgroup;
 import model.module.Programme;
 import persistence.AbstractPersistable;
@@ -13,7 +12,6 @@ import java.util.List;
  */
 public class Student extends User {
     Programme programme;
-    StudentGroup studentGroup;
     List<Subgroup> subgroups;
 
     /**
@@ -26,16 +24,14 @@ public class Student extends User {
     /**
      * Creates a new Student.
      */
-    public Student(String username, String passwordHash, Programme programme, StudentGroup studentGroup, List<Subgroup> subgroups) {
+    public Student(String username, String passwordHash, Programme programme, List<Subgroup> subgroups) {
         super(username, "");
         this.setPasswordHash(passwordHash);
 
         this.programme = programme;
-        this.studentGroup = studentGroup;
         this.subgroups = subgroups;
 
         this.programme.addStudent(this);
-        this.studentGroup.addStudent(this);
         for (Subgroup subgroup : subgroups) {
             subgroup.addStudent(this);
         }
@@ -47,19 +43,20 @@ public class Student extends User {
 
     public void setProgramme(Programme programme) {
         this.programme = programme;
-        if (programme.getStudentGroup() != null && !programme.getStudentGroup().getStudentList().contains(this))
+        if (programme.getSubgroup() != null && !programme.getSubgroup().getStudents().contains(this))
             programme.addStudent(this);
     }
 
-    public StudentGroup getStudentGroup() {
-        return this.studentGroup;
-    }
-
-    public void setStudentGroup(StudentGroup studentGroup) {
-        this.studentGroup = studentGroup;
-        if (!studentGroup.getStudentList().contains(this))
-            studentGroup.addStudent(this);
-    }
+// TODO: Account for group rework
+//    public List<Subgroup> getSubgroups() {
+//        return this.subgroups;
+//    }
+//
+//    public void setStudentGroup(StudentGroup studentGroup) {
+//        this.studentGroup = studentGroup;
+//        if (!studentGroup.getStudentList().contains(this))
+//            studentGroup.addStudent(this);
+//    }
 
     public List<Subgroup> getSubgroups() {
         return this.subgroups;
@@ -79,7 +76,6 @@ public class Student extends User {
         line.append(this.getUsername()).append(",");
         line.append(this.passwordHash).append(",");
         line.append(this.programme.getUUID()).append(",");
-        line.append(this.studentGroup.getUUID()).append(",");
         line.append(SaveUtil.fastList(this.subgroups));
 
         return line.toString();
