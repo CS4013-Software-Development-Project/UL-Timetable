@@ -35,6 +35,10 @@ public class Module extends AbstractPersistable {
         this.moduleCode = moduleCode;
         this.moduleName = moduleName;
         this.sessions = sessions;
+
+        for (Session session : sessions){
+            session.setModule(this);
+        }
     }
 
     /**
@@ -43,6 +47,7 @@ public class Module extends AbstractPersistable {
      */
     public void addSession(Session session) {
         this.sessions.add(session);
+        session.setModule(this);
     }
 
     /**
@@ -55,13 +60,13 @@ public class Module extends AbstractPersistable {
 
     @Override
     public String serialize() {
-        String line = "";
+        StringBuilder line = new StringBuilder();
 
-        line += this.getUUID() + ",";
-        line += this.moduleCode + ",";
-        line += this.moduleName;
+        line.append(this.getUUID()).append(",");
+        line.append(this.moduleCode).append(",");
+        line.append(this.moduleName);
 
-        return line;
+        return line.toString();
     }
 
     public static Module deserialize(String line) {

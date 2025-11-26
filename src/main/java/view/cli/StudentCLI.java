@@ -15,8 +15,8 @@ public class StudentCLI extends MainCLI {
     }
 
     public void getGroups(Student student){
-        System.out.println("Student Group: "+student.getStudentGroup());
-        System.out.println("Sub Group: "+student.getSubgroup());
+        System.out.println("Student Group: " + student.getStudentGroup());
+        //System.out.println("Sub Group: " + student.getSubgroup());
     }
 
     public void displayTimetable(Student student){

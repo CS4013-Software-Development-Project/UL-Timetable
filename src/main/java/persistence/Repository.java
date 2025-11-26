@@ -5,12 +5,12 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Repository {
     private final Path path;
-    private String[] fileContents;
+    private List<String> fileContents;
 
     public Repository(String filePath) {
 
@@ -32,15 +32,14 @@ public class Repository {
         }
     }
 
-    public String[] readAll() {
+    public List<String> readAll() {
 
         if (this.fileContents != null) {
             return this.fileContents;
         }
 
         try {
-            List<String> lines = Files.readAllLines(path);
-            this.fileContents = lines.toArray(new String[0]);
+            this.fileContents = Files.readAllLines(path);
             return this.fileContents;
         }
         catch(Exception e) {
@@ -50,5 +49,23 @@ public class Repository {
 
     public void clear() {
         this.fileContents = null;
+    }
+
+    public void addLine(String line) {
+        if (this.fileContents == null) {
+            this.fileContents = new ArrayList<>();
+        }
+        this.fileContents.add(line);
+    }
+
+    public void save() {
+        try {
+            if (fileContents == null)
+                return;
+            Files.write(path, fileContents);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Error saving repository file", e);
+        }
     }
 }

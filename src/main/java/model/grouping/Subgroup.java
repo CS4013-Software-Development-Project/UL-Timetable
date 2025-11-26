@@ -3,7 +3,9 @@ package model.grouping;
 import model.module.Session;
 import model.user.Student;
 import persistence.AbstractPersistable;
+import util.SaveUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +27,7 @@ public class Subgroup extends AbstractPersistable {
     public Subgroup(String id, StudentGroup parentGroup) {
         this.id = id;
         this.parentGroup = parentGroup;
+        this.students = new ArrayList<>();
     }
 
     /**
@@ -33,6 +36,7 @@ public class Subgroup extends AbstractPersistable {
      */
     public void setSession(Session session) {
         this.session = session;
+        session.setSubgroup(this);
     }
 
     /**
@@ -66,13 +70,12 @@ public class Subgroup extends AbstractPersistable {
     public String serialize() {
         StringBuilder line = new StringBuilder();
         line.append(this.getUUID()).append(",");
+
         line.append(this.id).append(",");
         line.append(this.parentGroup.getUUID()).append(",");
-        line.append(this.session.getUUID()).append(","); //TODO: Session Serialization
+        line.append(this.session.getUUID()).append(",");
 
-        for (Student student : students) {
-            line.append(student.getUUID()).append("|");
-        }
+        line.append(SaveUtil.fastList(this.students)).append(",");
 
         return line.toString();
     }

@@ -28,22 +28,8 @@ public class Session extends AbstractPersistable {
         this.module = module;
         this.timeslot = timeslot;
         this.sessionType = sessionType;
-    }
 
-    /**
-     * Creates a new Session.
-     * @param module The Module this Session belongs to.
-     * @param timeslot The Timeslot this Session takes place during.
-     * @param sessionType The type of Session. Is this a Lecture, Lab, or Tutorial session?
-     * @param leader The Leader conducting this Session.
-     * @param groupAttending The Subgroup of Students set to attend this Session.
-     */
-    public Session(Module module, Timeslot timeslot, SessionType sessionType,  Leader leader, Subgroup groupAttending) {
-        this.module = module;
-        this.timeslot = timeslot;
-        this.sessionType = sessionType;
-        this.leader = leader;
-        this.groupAttending = groupAttending;
+        module.addSession(this);
     }
 
     /**
@@ -52,6 +38,7 @@ public class Session extends AbstractPersistable {
      */
     public void setSubgroup(Subgroup subgroup) {
         this.groupAttending = subgroup;
+        subgroup.setSession(this);
     }
 
     /**
@@ -60,6 +47,7 @@ public class Session extends AbstractPersistable {
      */
     public void setLeader(Leader leader) {
         this.leader = leader;
+
     }
 
     /**
@@ -76,6 +64,8 @@ public class Session extends AbstractPersistable {
      */
     public void setModule(Module module) {
         this.module = module;
+        if (!module.getSessions().contains(this))
+            module.addSession(this);
     }
 
     @Override

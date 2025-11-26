@@ -1,40 +1,44 @@
 package persistence;
 
-import model.grouping.StudentGroup;
-import model.grouping.Subgroup;
-import model.module.Module;
-import model.module.Programme;
-import model.module.Session;
-import model.room.Room;
-import model.schedule.Day;
-import model.schedule.Period;
-import model.schedule.Timeslot;
-import model.user.Admin;
-import model.user.Leader;
-import model.user.Student;
+import model.grouping.*;
+import model.module.*;
+import model.room.*;
+import model.schedule.*;
+import model.user.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class PersistenceManager {
     String dataDirectory;
 
-    Repository moduleRepo;
-    Repository programmeRepo;
-    Repository adminRepo;
-    Repository leaderRepo;
-    Repository studentRepo;
-    Repository roomRepo;
-    Repository subgroupRepo;
-    Repository groupRepo;
-    Repository timeslotRepo;
-    Repository sessionRepo;
-    Repository timetableRepo;
+    private Repository moduleRepo;
+    private Repository programmeRepo;
+    private Repository adminRepo;
+    private Repository leaderRepo;
+    private Repository studentRepo;
+    private Repository roomRepo;
+    private Repository subgroupRepo;
+    private Repository studentGroupRepo;
+    private Repository timeslotRepo;
+    private Repository sessionRepo;
+    private Repository timetableRepo;
 
+    private static LinkedHashMap<String, Module> modules = new LinkedHashMap<>();
+    private static LinkedHashMap<String, Programme> programmes = new LinkedHashMap<>();
+    private static LinkedHashMap<String, Admin> admins = new LinkedHashMap<>();
+    private static LinkedHashMap<String, Leader> leaders = new LinkedHashMap<>();
+    private static LinkedHashMap<String, Student> students = new LinkedHashMap<>();
+    private static LinkedHashMap<String, Room> rooms = new LinkedHashMap<>();
+    private static LinkedHashMap<String, Subgroup> subgroups = new LinkedHashMap<>();
+    private static LinkedHashMap<String, StudentGroup> studentGroups = new LinkedHashMap<>();
+    private static LinkedHashMap<String, Timeslot> timeslots = new LinkedHashMap<>();
+    private static LinkedHashMap<String, Session> sessions = new LinkedHashMap<>();
+    private static LinkedHashMap<String, Timetable> timetables = new LinkedHashMap<>();
 
     public PersistenceManager(String dataDirectory) {
-        this.dataDirectory = dataDirectory;
+        this.dataDirectory = dataDirectory + "/";
         moduleRepo = new Repository(this.dataDirectory + "modules");
         programmeRepo = new Repository(this.dataDirectory + "programmes");
         adminRepo = new Repository(this.dataDirectory + "admins");
@@ -42,43 +46,40 @@ public class PersistenceManager {
         studentRepo = new Repository(this.dataDirectory + "students");
         roomRepo = new Repository(this.dataDirectory + "rooms");
         subgroupRepo = new Repository(this.dataDirectory + "subgroups");
-        groupRepo = new Repository(this.dataDirectory + "groups");
+        studentGroupRepo = new Repository(this.dataDirectory + "groups");
         timeslotRepo = new Repository(this.dataDirectory + "timeslots");
         sessionRepo = new Repository(this.dataDirectory + "sessions");
         timetableRepo = new Repository(this.dataDirectory + "timetables");
     }
 
-    private void load() {
+    public void load() {
         //Phase 1: Load Modules
-        HashMap<String, Module> modules = new HashMap<>();
         for (String line : moduleRepo.readAll()) {
             String[] tokens = line.split(",");
             modules.put(tokens[0], Module.deserialize(line));
         }
 
         //Phase 2: Load Programmes
-        HashMap<String, Programme> programmes = new HashMap<>();
         for (String line : programmeRepo.readAll()) {
             String[] tokens = line.split(",");
             programmes.put(tokens[0], Programme.deserialize(line));
         }
 
         //Phase 3: Load Admins
-        HashMap<String, Admin> admins = new HashMap<>();
         for (String line : adminRepo.readAll()) {
             String[] tokens = line.split(",");
             admins.put(tokens[0], Admin.deserialize(line));
         }
 
         //Phase 4: Load Leaders
-        HashMap<String, Leader> leaders = new HashMap<>();
         for (String line : leaderRepo.readAll()) {
             String[] tokens = line.split(",");
             Leader leader = Leader.deserialize(line);
             //fill in led programme list
-            for (String programmeUUID : tokens[3].split("\\|")) {
-                leader.addLedProgramme(programmes.get(programmeUUID)); //ooh yeah its all comin togethr
-            }
+            if (tokens.length > 3)
+                for (String programmeUUID : tokens[3].split("\\|")) {
+                    leader.addLedProgramme(programmes.get(programmeUUID)); //ooh yeah its all comin togethr
+                }
             leaders.put(tokens[0], leader);
         }
         //Phase 4.1: Place Leaders into Programmes
@@ -87,12 +88,13 @@ public class PersistenceManager {
             Programme programme = programmes.get(tokens[0]);
 
             for (String leaderUUID : tokens[3].split("\\|")) {
-                programme.addLeader(leaders.get(leaderUUID));
+                Leader leader = leaders.get(leaderUUID);
+                if (leader != null)
+                    programme.addLeader(leader);
             }
         }
 
         //Phase 5: Load Students
-        HashMap<String, Student> students = new HashMap<>();
         for (String line : studentRepo.readAll()) {
             String[] tokens = line.split(",");
             Student student = Student.deserialize(line);
@@ -103,14 +105,12 @@ public class PersistenceManager {
         }
 
         //Phase 6: Load Rooms
-        HashMap<String, Room> rooms = new HashMap<>();
         for (String line : roomRepo.readAll()) {
             String[] tokens = line.split(",");
             rooms.put(tokens[0], Room.deserialize(line));
         }
 
         //Phase 7: Load Subgroups
-        HashMap<String, Subgroup> subgroups = new HashMap<>();
         for (String line : subgroupRepo.readAll()) {
             String[] tokens = line.split(",");
             subgroups.put(tokens[0], Subgroup.deserialize(line));
@@ -121,16 +121,18 @@ public class PersistenceManager {
             String[] tokens = line.split(",");
             Student student = students.get(tokens[0]);
 
-            Subgroup subgroup = subgroups.get(tokens[4]);
-            if (subgroup == null)
-                tokenNotFound(tokens[4]);
-
-            student.setSubgroup(subgroup);
+            if(tokens.length < 6)
+                continue;
+            for (String subgroupUUID : tokens[5].split("\\|")) {
+                Subgroup subgroup = subgroups.get(subgroupUUID);
+                if (subgroup == null)
+                    tokenNotFound(tokens[4]);
+                student.addSubgroup(subgroup);
+            }
         }
 
         //Phase 8: Load StudentGroup
-        HashMap<String, StudentGroup> studentGroups = new HashMap<>();
-        for (String line: groupRepo.readAll()) {
+        for (String line: studentGroupRepo.readAll()) {
             String[] tokens = line.split(",");
             StudentGroup grp = StudentGroup.deserialize(line);
 
@@ -149,24 +151,18 @@ public class PersistenceManager {
             List<Subgroup> localLectureSubgroups = new ArrayList<>();
             for(String subgroupUUID : tokens[4].split("\\|")) {
                 Subgroup s = subgroups.get(subgroupUUID);
-                if (s == null)
-                    tokenNotFound(subgroupUUID);
                 localLectureSubgroups.add(subgroups.get(subgroupUUID));
             }
 
             List<Subgroup> localLabSubgroups = new ArrayList<>();
             for(String subgroupUUID : tokens[5].split("\\|")) {
                 Subgroup s = subgroups.get(subgroupUUID);
-                if (s == null)
-                    tokenNotFound(subgroupUUID);
                 localLabSubgroups.add(subgroups.get(subgroupUUID));
             }
 
             List<Subgroup> localTutorialSubgroups = new ArrayList<>();
             for(String subgroupUUID : tokens[6].split("\\|")) {
                 Subgroup s = subgroups.get(subgroupUUID);
-                if (s == null)
-                    tokenNotFound(subgroupUUID);
                 localTutorialSubgroups.add(subgroups.get(subgroupUUID));
             }
 
@@ -213,7 +209,6 @@ public class PersistenceManager {
         }
 
         //Phase 9: Timeslots
-        HashMap<String, Timeslot> timeslots = new HashMap<>();
         for (String line : timeslotRepo.readAll())  {
             String[] tokens = line.split(",");
 
@@ -230,7 +225,6 @@ public class PersistenceManager {
         }
 
         //Phase 10: Sessions
-        HashMap<String, Session> sessions = new HashMap<>();
         for (String line : sessionRepo.readAll())  {
             String[] tokens = line.split(",");
             Session session = Session.deserialize(line);
@@ -269,6 +263,267 @@ public class PersistenceManager {
             subgroup.setSession(s);
         }
 
+        for (String line : timetableRepo.readAll())  {
+            String[] tokens = line.split(",");
+            Timetable tb = new Timetable();
+
+            String[] days = tokens[1].split("\\|\\|");
+            for (int i = 0; i < days.length; i++) {
+                String[] day = days[i].split("\\|");
+                for (int j = 0; j < day.length;  j++) {
+                    String uuid = day[j];
+                    //i love ternary operator
+                    Session s = sessions.get(uuid) == null ? null : sessions.get(uuid);
+                    Day d = Day.values()[i];
+                    Period p = Period.values()[j];
+
+                    tb.setSession(d, p, s);
+                }
+            }
+
+            timetables.put(tokens[0], tb);
+        }
+    }
+
+    public void save() {
+        //first, flush cache
+        this.moduleRepo.clear();
+        this.programmeRepo.clear();
+        this.adminRepo.clear();
+        this.leaderRepo.clear();
+        this.studentRepo.clear();
+        this.roomRepo.clear();
+        this.subgroupRepo.clear();
+        this.studentGroupRepo.clear();
+        this.timeslotRepo.clear();
+        this.sessionRepo.clear();
+        this.timetableRepo.clear();
+
+        //next, serialize everything
+        for (AbstractPersistable obj : modules.values())
+            moduleRepo.addLine(obj.serialize());
+
+        for (AbstractPersistable obj : programmes.values())
+            programmeRepo.addLine(obj.serialize());
+
+        for (AbstractPersistable obj : admins.values())
+            adminRepo.addLine(obj.serialize());
+
+        for (AbstractPersistable obj : leaders.values())
+            leaderRepo.addLine(obj.serialize());
+
+        for (AbstractPersistable obj : students.values())
+            studentRepo.addLine(obj.serialize());
+
+        for (AbstractPersistable obj : rooms.values())
+            roomRepo.addLine(obj.serialize());
+
+        for (AbstractPersistable obj : subgroups.values())
+            subgroupRepo.addLine(obj.serialize());
+
+        for (AbstractPersistable obj : studentGroups.values())
+            studentGroupRepo.addLine(obj.serialize());
+
+        for (AbstractPersistable obj : timeslots.values())
+            timeslotRepo.addLine(obj.serialize());
+
+        for (AbstractPersistable obj : sessions.values())
+            sessionRepo.addLine(obj.serialize());
+
+        for (AbstractPersistable obj : timetables.values())
+            timetableRepo.addLine(obj.serialize());
+
+        //last, save everything!
+        this.moduleRepo.save();
+        this.programmeRepo.save();
+        this.adminRepo.save();
+        this.leaderRepo.save();
+        this.studentRepo.save();
+        this.roomRepo.save();
+        this.subgroupRepo.save();
+        this.studentGroupRepo.save();
+        this.timeslotRepo.save();
+        this.sessionRepo.save();
+        this.timetableRepo.save();
+    }
+
+    public static List<Module> getModules() {
+        return new ArrayList<>(modules.values());
+    }
+
+    public static void addModule(Module... modulesToAdd) {
+        for (Module m : modulesToAdd) {
+            modules.put(m.getUUID(), m);
+        }
+    }
+
+    public static void removeModule(String... uuids) {
+        for (String uuid : uuids) {
+            modules.remove(uuid);
+        }
+    }
+
+
+    public static List<Programme> getProgrammes() {
+        return new ArrayList<>(programmes.values());
+    }
+
+    public static void addProgramme(Programme... programmesToAdd) {
+        for (Programme p : programmesToAdd) {
+            programmes.put(p.getUUID(), p);
+        }
+    }
+
+    public static void removeProgramme(String... uuids) {
+        for (String uuid : uuids) {
+            programmes.remove(uuid);
+        }
+    }
+
+
+    public static List<Admin> getAdmins() {
+        return new ArrayList<>(admins.values());
+    }
+
+    public static void addAdmin(Admin... adminsToAdd) {
+        for (Admin a : adminsToAdd) {
+            admins.put(a.getUUID(), a);
+        }
+    }
+
+    public static void removeAdmin(String... uuids) {
+        for (String uuid : uuids) {
+            admins.remove(uuid);
+        }
+    }
+
+
+    public static List<Leader> getLeaders() {
+        return new ArrayList<>(leaders.values());
+    }
+
+    public static void addLeader(Leader... leadersToAdd) {
+        for (Leader l : leadersToAdd) {
+            leaders.put(l.getUUID(), l);
+        }
+    }
+
+    public static void removeLeader(String... uuids) {
+        for (String uuid : uuids) {
+            leaders.remove(uuid);
+        }
+    }
+
+    public static List<Student> getStudents() {
+        return new ArrayList<>(students.values());
+    }
+
+    public static void addStudent(Student... studentsToAdd) {
+        for (Student s : studentsToAdd) {
+            students.put(s.getUUID(), s);
+        }
+    }
+
+    public static void removeStudent(String... uuids) {
+        for (String uuid : uuids) {
+            students.remove(uuid);
+        }
+    }
+
+    public static List<Room> getRooms() {
+        return new ArrayList<>(rooms.values());
+    }
+
+    public static void addRoom(Room... roomsToAdd) {
+        for (Room r : roomsToAdd) {
+            rooms.put(r.getUUID(), r);
+        }
+    }
+
+    public static void removeRoom(String... uuids) {
+        for (String uuid : uuids) {
+            rooms.remove(uuid);
+        }
+    }
+
+    public static List<Subgroup> getSubgroups() {
+        return new ArrayList<>(subgroups.values());
+    }
+
+    public static void addSubgroup(Subgroup... subgroupsToAdd) {
+        for (Subgroup sg : subgroupsToAdd) {
+            subgroups.put(sg.getUUID(), sg);
+        }
+    }
+
+    public static void removeSubgroup(String... uuids) {
+        for (String uuid : uuids) {
+            subgroups.remove(uuid);
+        }
+    }
+
+    public static List<StudentGroup> getStudentGroups() {
+        return new ArrayList<>(studentGroups.values());
+    }
+
+    public static void addStudentGroup(StudentGroup... groupsToAdd) {
+        for (StudentGroup g : groupsToAdd) {
+            studentGroups.put(g.getUUID(), g);
+        }
+    }
+
+    public static void removeStudentGroup(String... uuids) {
+        for (String uuid : uuids) {
+            studentGroups.remove(uuid);
+        }
+    }
+
+    public static List<Timeslot> getTimeslots() {
+        return new ArrayList<>(timeslots.values());
+    }
+
+    public static void addTimeslot(Timeslot... timeslotsToAdd) {
+        for (Timeslot t : timeslotsToAdd) {
+            timeslots.put(t.getUUID(), t);
+        }
+    }
+
+    public static void removeTimeslot(String... uuids) {
+        for (String uuid : uuids) {
+            timeslots.remove(uuid);
+        }
+    }
+
+    public static List<Session> getSessions() {
+        return new ArrayList<>(sessions.values());
+    }
+
+    public static void addSession(Session... sessionsToAdd) {
+        for (Session s : sessionsToAdd) {
+            sessions.put(s.getUUID(), s);
+        }
+    }
+
+    public static void removeSession(String... uuids) {
+        for (String uuid : uuids) {
+            sessions.remove(uuid);
+        }
+    }
+
+    public static List<Timetable> getTimetables() {
+        return new ArrayList<>(timetables.values());
+    }
+
+    public static void addTimetable(Timetable... timetablesToAdd) {
+        for (Timetable t : timetablesToAdd) {
+            timetables.put(t.getUUID(), t);
+        }
+    }
+
+    public static void removeTimetable(String... uuids) {
+        for (String uuid : uuids) {
+            timetables.remove(uuid);
+        }
     }
 
     private void tokenNotFound(String token) {

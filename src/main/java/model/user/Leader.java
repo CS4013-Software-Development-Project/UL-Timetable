@@ -1,6 +1,8 @@
 package model.user;
 
 import model.module.Programme;
+import persistence.AbstractPersistable;
+import util.SaveUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,9 @@ public class Leader extends User {
     public Leader(String username, String passwordHash, List<Programme> ledProgrammes) {
         super(username, passwordHash);
         this.ledProgrammes = ledProgrammes;
+        for (Programme p : ledProgrammes) {
+            p.addLeader(this);
+        }
     }
 
     /**
@@ -27,6 +32,8 @@ public class Leader extends User {
      */
     public void addLedProgramme(Programme programme) {
         this.ledProgrammes.add(programme);
+        if (!programme.getLeaders().contains(this))
+            programme.addLeader(this);
     }
 
     /**
@@ -35,6 +42,7 @@ public class Leader extends User {
      */
     public void removeLedProgramme(Programme programme) {
         this.ledProgrammes.remove(programme);
+        programme.removeLeader(this);
     }
 
     /**
@@ -51,18 +59,20 @@ public class Leader extends User {
      */
     public void setLedProgrammes(List<Programme> ledProgrammes) {
         this.ledProgrammes = ledProgrammes;
+        for (Programme p : ledProgrammes) {
+            if (!p.getLeaders().contains(this))
+                p.addLeader(this);
+        }
     }
 
     @Override
     public String serialize() {
         StringBuilder line = new StringBuilder();
         line.append(this.getUUID()).append(",");
+
         line.append(this.getUsername()).append(",");
         line.append(this.passwordHash).append(",");
-
-        for (Programme programme : this.ledProgrammes) {
-            line.append(programme.getUUID()).append("|");
-        }
+        line.append(SaveUtil.fastList(this.ledProgrammes));
 
         return line.toString();
     }

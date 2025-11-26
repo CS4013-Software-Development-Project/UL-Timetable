@@ -3,6 +3,7 @@ import model.grouping.StudentGroup;
 import model.user.Leader;
 import model.user.Student;
 import persistence.AbstractPersistable;
+import util.SaveUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,8 @@ public class Programme extends AbstractPersistable {
         this.name = name;
         this.modules = new ArrayList<>();
         this.leaders = new ArrayList<>();
+
+        this.studentGroup = new StudentGroup(this.name + " Group 1", this);
     }
 
     /**
@@ -36,6 +39,10 @@ public class Programme extends AbstractPersistable {
         this.name = name;
         this.modules = modules;
         this.studentGroup = studentGroup;
+        for (Student s : studentGroup.getStudentList()) {
+            s.setProgramme(this);
+        }
+
         this.leaders = new ArrayList<>();
     }
 
@@ -44,6 +51,8 @@ public class Programme extends AbstractPersistable {
      * @param module The Module to add to this Programme.
      */
     public void addModule(Module module) {
+        if (this.modules.contains(module))
+            return;
         this.modules.add(module);
     }
 
@@ -77,6 +86,8 @@ public class Programme extends AbstractPersistable {
      */
     public void addStudent(Student student) {
         this.studentGroup.addStudent(student);
+        student.setProgramme(this);
+        student.setStudentGroup(this.studentGroup);
     }
 
     /**
@@ -84,7 +95,12 @@ public class Programme extends AbstractPersistable {
      * @param student The Student to be removed from the StudentGroup associated with this Programme.
      */
     public void removeStudent(Student student) {
-        this.studentGroup.removeStudent(student);
+        if (this.studentGroup.getStudentList().contains(student))
+        {
+            this.studentGroup.removeStudent(student);
+            student.setProgramme(null);
+            student.setStudentGroup(null);
+        }
     }
 
     /**
@@ -101,6 +117,11 @@ public class Programme extends AbstractPersistable {
      */
     public void setStudentGroup(StudentGroup studentGroup) {
         this.studentGroup = studentGroup;
+        if (studentGroup.getStudentList() != null)
+            for (Student s : studentGroup.getStudentList()) {
+                s.setProgramme(this);
+                s.setStudentGroup(studentGroup);
+            }
     }
 
     /**
@@ -108,7 +129,10 @@ public class Programme extends AbstractPersistable {
      * @param leader The Leader to be added.
      */
     public void addLeader(Leader leader) {
+        if (this.leaders.contains(leader))
+            return;
         this.leaders.add(leader);
+        leader.addLedProgramme(this);
     }
 
     /**
@@ -117,6 +141,7 @@ public class Programme extends AbstractPersistable {
      */
     public void removeLeader(Leader leader) {
         this.leaders.remove(leader);
+        leader.removeLedProgramme(this);
     }
 
     /**
@@ -133,6 +158,10 @@ public class Programme extends AbstractPersistable {
      */
     public void setLeaders(List<Leader> leaders) {
         this.leaders = leaders;
+        for (Leader leader : leaders) {
+            if(!leader.getLedProgrammes().contains(this))
+                leader.addLedProgramme(this);
+        }
     }
 
     @Override
@@ -141,16 +170,10 @@ public class Programme extends AbstractPersistable {
         line.append(this.getUUID()).append(",");
 
         line.append(this.name).append(",");
+        line.append(SaveUtil.fastList(this.modules)).append(",");
+        line.append(SaveUtil.fastList(this.leaders)).append(",");
 
-        for (Module module : this.modules)
-            line.append(module.getUUID()).append("|");
-        line.append(",");
-        for (Leader leader : this.leaders)
-            line.append(leader.getUUID()).append("|");
-        line.append(",");
-
-        //TODO: This
-        //line.append(studentGroup.getUUID());
+        line.append(studentGroup.getUUID());
 
         return line.toString();
     }
