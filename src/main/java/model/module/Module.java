@@ -35,10 +35,6 @@ public class Module extends AbstractPersistable {
         this.moduleCode = moduleCode;
         this.moduleName = moduleName;
         this.sessions = sessions;
-
-        for (Session session : sessions){
-            session.setModule(this);
-        }
     }
 
     /**

@@ -1,7 +1,8 @@
 package model.module;
-import model.grouping.StudentGroup;
+// import model.grouping.StudentGroup;
 import model.user.Leader;
 import model.user.Student;
+import model.grouping.Subgroup;
 import persistence.AbstractPersistable;
 import util.SaveUtil;
 
@@ -15,7 +16,7 @@ public class Programme extends AbstractPersistable {
     String name;
     List<Module> modules;
     List<Leader> leaders;
-    StudentGroup studentGroup;
+    Subgroup studentGroup;
 
     /**
      * Creates a new instance of Programme.
@@ -26,20 +27,20 @@ public class Programme extends AbstractPersistable {
         this.modules = new ArrayList<>();
         this.leaders = new ArrayList<>();
 
-        this.studentGroup = new StudentGroup(this.name + " Group 1", this);
+        this.studentGroup = new Subgroup(this.name + " Group 1", this);
     }
 
     /**
      * Creates a new instance of Programme.
      * @param name The localized name representing this Programme.
      * @param modules The list of Modules this Programme is composed of.
-     * @param studentGroup The StudentGroup that is taking this Programme.
+     * @param studentGroup The Subgroup that is taking this Programme.
      */
-    public Programme(String name, List<Module> modules, StudentGroup studentGroup) {
+    public Programme(String name, List<Module> modules, Subgroup studentGroup) {
         this.name = name;
         this.modules = modules;
         this.studentGroup = studentGroup;
-        for (Student s : studentGroup.getStudentList()) {
+        for (Student s : studentGroup.getStudents()) {
             s.setProgramme(this);
         }
 
@@ -81,21 +82,20 @@ public class Programme extends AbstractPersistable {
     }
 
     /**
-     * Adds a Student to the StudentGroup associated with this Programme.
-     * @param student The Student to be added to the StudentGroup associated with this Programme.
+     * Adds a Student to the Subgroup associated with this Programme.
+     * @param student The Student to be added to the Subgroup associated with this Programme.
      */
     public void addStudent(Student student) {
         this.studentGroup.addStudent(student);
         student.setProgramme(this);
-        student.setStudentGroup(this.studentGroup);
     }
 
     /**
-     * Removes a Student from the StudentGroup associated with this Programme.
-     * @param student The Student to be removed from the StudentGroup associated with this Programme.
+     * Removes a Student from the Subgroup associated with this Programme.
+     * @param student The Student to be removed from the Subgroup associated with this Programme.
      */
     public void removeStudent(Student student) {
-        if (this.studentGroup.getStudentList().contains(student))
+        if (this.studentGroup.getStudents().contains(student))
         {
             this.studentGroup.removeStudent(student);
             student.setProgramme(null);
@@ -104,23 +104,22 @@ public class Programme extends AbstractPersistable {
     }
 
     /**
-     * Gets the StudentGroup taking this Programme.
-     * @return The StudentGroup taking this Programme.
+     * Gets the Subgroup taking this Programme.
+     * @return The Subgroup taking this Programme.
      */
-    public StudentGroup getStudentGroup() {
+    public Subgroup getSubgroup() {
         return this.studentGroup;
     }
 
     /**
      * Sets the StudentGroup taking this Programme.
-     * @param studentGroup The StudentGroup taking this Programme.
+     * @param studentGroup The Subgroup taking this Programme.
      */
-    public void setStudentGroup(StudentGroup studentGroup) {
+    public void setSubgroup(Subgroup studentGroup) {
         this.studentGroup = studentGroup;
-        if (studentGroup.getStudentList() != null)
-            for (Student s : studentGroup.getStudentList()) {
+        if (studentGroup.getStudents() != null)
+            for (Student s : studentGroup.getStudents()) {
                 s.setProgramme(this);
-                s.setStudentGroup(studentGroup);
             }
     }
 
