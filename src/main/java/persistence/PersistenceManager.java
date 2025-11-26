@@ -1,6 +1,8 @@
 package persistence;
 
-import model.grouping.StudentGroup;
+// TODO: Adapt to new format
+
+// import model.grouping.StudentGroup;
 import model.grouping.Subgroup;
 import model.module.Module;
 import model.module.Programme;

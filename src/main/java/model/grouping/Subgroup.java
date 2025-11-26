@@ -12,7 +12,6 @@ import java.util.List;
 public class Subgroup extends AbstractPersistable {
     String id;
 
-    Session session;
     List<Student> students;
 
     private Subgroup() {}
@@ -22,21 +21,6 @@ public class Subgroup extends AbstractPersistable {
      */
     public Subgroup(String id) {
         this.id = id;
-    }
-
-    /**
-     * Sets the Session that this Subgroup attends.
-     * @param session The Session that this Subgroup attends.
-     */
-    public void setSession(Session session) {
-        this.session = session;
-    }
-
-    /**
-     * Gets the Session that this Subgroup attends.
-     */
-    public Session getSession() {
-        return this.session;
     }
 
     /**
@@ -68,7 +52,8 @@ public class Subgroup extends AbstractPersistable {
         StringBuilder line = new StringBuilder();
         line.append(this.getUUID()).append(",");
         line.append(this.id).append(",");
-        line.append(this.session.getUUID()).append(","); //TODO: Session Serialization
+        // TODO: Remove 
+        // line.append(this.session.getUUID()).append(","); //TODO: Session Serialization
 
         for (Student student : students) {
             line.append(student.getUUID()).append("|");
