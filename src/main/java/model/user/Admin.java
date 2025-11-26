@@ -19,8 +19,10 @@ public class Admin extends User {
      * @param programme Programme to appoint the Leader to.
      */
     public void appointLeader(Leader leader, Programme programme) {
-        programme.addLeader(leader);
-        leader.addLedProgramme(programme);
+        if (!programme.getLeaders().contains(leader))
+            programme.addLeader(leader);
+        if (!leader.getLedProgrammes().contains(programme))
+            leader.addLedProgramme(programme);
     }
 
     /**
@@ -38,7 +40,7 @@ public class Admin extends User {
         StringBuilder line = new StringBuilder();
         line.append(this.getUUID()).append(",");
         line.append(this.getUsername()).append(",");
-        line.append(this.passwordHash).append(",");
+        line.append(this.passwordHash);
 
         return line.toString();
     }

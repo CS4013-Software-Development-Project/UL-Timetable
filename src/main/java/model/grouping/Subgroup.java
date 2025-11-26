@@ -3,7 +3,9 @@ package model.grouping;
 import model.module.Session;
 import model.user.Student;
 import persistence.AbstractPersistable;
+import util.SaveUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,14 +16,30 @@ public class Subgroup extends AbstractPersistable {
 
     List<Student> students;
 
-    private Subgroup() {}
+    public Subgroup() {}
     /**
      * Creates a new instance of Subgroup.
      * @param id The String ID representing this Subgroup.
      */
     public Subgroup(String id) {
         this.id = id;
+        this.students = new ArrayList<Student>();
     }
+    /**
+     * Creates a new instance of Subgroup.
+     * @param id The String ID representing this Subgroup.
+     * @param students List of Student(s) in this SubGroup
+     */
+    public Subgroup(String id, List<Student> students) {
+        this.id = id;
+        this.students = students;
+    }
+
+    /**
+     * Splits students into a list of ceil(number_of_students/maxStudentsPerGroup) Subgroups.
+     * @param maxStudentsPerGroup Maximum amount of students to have in each group.
+     */
+    public List<Subgroup> splitGroup(int maxStudentsPerGroup) {return null;}
 
     /**
      * Adds a Student to this Subgroup.
@@ -46,18 +64,14 @@ public class Subgroup extends AbstractPersistable {
         return students;
     }
 
-
     @Override
     public String serialize() {
         StringBuilder line = new StringBuilder();
         line.append(this.getUUID()).append(",");
-        line.append(this.id).append(",");
-        // TODO: Remove 
-        // line.append(this.session.getUUID()).append(","); //TODO: Session Serialization
 
-        for (Student student : students) {
-            line.append(student.getUUID()).append("|");
-        }
+        line.append(this.id).append(",");
+
+        line.append(SaveUtil.fastList(this.students)).append(",");
 
         return line.toString();
     }

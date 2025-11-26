@@ -44,6 +44,7 @@ public class Timeslot extends AbstractPersistable {
         timeslot.setUUID(tokens[0]);
         timeslot.day = Day.values()[Integer.parseInt(tokens[1])];
         timeslot.period = Period.values()[Integer.parseInt(tokens[2])];
+        timeslot.room = Room.deserialize(tokens[3]);
 
         return timeslot;
     }
