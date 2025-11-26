@@ -6,7 +6,7 @@ import view.cli.LeaderCLI;
 public class LeaderController {
     private Leader leader;
     private LeaderCLI view;
-    private Scanner input;
+    private Scanner input = new Scanner(System.in);
 
     public void start() {
         boolean more = true;

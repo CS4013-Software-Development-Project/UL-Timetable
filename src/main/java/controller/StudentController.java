@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class StudentController {
     private Student student;
     private StudentCLI view;
-    private Scanner input;
+    private Scanner input = new Scanner(System.in);
 
     public void start() {
         boolean more = true;
@@ -23,7 +23,7 @@ public class StudentController {
             }
             else if(command.equals("G")){
                 view.getGroups(student);
-                view.print("Groups successfully Shown");
+                view.print("SubGroups successfully Shown");
             }
             else if(command.equals("s")){
                 view.displayTimetable(student);

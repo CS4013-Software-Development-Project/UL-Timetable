@@ -48,6 +48,14 @@ public class Programme extends AbstractPersistable {
     }
 
     /**
+     * Gets Programme name.
+     * @return
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Adds a Module to this Programme.
      * @param module The Module to add to this Programme.
      */
