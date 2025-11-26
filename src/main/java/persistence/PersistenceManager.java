@@ -187,7 +187,6 @@ public class PersistenceManager {
             StudentGroup grp = studentGroups.get(tokens[2]);
             if (grp == null)
                 tokenNotFound(tokens[2]);
-            subgroup.setParentGroup(grp);
         }
 
         //Phase 8.2: Fill in StudentGroup in Students
