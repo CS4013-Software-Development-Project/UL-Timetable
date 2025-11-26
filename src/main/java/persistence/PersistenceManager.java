@@ -208,7 +208,8 @@ public class PersistenceManager {
             StudentGroup grp = studentGroups.get(tokens[4]);
             if (grp == null)
                 tokenNotFound(tokens[4]);
-            programme.setStudentGroup(grp);
+            //TODO: change to subgroup
+            //programme.setSubgroup(grp);
         }
 
         //Phase 9: Timeslots

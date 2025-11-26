@@ -46,6 +46,13 @@ public class Subgroup extends AbstractPersistable {
     public void addStudent(Student student) {
         students.add(student);
     }
+    /**
+     * Removes a Student from this Subgroup.
+     * @param student The Student to add to this Subgroup.
+     */
+    public void removeStudent(Student student) {
+        students.remove(student);
+    }
 
     /**
      * Gets the list of Students currently assigned to this Subgroup.
