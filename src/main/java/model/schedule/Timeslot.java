@@ -1,7 +1,10 @@
 package model.schedule;
 
 import model.room.Room;
+import model.user.Student;
 import persistence.AbstractPersistable;
+import persistence.PersistenceManager;
+import util.SaveUtil;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -14,7 +17,7 @@ public class Timeslot extends AbstractPersistable {
     private Period period;
     private Room room;
 
-    private Timeslot() {};
+    private Timeslot() {}
     /**
      * Creates a new Timeslot.
      * @param day The Day this Timeslot takes place on.
@@ -31,6 +34,7 @@ public class Timeslot extends AbstractPersistable {
     public String serialize() {
         StringBuilder line = new StringBuilder();
         line.append(this.getUUID()).append(",");
+
         line.append(this.day).append(",");
         line.append(this.period).append(",");
         line.append(this.room.getUUID());
@@ -38,13 +42,12 @@ public class Timeslot extends AbstractPersistable {
         return line.toString();
     }
 
-    public static Timeslot deserialize(String line) {
-        String[] tokens = line.split(",");
+    public static Timeslot deserialize(String[] tokens) {
         Timeslot timeslot = new Timeslot();
         timeslot.setUUID(tokens[0]);
+
         timeslot.day = Day.values()[Integer.parseInt(tokens[1])];
         timeslot.period = Period.values()[Integer.parseInt(tokens[2])];
-        timeslot.room = Room.deserialize(tokens[3]);
 
         return timeslot;
     }
@@ -61,5 +64,18 @@ public class Timeslot extends AbstractPersistable {
         sb.append("|");
 
         return sb.toString();
+    }
+
+    @Override
+    public void resolveReferences(String[] tokens) {
+        this.room = PersistenceManager.rooms.get(tokens[3]);
+    }
+
+    @Override
+    public void resolveDependencies() {
+        if (this.room != null && !PersistenceManager.rooms.containsKey(this.room.getUUID())) {
+            room.resolveDependencies();
+            PersistenceManager.rooms.put(this.room.getUUID(), this.room);
+        }
     }
 }

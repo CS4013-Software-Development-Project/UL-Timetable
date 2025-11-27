@@ -14,7 +14,6 @@ public class MainCLI implements ICLIView {
 
     }
 
-    @Override
     public String prompt(String msg) {
         return "";
     }

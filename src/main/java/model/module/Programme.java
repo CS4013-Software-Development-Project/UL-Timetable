@@ -4,6 +4,7 @@ import model.user.Leader;
 import model.user.Student;
 import model.grouping.Subgroup;
 import persistence.AbstractPersistable;
+import persistence.PersistenceManager;
 import util.SaveUtil;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class Programme extends AbstractPersistable {
     String name;
     List<Module> modules;
     List<Leader> leaders;
-    Subgroup students;
+    Subgroup studentSubgroup;
 
     /**
      * Creates a new instance of Programme.
@@ -27,20 +28,20 @@ public class Programme extends AbstractPersistable {
         this.modules = new ArrayList<>();
         this.leaders = new ArrayList<>();
 
-        this.students = new Subgroup(this.name + " Group 1");
+        this.studentSubgroup = new Subgroup(this.name + " Group 1");
     }
 
     /**
      * Creates a new instance of Programme.
      * @param name The localized name representing this Programme.
      * @param modules The list of Modules this Programme is composed of.
-     * @param students The Subgroup that is taking this Programme.
+     * @param studentSubgroup The Subgroup that is taking this Programme.
      */
-    public Programme(String name, List<Module> modules, Subgroup students) {
+    public Programme(String name, List<Module> modules, Subgroup studentSubgroup) {
         this.name = name;
         this.modules = modules;
-        this.students = students;
-        for (Student s : students.getStudents()) {
+        this.studentSubgroup = studentSubgroup;
+        for (Student s : studentSubgroup.getStudents()) {
             s.setProgramme(this);
         }
 
@@ -94,7 +95,7 @@ public class Programme extends AbstractPersistable {
      * @param student The Student to be added to the Subgroup associated with this Programme.
      */
     public void addStudent(Student student) {
-        this.students.addStudent(student);
+        this.studentSubgroup.addStudent(student);
         student.setProgramme(this);
     }
 
@@ -103,9 +104,9 @@ public class Programme extends AbstractPersistable {
      * @param student The Student to be removed from the Subgroup associated with this Programme.
      */
     public void removeStudent(Student student) {
-        if (this.students.getStudents().contains(student))
+        if (this.studentSubgroup.getStudents().contains(student))
         {
-            this.students.removeStudent(student);
+            this.studentSubgroup.removeStudent(student);
             student.setProgramme(null);
         }
     }
@@ -115,7 +116,7 @@ public class Programme extends AbstractPersistable {
      * @return The Subgroup taking this Programme.
      */
     public Subgroup getSubgroup() {
-        return this.students;
+        return this.studentSubgroup;
     }
 
     /**
@@ -123,7 +124,7 @@ public class Programme extends AbstractPersistable {
      * @param studentGroup The Subgroup taking this Programme.
      */
     public void setSubgroup(Subgroup studentGroup) {
-        this.students = studentGroup;
+        this.studentSubgroup = studentGroup;
         if (studentGroup.getStudents() != null)
             for (Student s : studentGroup.getStudents()) {
                 s.setProgramme(this);
@@ -178,18 +179,47 @@ public class Programme extends AbstractPersistable {
         line.append(this.name).append(",");
         line.append(SaveUtil.fastList(this.modules)).append(",");
         line.append(SaveUtil.fastList(this.leaders)).append(",");
-
-        line.append(students.getUUID());
+        if (this.studentSubgroup == null)
+            line.append(",");
+        else
+            line.append(studentSubgroup.getUUID());
 
         return line.toString();
     }
 
-    public static Programme deserialize(String line) {
-        String[] tokens = line.split(",");
-
+    public static Programme deserialize(String[] tokens) {
         Programme p = new Programme(tokens[1]);
         p.setUUID(tokens[0]);
 
         return p;
+    }
+
+    @Override
+    public void resolveReferences(String[] tokens) {
+        this.modules = SaveUtil.queryList(tokens[2], PersistenceManager.modules);
+        this.leaders = SaveUtil.queryList(tokens[3], PersistenceManager.leaders);
+        this.studentSubgroup = PersistenceManager.subgroups.get(tokens[4]);
+    }
+
+    @Override
+    public void resolveDependencies() {
+        for (Module module : this.modules) {
+            if (module != null && !PersistenceManager.modules.containsKey(module.getUUID())) {
+                module.resolveDependencies();
+                PersistenceManager.modules.put(module.getUUID(), module);
+            }
+        }
+
+        for (Leader leader : this.leaders) {
+            if (leader != null && !PersistenceManager.leaders.containsKey(leader.getUUID())) {
+                leader.resolveDependencies();
+                PersistenceManager.leaders.put(leader.getUUID(), leader);
+            }
+        }
+
+        if (this.studentSubgroup != null && !PersistenceManager.subgroups.containsKey(this.studentSubgroup.getUUID())) {
+            this.studentSubgroup.resolveDependencies();
+            PersistenceManager.subgroups.put(studentSubgroup.getUUID(), studentSubgroup);
+        }
     }
 }

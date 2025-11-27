@@ -12,8 +12,8 @@ public class LeaderCLI extends MainCLI {
 
     public void displayLeaderProgrammes(Leader leader){
         List<Programme> ledProgrammes = leader.getLedProgrammes();
-        for(int i = 0; i<ledProgrammes.size(); i++){
-            System.out.println(ledProgrammes.get(i));
+        for (Programme ledProgramme : ledProgrammes) {
+            System.out.println(ledProgramme);
         }
     }
 
