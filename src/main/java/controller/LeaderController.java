@@ -25,6 +25,7 @@ public class LeaderController {
             }
             else if (command == "Q") {
                 more = false;
+                view.print("Quitting...");
             }
         }
     }
