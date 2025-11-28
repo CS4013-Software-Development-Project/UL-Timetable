@@ -1,3 +1,4 @@
+import controller.TimetableController;
 import model.grouping.Subgroup;
 import model.module.Module;
 import model.module.Programme;
@@ -6,6 +7,7 @@ import model.user.Student;
 import model.user.User;
 import model.user.Admin;
 import persistence.PersistenceManager;
+import view.cli.MainCLI;
 
 public class ULTimetable {
 
@@ -18,8 +20,10 @@ public class ULTimetable {
         pm.load();
 
         //testCreateData();
+        new TimetableController().start();
 
         pm.save();
+
     }
 
     static void testCreateData() {

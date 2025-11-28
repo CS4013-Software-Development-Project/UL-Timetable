@@ -6,11 +6,11 @@ import model.user.User;
 public class MainCLI implements ICLIView {
     @Override
     public void displayPanel() {
-        System.out.println("L)ogin P)rogramme Timetable M)odule Timetable Q)uit");
+        System.out.println("L)ogin C)ourse Timetable M)odule Timetable R)oom Timetable Q)uit");
     }
 
     public void userLoginPanel() {
-        System.out.println("A)dmin L)eader S)tudent");
+        System.out.println("A)dmin L)eader S)tudent B)ack");
     }
 
     public void promptUsername(){
@@ -21,6 +21,16 @@ public class MainCLI implements ICLIView {
         System.out.print("Password: ");
     }
 
+    public void promptProgrammeName() {
+        System.out.print("Enter Programme name: ");
+    }
+    public void promptYear(){
+        System.out.println("Year: ");
+    }
+    public void promptModuleCode(){System.out.print("Enter Module Code: ");}
+
+    public void promptRoomName(){System.out.print("Enter Room Name: ");}
+
     @Override
     public void print(String msg) {
 
@@ -30,7 +40,7 @@ public class MainCLI implements ICLIView {
     public void error(String msg) {
 
     }
-    
+
     @Override
     public void run() {
 

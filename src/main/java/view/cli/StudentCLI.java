@@ -7,19 +7,19 @@ public class StudentCLI extends MainCLI {
 
     @Override
     public void displayPanel() {
-        System.out.println("D)isplay Programme G)et Student SubGroup S)how Timetable Q)uit");
+        System.out.println("D)isplay Course G)et Student SubGroup S)how Timetable Q)uit");
     }
 
-    public void displayProgramme(Student student){
-        System.out.println("Student's Programme: "+student.getProgramme());
+    public void displayProgramme(){
+        System.out.println("Student's Course: ");
     }
 
-    public void getGroups(Student student){
-        System.out.println("Sub Group: " + student.getSubgroups());
+    public void getGroups(){
+        System.out.println("Sub Group: ");
     }
 
-    public void displayTimetable(Student student){
-
+    public void displayTimetablePrompt(){
+        System.out.println("Student Timetable: ");
     }
 
     @Override

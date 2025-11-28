@@ -6,8 +6,9 @@ import view.cli.StudentCLI;
 import java.util.Scanner;
 
 public class StudentController {
-    private Student student;
-    private StudentCLI view;
+    private String username, password;
+    private Student student = new Student(username, password);
+    private StudentCLI view = new StudentCLI();
     private Scanner input = new Scanner(System.in);
 
     public void start() {
@@ -18,15 +19,20 @@ public class StudentController {
             String command = input.nextLine();
 
             if (command.equals("D")) {
-                view.displayProgramme(student);
-                view.print("Leader Modules Successfully Shown");
+                view.displayProgramme();
+                System.out.println(student.getProgramme());
+                view.print("Student Course Successfully Shown");
             }
             else if(command.equals("G")){
-                view.getGroups(student);
+                view.getGroups();
+                System.out.println(student.getSubgroups());
                 view.print("SubGroups successfully Shown");
             }
             else if(command.equals("s")){
-                view.displayTimetable(student);
+                view.displayTimetablePrompt();
+
+
+
                 view.print("Timetable successfully Shown");
             }
             else if (command.equals("q")) {

@@ -7,8 +7,9 @@ import view.cli.AdminCLI;
 import java.util.Scanner;
 
 public class AdminController extends TimetableController{
-    private Admin admin;
-    private AdminCLI view;
+    private String username,password;
+    private Admin admin = new Admin(username, password);
+    private AdminCLI view = new AdminCLI();
     private Scanner input = new Scanner(System.in);
 
     public void start(){

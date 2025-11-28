@@ -17,10 +17,10 @@ public class AdminCLI extends MainCLI {
         System.out.print("Enter Programme name: ");
     }
     public void changePassword(){
-        System.out.println("Enter New Password: ");
+        System.out.print("Enter New Password: ");
     }
-    public void promptModuleCode(){System.out.println("Enter Module Code: ");}
-    public void promptModuleName(){System.out.println("Enter Module Name: ");}
+    public void promptModuleCode(){System.out.print("Enter Module Code: ");}
+    public void promptModuleName(){System.out.print("Enter Module Name: ");}
 
     @Override
     public void print(String msg){

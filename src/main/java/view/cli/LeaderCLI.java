@@ -10,15 +10,12 @@ public class LeaderCLI extends MainCLI {
         System.out.println("D)isplay Led Programmes S)how Timetable Q)uit");
     }
 
-    public void displayLeaderProgrammes(Leader leader){
-        List<Programme> ledProgrammes = leader.getLedProgrammes();
-        for (Programme ledProgramme : ledProgrammes) {
-            System.out.println(ledProgramme);
-        }
+    public void displayLeaderProgrammes(){
+       System.out.println("Leader's Led Courses: ");
     }
 
-    public void displayTimetable(Leader leader){
-
+    public void displayTimetable(){
+        System.out.println("Leader Timetable:");
     }
 
     @Override

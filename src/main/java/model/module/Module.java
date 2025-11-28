@@ -56,6 +56,14 @@ public class Module extends AbstractPersistable {
         return sessions;
     }
 
+    /**
+     *
+     * @return The Module Code.
+     */
+    public String getModuleCode(){
+        return moduleCode;
+    }
+
     @Override
     public String serialize() {
         StringBuilder line = new StringBuilder();
