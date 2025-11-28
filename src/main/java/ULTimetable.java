@@ -1,9 +1,4 @@
-
-<<<<<<< HEAD
-//import model.grouping.StudentGroup;
-=======
 import model.grouping.Subgroup;
->>>>>>> 0ca7a735d1f907558c305eea7623488924e1e6b4
 import model.module.Module;
 import model.module.Programme;
 import model.user.Leader;
