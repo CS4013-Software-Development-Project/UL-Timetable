@@ -31,6 +31,18 @@ public class MainCLI implements ICLIView {
 
     }
 
+<<<<<<< HEAD
+=======
+    public String prompt(String msg) {
+        return "";
+    }
+
+    @Override
+    public void displayPanel() {
+
+    }
+
+>>>>>>> 0ca7a735d1f907558c305eea7623488924e1e6b4
     @Override
     public void run() {
 

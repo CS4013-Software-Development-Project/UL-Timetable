@@ -1,6 +1,8 @@
 package model.module;
 
 import persistence.AbstractPersistable;
+import persistence.PersistenceManager;
+import util.SaveUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,18 +59,33 @@ public class Module extends AbstractPersistable {
     @Override
     public String serialize() {
         StringBuilder line = new StringBuilder();
-
         line.append(this.getUUID()).append(",");
+
         line.append(this.moduleCode).append(",");
-        line.append(this.moduleName);
+        line.append(this.moduleName).append(",");
+        line.append(SaveUtil.fastList(this.sessions));
 
         return line.toString();
     }
 
-    public static Module deserialize(String line) {
-        String[] tokens = line.split(",");
+    public static Module deserialize(String[] tokens) {
         Module m = new Module(tokens[1], tokens[2]);
         m.setUUID(tokens[0]);
         return m;
+    }
+
+    @Override
+    public void resolveReferences(String[] tokens) {
+        this.sessions = SaveUtil.queryList(tokens[3], PersistenceManager.sessions);
+    }
+
+    @Override
+    public void resolveDependencies() {
+        for (Session session : this.sessions) {
+            if (session != null && !PersistenceManager.sessions.containsKey(session.getUUID())) {
+                session.resolveDependencies();
+                PersistenceManager.sessions.put(session.getUUID(), session);
+            }
+        }
     }
 }

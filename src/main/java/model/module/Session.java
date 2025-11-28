@@ -4,6 +4,7 @@ import model.grouping.Subgroup;
 import model.schedule.Timeslot;
 import model.user.Leader;
 import persistence.AbstractPersistable;
+import persistence.PersistenceManager;
 
 /**
  * A Session represents the performance of a Module during a Timeslot. It is attended by a Subgroup of Students, and is conducted by a Leader.
@@ -18,7 +19,7 @@ public class Session extends AbstractPersistable {
 
     SessionType sessionType;
 
-    private Session() {};
+    private Session() {}
     /**
      * Creates a new Session.
      * @param module The Module this Session belongs to.
@@ -82,13 +83,40 @@ public class Session extends AbstractPersistable {
         return line.toString();
     }
 
-    public static Session deserialize(String line) {
-        String[] tokens = line.split(",");
-
+    public static Session deserialize(String[] tokens) {
         Session session = new Session();
         session.setUUID(tokens[0]);
+
         session.sessionType = SessionType.values()[Integer.parseInt(tokens[5])];
 
         return session;
+    }
+
+    @Override
+    public void resolveReferences(String[] tokens) {
+        this.module = PersistenceManager.modules.get(tokens[1]);
+        this.timeslot = PersistenceManager.timeslots.get(tokens[2]);
+        this.groupAttending = PersistenceManager.subgroups.get(tokens[3]);
+        this.leader = PersistenceManager.leaders.get(tokens[4]);
+    }
+
+    @Override
+    public void resolveDependencies() {
+        if (this.module != null && !PersistenceManager.modules.containsKey(this.module.getUUID())) {
+            module.resolveDependencies();
+            PersistenceManager.modules.put(this.module.getUUID(), this.module);
+        }
+        if (this.timeslot != null && !PersistenceManager.timeslots.containsKey(this.timeslot.getUUID())) {
+            timeslot.resolveDependencies();
+            PersistenceManager.timeslots.put(this.timeslot.getUUID(), this.timeslot);
+        }
+        if (this.groupAttending != null && !PersistenceManager.subgroups.containsKey(this.groupAttending.getUUID())) {
+            groupAttending.resolveDependencies();
+            PersistenceManager.subgroups.put(this.groupAttending.getUUID(), this.groupAttending);
+        }
+        if (this.leader != null && !PersistenceManager.leaders.containsKey(this.leader.getUUID())) {
+            leader.resolveDependencies();
+            PersistenceManager.leaders.put(this.leader.getUUID(), this.leader);
+        }
     }
 }

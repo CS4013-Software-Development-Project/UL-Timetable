@@ -89,17 +89,17 @@ public class Admin extends User {
     public String serialize() {
         StringBuilder line = new StringBuilder();
         line.append(this.getUUID()).append(",");
+
         line.append(this.getUsername()).append(",");
         line.append(this.passwordHash);
 
         return line.toString();
     }
 
-    public static Admin deserialize(String line) {
-        String[] tokens = line.split(",");
+    public static Admin deserialize(String[] tokens) {
         Admin admin = new Admin();
-
         admin.setUUID(tokens[0]);
+
         admin.setUsername(tokens[1]);
         admin.setPasswordHash(tokens[2]);
 

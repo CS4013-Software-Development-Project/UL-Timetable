@@ -5,4 +5,6 @@ public interface IPersistable {
     void setUUID(String uuid);
 
     String serialize();
+    void resolveReferences(String[] tokens);
+    void resolveDependencies();
 }

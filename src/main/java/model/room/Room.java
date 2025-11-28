@@ -61,8 +61,8 @@ public class Room extends AbstractPersistable {
     @Override
     public String serialize() {
         StringBuilder line = new StringBuilder();
-
         line.append(this.getUUID()).append(",");
+
         line.append(this.roomNumber).append(",");
         line.append(this.capacity).append(",");
         line.append(this.roomType.ordinal());
@@ -70,8 +70,7 @@ public class Room extends AbstractPersistable {
         return line.toString();
     }
 
-    public static Room deserialize(String line) {
-        String[] tokens = line.split(",");
+    public static Room deserialize(String[] tokens) {
         Room room = new Room(
                 tokens[1],
                 Integer.parseInt(tokens[2]),

@@ -68,4 +68,12 @@ public class Repository {
             throw new RuntimeException("Error saving repository file", e);
         }
     }
+
+    public String getLine(int index) {
+        if (this.fileContents == null) {
+            this.readAll();
+        }
+
+        return this.fileContents.get(index);
+    }
 }

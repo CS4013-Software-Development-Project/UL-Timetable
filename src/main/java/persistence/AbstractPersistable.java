@@ -16,4 +16,10 @@ public abstract class AbstractPersistable implements IPersistable {
     public void setUUID(String uuid) {
         this.uuid = uuid;
     }
+
+    @Override
+    public void resolveReferences(String[] tokens) {}
+
+    @Override
+    public void resolveDependencies() {}
 }

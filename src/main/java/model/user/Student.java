@@ -3,6 +3,7 @@ package model.user;
 import model.grouping.Subgroup;
 import model.module.Programme;
 import persistence.AbstractPersistable;
+import persistence.PersistenceManager;
 import util.SaveUtil;
 
 import java.util.List;
@@ -47,17 +48,7 @@ public class Student extends User {
             programme.addStudent(this);
     }
 
-// TODO: Account for group rework
-//    public List<Subgroup> getSubgroups() {
-//        return this.subgroups;
-//    }
-//
-//    public void setStudentGroup(StudentGroup studentGroup) {
-//        this.studentGroup = studentGroup;
-//        if (!studentGroup.getStudentList().contains(this))
-//            studentGroup.addStudent(this);
-//    }
-
+    // TODO: Account for group rework
     public List<Subgroup> getSubgroups() {
         return this.subgroups;
     }
@@ -73,6 +64,7 @@ public class Student extends User {
     public String serialize() {
         StringBuilder line = new StringBuilder();
         line.append(this.getUUID()).append(",");
+
         line.append(this.getUsername()).append(",");
         line.append(this.passwordHash).append(",");
         line.append(this.programme.getUUID()).append(",");
@@ -81,12 +73,34 @@ public class Student extends User {
         return line.toString();
     }
 
-    public static Student deserialize(String line) {
-        String[] tokens = line.split(",");
+    public static Student deserialize(String[] tokens) {
         Student student = new Student(tokens[1], "");
-        student.setPasswordHash(tokens[2]);
         student.setUUID(tokens[0]);
 
+        student.setPasswordHash(tokens[2]);
+
         return student;
+    }
+
+    @Override
+    public void resolveReferences(String[] tokens) {
+        this.programme = PersistenceManager.programmes.get(tokens[3]);
+        this.subgroups = SaveUtil.queryList(tokens[4], PersistenceManager.subgroups);
+    }
+
+    @Override
+    public void resolveDependencies() {
+
+        if (this.programme != null && !PersistenceManager.programmes.containsKey(programme.getUUID())) {
+            this.programme.resolveDependencies();
+            PersistenceManager.programmes.put(programme.getUUID(), this.programme);
+        }
+
+        for (Subgroup subgroup : this.subgroups) {
+            if (subgroup != null && !PersistenceManager.subgroups.containsKey(subgroup.getUUID())) {
+                subgroup.resolveDependencies();
+                PersistenceManager.subgroups.put(subgroup.getUUID(), subgroup);
+            }
+        }
     }
 }

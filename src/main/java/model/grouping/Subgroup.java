@@ -1,8 +1,8 @@
 package model.grouping;
 
-import model.module.Session;
 import model.user.Student;
 import persistence.AbstractPersistable;
+import persistence.PersistenceManager;
 import util.SaveUtil;
 
 import java.util.ArrayList;
@@ -13,17 +13,16 @@ import java.util.List;
  */
 public class Subgroup extends AbstractPersistable {
     String id;
-
     List<Student> students;
 
-    public Subgroup() {}
+    private Subgroup() {}
     /**
      * Creates a new instance of Subgroup.
      * @param id The String ID representing this Subgroup.
      */
     public Subgroup(String id) {
         this.id = id;
-        this.students = new ArrayList<Student>();
+        this.students = new ArrayList<>();
     }
     /**
      * Creates a new instance of Subgroup.
@@ -34,12 +33,6 @@ public class Subgroup extends AbstractPersistable {
         this.id = id;
         this.students = students;
     }
-
-    /**
-     * Splits students into a list of ceil(number_of_students/maxStudentsPerGroup) Subgroups.
-     * @param maxStudentsPerGroup Maximum amount of students to have in each group.
-     */
-    public List<Subgroup> splitGroup(int maxStudentsPerGroup) {return null;}
 
     /**
      * Adds a Student to this Subgroup.
@@ -70,18 +63,32 @@ public class Subgroup extends AbstractPersistable {
         line.append(this.getUUID()).append(",");
 
         line.append(this.id).append(",");
-
-        line.append(SaveUtil.fastList(this.students)).append(",");
+        line.append(SaveUtil.fastList(this.students));
 
         return line.toString();
     }
 
-    public static Subgroup deserialize(String line) {
-        String[] tokens = line.split(",");
+    public static Subgroup deserialize(String[] tokens) {
         Subgroup subgroup = new Subgroup();
         subgroup.setUUID(tokens[0]);
+
         subgroup.id = tokens[1];
 
         return subgroup;
+    }
+
+    @Override
+    public void resolveReferences(String[] tokens) {
+        this.students = SaveUtil.queryList(tokens[2], PersistenceManager.students);
+    }
+
+    @Override
+    public void resolveDependencies() {
+        for (Student student : this.students) {
+            if (student != null && !PersistenceManager.students.containsKey(student.getUUID())) {
+                student.resolveDependencies();
+                PersistenceManager.students.put(student.getUUID(), student);
+            }
+        }
     }
 }

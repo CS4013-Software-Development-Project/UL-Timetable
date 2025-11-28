@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 //import model.grouping.StudentGroup;
+=======
+import model.grouping.Subgroup;
+>>>>>>> 0ca7a735d1f907558c305eea7623488924e1e6b4
 import model.module.Module;
 import model.module.Programme;
 import model.user.Leader;
@@ -64,8 +68,11 @@ public class ULTimetable {
                 new Leader("Nikola Nikolev", "welcome"),
         };
 
+        Subgroup subgroup = new Subgroup("Group 1");
+
         for (Student st : s) {
             p[0].addStudent(st);
+            subgroup.addStudent(st);
         }
 
         p[0].addLeader(l[0]);

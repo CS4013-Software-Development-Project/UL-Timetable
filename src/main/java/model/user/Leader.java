@@ -1,7 +1,9 @@
 package model.user;
 
 import model.module.Programme;
+import model.module.Session;
 import persistence.AbstractPersistable;
+import persistence.PersistenceManager;
 import util.SaveUtil;
 
 import java.util.ArrayList;
@@ -77,11 +79,25 @@ public class Leader extends User {
         return line.toString();
     }
 
-    public static Leader deserialize(String line) {
-        String[] tokens = line.split(",");
+    public static Leader deserialize(String[] tokens) {
         Leader leader = new Leader(tokens[1], tokens[2]);
         leader.setUUID(tokens[0]);
 
         return leader;
+    }
+
+    @Override
+    public void resolveReferences(String[] tokens) {
+        this.ledProgrammes = SaveUtil.queryList(tokens[3], PersistenceManager.programmes);
+    }
+
+    @Override
+    public void resolveDependencies() {
+        for (Programme programme : this.ledProgrammes) {
+            if (programme != null && !PersistenceManager.programmes.containsKey(programme.getUUID())) {
+                programme.resolveDependencies();
+                PersistenceManager.programmes.put(programme.getUUID(), programme);
+            }
+        }
     }
 }
