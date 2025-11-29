@@ -33,12 +33,12 @@ public class MainCLI implements ICLIView {
 
     @Override
     public void print(String msg) {
-
+        System.out.println("[SUCCESS] "+ msg);
     }
 
     @Override
     public void error(String msg) {
-
+        System.out.println("[ERROR] "+ msg);
     }
 
     @Override

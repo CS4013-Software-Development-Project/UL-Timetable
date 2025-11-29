@@ -7,8 +7,7 @@ import model.user.Leader;
 import view.cli.LeaderCLI;
 
 public class LeaderController {
-    private String username, password;
-    private Leader leader = new Leader(username, password);
+    private Leader leader = new Leader("username", "password");
     private LeaderCLI view =  new LeaderCLI();
     private Scanner input = new Scanner(System.in);
 

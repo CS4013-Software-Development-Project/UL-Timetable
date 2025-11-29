@@ -54,7 +54,7 @@ public class TimetableController {
                             passwordCheck = adminLogin.authenticate(password);
                         }
 
-                        if(passwordCheck == false){
+                        if(passwordCheck == false && userCheck == true){
                             view.error("Password '"+password+"' is incorrect." );
                         }
                         else{
@@ -89,7 +89,7 @@ public class TimetableController {
                             passwordCheck = leaderLogin.authenticate(password);
                         }
 
-                        if(passwordCheck == false){
+                        if(passwordCheck == false&& userCheck == true){
                             view.error("Password '"+password+"' is incorrect." );
                         }
                         else{
@@ -124,7 +124,7 @@ public class TimetableController {
                             passwordCheck = studentLogin.authenticate(password);
                         }
 
-                        if(passwordCheck == false){
+                        if(passwordCheck == false && userCheck == true){
                             view.error("Password '"+password+"' is incorrect." );
                         }
                         else{
@@ -149,7 +149,7 @@ public class TimetableController {
                     if(PersistenceManager.getProgrammes().get(i).getName().equals(programmeName)){
                         view.promptYear();
                         int year = input.nextInt();
-                        System.out.println("Course Timetable of Appropraite Year Prints Here");
+                        System.out.println("Course Timetable of Appropriate Year Prints Here");
                     }
                 }
             }

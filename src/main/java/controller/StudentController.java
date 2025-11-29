@@ -6,8 +6,7 @@ import view.cli.StudentCLI;
 import java.util.Scanner;
 
 public class StudentController {
-    private String username, password;
-    private Student student = new Student(username, password);
+    private Student student = new Student("username", "password");
     private StudentCLI view = new StudentCLI();
     private Scanner input = new Scanner(System.in);
 

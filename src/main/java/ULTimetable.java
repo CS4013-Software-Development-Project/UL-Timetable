@@ -16,13 +16,19 @@ public class ULTimetable {
     public static void main(String[] args) {
 
         //On cold boot: Load everything!
-        PersistenceManager pm = new PersistenceManager(dataDir);
-        pm.load();
+        //PersistenceManager pm = new PersistenceManager(dataDir);
+        //pm.load();
 
         //testCreateData();
+        Admin test = new Admin("Test", "welcome");
+        Student studentTest = new Student("Test1","welcome");
+        Leader leaderTest = new Leader("Test2","welcome");
+        PersistenceManager.addAdmin(test);
+        PersistenceManager.addLeader(leaderTest);
+        PersistenceManager.addStudent(studentTest);
         new TimetableController().start();
 
-        pm.save();
+        //pm.save();
 
     }
 
