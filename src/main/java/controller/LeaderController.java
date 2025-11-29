@@ -6,7 +6,7 @@ import model.module.Programme;
 import model.user.Leader;
 import view.cli.LeaderCLI;
 
-public class LeaderController {
+public class LeaderController extends Controller {
     private String username, password;
     private Leader leader = new Leader(username, password);
     private LeaderCLI view =  new LeaderCLI();

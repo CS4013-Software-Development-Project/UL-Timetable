@@ -5,7 +5,7 @@ import view.cli.StudentCLI;
 
 import java.util.Scanner;
 
-public class StudentController {
+public class StudentController extends Controller {
     private String username, password;
     private Student student = new Student(username, password);
     private StudentCLI view = new StudentCLI();

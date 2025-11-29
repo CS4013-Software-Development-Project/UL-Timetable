@@ -268,10 +268,6 @@ public class PersistenceManager {
         this.timetableRepo.save();
     }
 
-    public static List<Module> getModules() {
-        return new ArrayList<>(modules.values());
-    }
-
     public static void addModule(Module... modulesToAdd) {
         for (Module m : modulesToAdd) {
             modules.put(m.getUUID(), m);
@@ -284,10 +280,6 @@ public class PersistenceManager {
         }
     }
 
-
-    public static List<Programme> getProgrammes() {
-        return new ArrayList<>(programmes.values());
-    }
 
     public static void addProgramme(Programme... programmesToAdd) {
         for (Programme p : programmesToAdd) {
@@ -302,10 +294,6 @@ public class PersistenceManager {
     }
 
 
-    public static List<Admin> getAdmins() {
-        return new ArrayList<>(admins.values());
-    }
-
     public static void addAdmin(Admin... adminsToAdd) {
         for (Admin a : adminsToAdd) {
             admins.put(a.getUUID(), a);
@@ -319,10 +307,6 @@ public class PersistenceManager {
     }
 
 
-    public static List<Leader> getLeaders() {
-        return new ArrayList<>(leaders.values());
-    }
-
     public static void addLeader(Leader... leadersToAdd) {
         for (Leader l : leadersToAdd) {
             leaders.put(l.getUUID(), l);
@@ -335,9 +319,6 @@ public class PersistenceManager {
         }
     }
 
-    public static List<Student> getStudents() {
-        return new ArrayList<>(students.values());
-    }
 
     public static void addStudent(Student... studentsToAdd) {
         for (Student s : studentsToAdd) {
@@ -351,9 +332,6 @@ public class PersistenceManager {
         }
     }
 
-    public static List<Room> getRooms() {
-        return new ArrayList<>(rooms.values());
-    }
 
     public static void addRoom(Room... roomsToAdd) {
         for (Room r : roomsToAdd) {
@@ -367,9 +345,6 @@ public class PersistenceManager {
         }
     }
 
-    public static List<Subgroup> getSubgroups() {
-        return new ArrayList<>(subgroups.values());
-    }
 
     public static void addSubgroup(Subgroup... subgroupsToAdd) {
         for (Subgroup sg : subgroupsToAdd) {
@@ -383,9 +358,6 @@ public class PersistenceManager {
         }
     }
 
-    public static List<Timeslot> getTimeslots() {
-        return new ArrayList<>(timeslots.values());
-    }
 
     public static void addTimeslot(Timeslot... timeslotsToAdd) {
         for (Timeslot t : timeslotsToAdd) {
@@ -399,9 +371,6 @@ public class PersistenceManager {
         }
     }
 
-    public static List<Session> getSessions() {
-        return new ArrayList<>(sessions.values());
-    }
 
     public static void addSession(Session... sessionsToAdd) {
         for (Session s : sessionsToAdd) {
@@ -415,9 +384,6 @@ public class PersistenceManager {
         }
     }
 
-    public static List<Timetable> getTimetables() {
-        return new ArrayList<>(timetables.values());
-    }
 
     public static void addTimetable(Timetable... timetablesToAdd) {
         for (Timetable t : timetablesToAdd) {
