@@ -1,6 +1,3 @@
-/// Needs to be adapted to Group Rework
-
-
 package persistence;
 
 import model.grouping.Subgroup;
@@ -191,6 +188,39 @@ public class PersistenceManager {
         this.timeslotRepo.clear();
         this.sessionRepo.clear();
         this.timetableRepo.clear();
+
+        //resolve all dependencies
+        //noinspection DuplicatedCode
+        for (AbstractPersistable obj : modules.values())
+            obj.resolveDependencies();
+
+        for (AbstractPersistable obj : programmes.values())
+            obj.resolveDependencies();
+
+        for (AbstractPersistable obj : admins.values())
+            obj.resolveDependencies();
+
+        for (AbstractPersistable obj : leaders.values())
+            obj.resolveDependencies();
+
+        for (AbstractPersistable obj : students.values())
+            obj.resolveDependencies();
+
+        //noinspection DuplicatedCode
+        for (AbstractPersistable obj : rooms.values())
+            obj.resolveDependencies();
+
+        for (AbstractPersistable obj : subgroups.values())
+            obj.resolveDependencies();
+
+        for (AbstractPersistable obj : timeslots.values())
+            obj.resolveDependencies();
+
+        for (AbstractPersistable obj : sessions.values())
+            obj.resolveDependencies();
+
+        for (AbstractPersistable obj : timetables.values())
+            obj.resolveDependencies();
 
         //next, serialize everything
         //noinspection DuplicatedCode
