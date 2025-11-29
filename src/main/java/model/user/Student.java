@@ -96,6 +96,8 @@ public class Student extends User {
             PersistenceManager.programmes.put(programme.getUUID(), this.programme);
         }
 
+        if (this.subgroups == null || this.subgroups.isEmpty())
+            return;
         for (Subgroup subgroup : this.subgroups) {
             if (subgroup != null && !PersistenceManager.subgroups.containsKey(subgroup.getUUID())) {
                 subgroup.resolveDependencies();

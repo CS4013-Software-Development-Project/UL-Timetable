@@ -1,37 +1,24 @@
-import controller.TimetableController;
+package tests;
 import model.grouping.Subgroup;
 import model.module.Module;
 import model.module.Programme;
 import model.user.Leader;
 import model.user.Student;
-import model.user.User;
-import model.user.Admin;
+import org.junit.Test;
 import persistence.PersistenceManager;
-import view.cli.MainCLI;
 
-public class ULTimetable {
+public class PersistenceTest {
 
-    private static final String dataDir = "persistence";
-
-    public static void main(String[] args) {
-        //On cold boot: Load everything!
-        //PersistenceManager pm = new PersistenceManager(dataDir);
-        //pm.load();
-
-        //testCreateData();
-        Admin test = new Admin("Test", "welcome");
-        Student studentTest = new Student("Test1","welcome");
-        Leader leaderTest = new Leader("Test2","welcome");
-        PersistenceManager.addAdmin(test);
-        PersistenceManager.addLeader(leaderTest);
-        PersistenceManager.addStudent(studentTest);
-        new TimetableController().start();
-
-        //pm.save();
-
+    @Test
+    public void testLoad() {
+        PersistenceManager pm = new PersistenceManager("persistence");
+        pm.load();
     }
 
-    static void testCreateData() {
+    @Test
+    public void testSaveData() {
+        PersistenceManager pm = new PersistenceManager("persistence");
+
         Student[] s = {
                 new Student("Kuba", "welcome"),
                 new Student("Leo", "welcome"),
@@ -87,6 +74,8 @@ public class ULTimetable {
         PersistenceManager.addModule(m);
         PersistenceManager.addLeader(l);
         PersistenceManager.addStudent(s);
-        new TimetableController().start();
+
+        pm.save();
     }
+
 }
