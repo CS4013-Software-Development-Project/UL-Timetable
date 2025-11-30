@@ -1,42 +1,44 @@
 package controller;
 import java.util.List;
-import java.util.Scanner;
-
 import model.module.Programme;
 import model.user.Leader;
+import view.cli.AdminCLI;
 import view.cli.LeaderCLI;
 
 public class LeaderController extends Controller {
-    private String username, password;
-    private Leader leader = new Leader(username, password);
-    private LeaderCLI view =  new LeaderCLI();
-    private Scanner input = new Scanner(System.in);
+    private Leader leader;
+    LeaderCLI view;
+
+    public LeaderController(LeaderCLI view) {
+        super(view);
+        this.view = view;
+    }
 
     public void start() {
         boolean more = true;
 
-        while (more) {
-            view.displayPanel();
-            String command = input.nextLine();
+        MAIN_LOOP: while (more) {
+            String command = view.prompt("D)isplay Led Programmes S)how Timetable Q)uit");
 
-            if (command.equals("D")) {
-                view.displayLeaderProgrammes();
-                List<Programme> ledProgrammes = leader.getLedProgrammes();
-                for (Programme ledProgramme : ledProgrammes) {
-                    System.out.println(ledProgramme);
-                }
-                view.print("Leader Modules Successfully Shown");
-            }
-            else if(command.equals("S")){
-                view.displayTimetable();
+            switch (command) {
+                case "D"://Display Led Programmes
+                    view.displayLeaderProgrammes();
+                    List<Programme> ledProgrammes = leader.getLedProgrammes();
+                    for (Programme ledProgramme : ledProgrammes) {
+                        System.out.println(ledProgramme);
+                    }
+                    view.print("Leader Modules Successfully Shown");
+                    break;
+                case "S"://Show Timetable
+                    view.displayTimetable();
 
 
-
-                view.print("Timetable successfully Shown");
-            }
-            else if (command == "Q") {
-                more = false;
-                view.print("Quitting...");
+                    view.print("Timetable successfully Shown");
+                    break;
+                case "Q"://Quit
+                    more = false;
+                    view.print("Quitting...");
+                    break;
             }
         }
     }

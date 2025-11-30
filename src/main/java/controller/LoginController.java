@@ -6,7 +6,9 @@ import model.user.Student;
 import model.user.User;
 import persistence.PersistenceManager;
 import view.cli.AdminCLI;
+import view.cli.LeaderCLI;
 import view.cli.MainCLI;
+import view.cli.StudentCLI;
 
 public class LoginController extends Controller{
 
@@ -88,10 +90,10 @@ public class LoginController extends Controller{
                 controller =  new AdminController(new AdminCLI());
             }
             else if (user instanceof Leader) {
-                controller =  new LeaderController();
+                controller =  new LeaderController(new LeaderCLI());
             }
             else if (user instanceof Student) {
-                controller =  new StudentController();
+                controller =  new StudentController(new StudentCLI());
             }
 
             return controller;

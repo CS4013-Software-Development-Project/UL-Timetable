@@ -1,42 +1,47 @@
 package controller;
 
 import model.user.Student;
+import view.cli.LeaderCLI;
 import view.cli.StudentCLI;
 
 import java.util.Scanner;
 
 public class StudentController extends Controller {
-    private String username, password;
-    private Student student = new Student(username, password);
+    private Student student = new Student("username", "password");
     private StudentCLI view = new StudentCLI();
     private Scanner input = new Scanner(System.in);
+
+    public StudentController(StudentCLI view) {
+        super(view);
+        this.view = view;
+    }
 
     public void start() {
         boolean more = true;
 
-        while (more) {
-            view.displayPanel();
-            String command = input.nextLine();
+        MAIN_LOOP:  while (more) {
+            String command = view.prompt("D)isplay Course G)et Student SubGroup S)how Timetable Q)uit");
+            command = command.toUpperCase();
+            switch (command) {
+                case "D":
+                    view.displayProgramme();
+                    System.out.println(student.getProgramme());
+                    view.print("Student Course Successfully Shown");
+                    break;
+                case "G":
+                    view.getGroups();
+                    System.out.println(student.getSubgroups());
+                    view.print("SubGroups successfully Shown");
+                    break;
+                case "S":
+                    view.displayTimetablePrompt();
 
-            if (command.equals("D")) {
-                view.displayProgramme();
-                System.out.println(student.getProgramme());
-                view.print("Student Course Successfully Shown");
-            }
-            else if(command.equals("G")){
-                view.getGroups();
-                System.out.println(student.getSubgroups());
-                view.print("SubGroups successfully Shown");
-            }
-            else if(command.equals("s")){
-                view.displayTimetablePrompt();
 
-
-
-                view.print("Timetable successfully Shown");
-            }
-            else if (command.equals("q")) {
-                more = false;
+                    view.print("Timetable successfully Shown");
+                    break;
+                case "Q":
+                    more = false;
+                    break;
             }
         }
     }

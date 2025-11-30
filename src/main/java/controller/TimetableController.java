@@ -18,164 +18,165 @@ public class TimetableController {
         boolean more = true;
 
         while(more){
-            view.displayPanel();
-            String command = input.nextLine();
+            String command = view.prompt("L)ogin C)ourse Timetable M)odule Timetable R)oom Timetable Q)uit");
+            command = command.toUpperCase();
 
-            if(command.equals("L")){
-                boolean extra = true;
+            switch (command) {
+                case "L":
+                    boolean extra = true;
 
-                while(extra){
-                    view.userLoginPanel();
-                    command = input.nextLine();
+                    while (extra) {
+                        command = view.prompt("A)dmin L)eader S)tudent B)ack");
+                        command = command.toUpperCase();
 
-                    if(command.equals("A")){
-                        boolean userCheck = false;
-                        boolean passwordCheck = false;
-                        view.promptUsername();
-                        String username = input.nextLine();
-                        System.out.println();
-                        view.promptPassword();
-                        String password = input.nextLine();
-                        System.out.println();
+                        switch (command) {
+                            case "A": {
+                                boolean userCheck = false;
+                                boolean passwordCheck = false;
+                                view.promptUsername();
+                                String username = input.nextLine();
+                                System.out.println();
+                                view.promptPassword();
+                                String password = input.nextLine();
+                                System.out.println();
 
 
-                        Admin adminLogin = new Admin(username, password);
+                                Admin adminLogin = new Admin(username, password);
 
-                        for(int i = 0; i<PersistenceManager.getAdmins().size(); i++){
-                            if(PersistenceManager.getAdmins().get(i).getUsername().equals(username)){
-                                userCheck = true;
+                                for (int i = 0; i < PersistenceManager.getAdmins().size(); i++) {
+                                    if (PersistenceManager.getAdmins().get(i).getUsername().equals(username)) {
+                                        userCheck = true;
+                                    }
+                                }
+
+                                if (userCheck == false) {
+                                    view.error("Account with username '" + username + "' not found.");
+                                } else {
+                                    passwordCheck = adminLogin.authenticate(password);
+                                }
+
+                                if (passwordCheck == false) {
+                                    view.error("Password '" + password + "' is incorrect.");
+                                } else {
+                                    extra = false;
+                                    more = false;
+                                    view.print("Welcome " + username);
+                                    new AdminController().start();
+                                }
+                                break;
                             }
-                        }
+                            case "L": {
+                                boolean userCheck = false;
+                                boolean passwordCheck = false;
+                                view.promptUsername();
+                                String username = input.nextLine();
+                                System.out.println();
+                                view.promptPassword();
+                                String password = input.nextLine();
+                                System.out.println();
 
-                        if(userCheck == false){
-                            view.error("Account with username '"+username+"' not found." );
-                        }
-                        else{
-                            passwordCheck = adminLogin.authenticate(password);
-                        }
+                                Leader leaderLogin = new Leader(username, password);
 
-                        if(passwordCheck == false){
-                            view.error("Password '"+password+"' is incorrect." );
-                        }
-                        else{
-                            extra = false;
-                            more = false;
-                            view.print("Welcome "+username);
-                            new AdminController().start();
-                        }
-                    }
-                    else if(command.equals("L")){
-                        boolean userCheck = false;
-                        boolean passwordCheck = false;
-                        view.promptUsername();
-                        String username = input.nextLine();
-                        System.out.println();
-                        view.promptPassword();
-                        String password = input.nextLine();
-                        System.out.println();
+                                for (int i = 0; i < PersistenceManager.getLeaders().size(); i++) {
+                                    if (PersistenceManager.getLeaders().get(i).getUsername().equals(username)) {
+                                        userCheck = true;
+                                    }
+                                }
 
-                        Leader leaderLogin = new Leader(username, password);
+                                if (userCheck == false) {
+                                    view.error("Account with username '" + username + "' not found.");
+                                } else {
+                                    passwordCheck = leaderLogin.authenticate(password);
+                                }
 
-                        for(int i = 0; i<PersistenceManager.getLeaders().size(); i++){
-                            if(PersistenceManager.getLeaders().get(i).getUsername().equals(username)){
-                                userCheck = true;
+                                if (passwordCheck == false) {
+                                    view.error("Password '" + password + "' is incorrect.");
+                                } else {
+                                    extra = false;
+                                    more = false;
+                                    view.print("Welcome " + username);
+                                    new LeaderController().start();
+                                }
+                                break;
                             }
-                        }
+                            case "S": {
+                                boolean userCheck = false;
+                                boolean passwordCheck = false;
+                                view.promptUsername();
+                                String username = input.nextLine();
+                                System.out.println();
+                                view.promptPassword();
+                                String password = input.nextLine();
+                                System.out.println();
 
-                        if(userCheck == false){
-                            view.error("Account with username '"+username+"' not found." );
-                        }
-                        else{
-                            passwordCheck = leaderLogin.authenticate(password);
-                        }
+                                Student studentLogin = new Student(username, password);
 
-                        if(passwordCheck == false){
-                            view.error("Password '"+password+"' is incorrect." );
-                        }
-                        else{
-                            extra = false;
-                            more = false;
-                            view.print("Welcome "+username);
-                            new LeaderController().start();
-                        }
-                    }
-                    else if(command.equals("S")){
-                        boolean userCheck = false;
-                        boolean passwordCheck = false;
-                        view.promptUsername();
-                        String username = input.nextLine();
-                        System.out.println();
-                        view.promptPassword();
-                        String password = input.nextLine();
-                        System.out.println();
+                                for (int i = 0; i < PersistenceManager.getStudents().size(); i++) {
+                                    if (PersistenceManager.getStudents().get(i).getUsername().equals(username)) {
+                                        userCheck = true;
+                                    }
+                                }
 
-                        Student studentLogin = new Student(username, password);
+                                if (userCheck == false) {
+                                    view.error("Account with username '" + username + "' not found.");
+                                } else {
+                                    passwordCheck = studentLogin.authenticate(password);
+                                }
 
-                        for(int i = 0; i<PersistenceManager.getStudents().size(); i++){
-                            if(PersistenceManager.getStudents().get(i).getUsername().equals(username)){
-                                userCheck = true;
+                                if (passwordCheck == false) {
+                                    view.error("Password '" + password + "' is incorrect.");
+                                } else {
+                                    extra = false;
+                                    more = false;
+                                    view.print("Welcome " + username);
+                                    new StudentController().start();
+                                }
+                                break;
                             }
-                        }
-
-                        if(userCheck == false){
-                            view.error("Account with username '"+username+"' not found." );
-                        }
-                        else{
-                            passwordCheck = studentLogin.authenticate(password);
-                        }
-
-                        if(passwordCheck == false){
-                            view.error("Password '"+password+"' is incorrect." );
-                        }
-                        else{
-                            extra = false;
-                            more = false;
-                            view.print("Welcome "+username);
-                            new StudentController().start();
+                            case "B":
+                                extra = false;
+                                view.print("Backing Out...");
+                                command = "0";
+                                break;
                         }
                     }
-                    else if(command.equals("B")){
-                        extra = false;
-                        view.print("Backing Out...");
-                        command = "0";
-                    }
-                }
-            }
-            else if(command.equals("C")){
-                view.promptProgrammeName();
-                String programmeName = input.nextLine();
+                    break;
+                case "C":
+                    view.promptProgrammeName();
+                    String programmeName = input.nextLine();
 
-                for(int i = 0; i<PersistenceManager.getProgrammes().size(); i++){
-                    if(PersistenceManager.getProgrammes().get(i).getName().equals(programmeName)){
-                        view.promptYear();
-                        int year = input.nextInt();
-                        System.out.println("Course Timetable of Appropraite Year Prints Here");
+                    for (int i = 0; i < PersistenceManager.getProgrammes().size(); i++) {
+                        if (PersistenceManager.getProgrammes().get(i).getName().equals(programmeName)) {
+                            view.promptYear();
+                            int year = input.nextInt();
+                            System.out.println("Course Timetable of Appropraite Year Prints Here");
+                        }
                     }
-                }
-            }
-            else if(command.equals("M")){
-                view.promptModuleCode();
-                String moduleCode = input.nextLine();
+                    break;
+                case "M":
+                    view.promptModuleCode();
+                    String moduleCode = input.nextLine();
 
-                for(int i = 0; i<PersistenceManager.getModules().size(); i++){
-                    if(PersistenceManager.getModules().get(i).getModuleCode().equals(moduleCode)){
-                        System.out.println("Module Timetable Here");
+                    for (int i = 0; i < PersistenceManager.getModules().size(); i++) {
+                        if (PersistenceManager.getModules().get(i).getModuleCode().equals(moduleCode)) {
+                            System.out.println("Module Timetable Here");
+                        }
                     }
-                }
-            }
-            else if(command.equals("R")){
-                view.promptRoomName();
-                String roomNumber = input.nextLine();
+                    break;
+                case "R":
+                    view.promptRoomName();
+                    String roomNumber = input.nextLine();
 
-                for(int i = 0; i<PersistenceManager.getRooms().size(); i++){
-                    if(PersistenceManager.getRooms().get(i).getroomNumber().equals(roomNumber)){
-                        System.out.println("Room Timetable Here");
+                    for (int i = 0; i < PersistenceManager.getRooms().size(); i++) {
+                        if (PersistenceManager.getRooms().get(i).getroomNumber().equals(roomNumber)) {
+                            System.out.println("Room Timetable Here");
+                        }
                     }
-                }
-            }
-            else if(command.equals("Q")){
-                more = false;
-                view.print("Quiting...");
+                    break;
+                case "Q":
+                    more = false;
+                    view.print("Quiting...");
+                    break;
             }
         }
     }
