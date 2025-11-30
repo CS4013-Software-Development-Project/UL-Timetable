@@ -3,7 +3,7 @@ package view.cli;
 import controller.TimetableController;
 import model.user.User;
 
-public class MainCLI implements ICLIView {
+public class MainCLI extends CLIView {
     @Override
     public void displayPanel() {
         System.out.println("L)ogin C)ourse Timetable M)odule Timetable R)oom Timetable Q)uit");
@@ -39,11 +39,6 @@ public class MainCLI implements ICLIView {
     @Override
     public void error(String msg) {
         System.out.println("[ERROR] "+ msg);
-    }
-
-    @Override
-    public void run() {
-
     }
 
     @Override
