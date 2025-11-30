@@ -1,3 +1,4 @@
+import controller.LoginController;
 import controller.TimetableController;
 import model.grouping.Subgroup;
 import model.module.Module;
@@ -15,11 +16,14 @@ public class ULTimetable {
 
     public static void main(String[] args) {
         //On cold boot: Load everything!
-        //PersistenceManager pm = new PersistenceManager(dataDir);
-        //pm.load();
-        Admin john = new Admin("test","welcome");
-        PersistenceManager.addAdmin(john);
-        new TimetableController().start();
+        PersistenceManager pm = new PersistenceManager(dataDir);
+        pm.load();
 
+        PersistenceManager.addAdmin(new Admin("root","root"));
+
+        MainCLI loginView = new  MainCLI();
+        LoginController loginController = new LoginController(loginView);
+
+        loginController.start();
     }
 }
