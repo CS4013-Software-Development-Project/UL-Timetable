@@ -15,6 +15,7 @@ It is your responsibility to add your contribution to this file.
 | 17 Nov 2025 | Kuba Rodak (24436755)     | Create Code Skeleton                | c6df7ae | 2     | Done   | Project MVC skeleton created              |
 | 17 Nov 2025 | Kuba Rodak (24436755)     | Comment Everything & Export Javadoc | d02c950 | 1     | Done   | Javadoc committed to Repo                 |
 | 20 Nov 2025 | Kuba Rodak (24436755)     | Create UML Diagram                  | d4cdee4| 1     | Done   | UML exported as png and committed.        |
-| 28 Nov 2025 | Kuba Rodak (24436755)     | Develop Object Persistence          | -      | 15    | Done   | Saving/Loading data models via CSV files. |
+| 28 Nov 2025 | Kuba Rodak (24436755)     | Develop Object Persistence          | 0ca7a73      | 15    | Done   | Saving/Loading data models via CSV files. |
+| 30 Nov 2025 | Finn  (25318756)          | Scheduler Algorithm                 | 285a86f      | 2     | Done   | Scheduler code committed.                 |
 | ...         | ...                       | ...                                 | ...    | ...   | ...    | ...                                       |
 
