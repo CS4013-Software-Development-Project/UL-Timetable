@@ -50,7 +50,7 @@ public class Programme extends AbstractPersistable {
 
     /**
      * Gets Programme name.
-     * @return
+     * @return the programme name.
      */
     public String getName() {
         return name;

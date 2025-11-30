@@ -12,7 +12,13 @@ import java.util.List;
  * Subgroup represents a group of Students that attends a Session together.
  */
 public class Subgroup extends AbstractPersistable {
+    /**
+     * The ID of this subgroup.
+     */
     String id;
+    /**
+     * The list of students this subgroup consists of.
+     */
     List<Student> students;
 
     private Subgroup() {}

@@ -10,7 +10,6 @@ import model.schedule.Timetable;
 import model.user.Admin;
 import model.user.Leader;
 import model.user.Student;
-import util.TestID;
 
 import java.util.LinkedHashMap;
 
@@ -231,7 +230,7 @@ public class PersistenceManager {
         for (AbstractPersistable x : timetables.values())
             maxID = Math.max(maxID, Integer.parseInt(x.getUUID()));
 
-        TestID.setCounter(maxID);
+        ID.setCounter(maxID);
     }
 
     public void save() {

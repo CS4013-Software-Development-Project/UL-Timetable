@@ -19,7 +19,6 @@ public class Leader extends User {
         super(username, password);
         this.ledProgrammes = new ArrayList<Programme>();
     }
-
     public Leader(String username, String passwordHash, List<Programme> ledProgrammes) {
         super(username, passwordHash);
         this.ledProgrammes = ledProgrammes;

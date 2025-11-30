@@ -30,6 +30,10 @@ public class Room extends AbstractPersistable {
         return this.roomNumber;
     }
 
+    /**
+     * Sets the Room roomNumber.
+     * @param roomNumber the number of this room.
+     */
     public void setroomNumber(String roomNumber) {
         this.roomNumber = roomNumber;
     }
@@ -42,6 +46,10 @@ public class Room extends AbstractPersistable {
         return this.capacity;
     }
 
+    /**
+     * Set the capacity of this room.
+     * @param capacity the new capacity of this room.
+     */
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
@@ -54,6 +62,10 @@ public class Room extends AbstractPersistable {
         return this.roomType;
     }
 
+    /**
+     * Set the type of this room.
+     * @param roomType the new type of this room.
+     */
     public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }

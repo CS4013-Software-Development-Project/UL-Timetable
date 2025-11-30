@@ -1,5 +1,10 @@
 package model.schedule;
 
+/**
+ * Represents an hour that a session can start on. By using
+ * an enum, we have better control over the time limits on
+ * when and when not can sessions be scheduled.
+ */
 public enum Period {
     H09(9),
     H10(10),

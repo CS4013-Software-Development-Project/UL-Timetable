@@ -7,17 +7,45 @@ import model.user.User;
 import persistence.PersistenceManager;
 import view.cli.AdminCLI;
 
+/**
+ * Controller class for {@link model.user.Admin} users.
+ * <p>
+ * The controller allows an Admin to:
+ * <ul>
+ *   <li>appoint or remove leaders from programmes</li>
+ *   <li>change the password of any user (leader, student or admin)</li>
+ *   <li>create new users (leaders, students or admins)</li>
+ *   <li>create new programmes and modules</li>
+ *   <li>quit the interface</li>
+ * </ul>
+ * Uses the {@link persistence.PersistenceManager} singleton.
+ * </p>
+ *
+ * @see model.user.Admin
+ * @see model.module.Programme
+ * @see view.cli.AdminCLI
+ * @see persistence.PersistenceManager
+ *
+ * @author Willow Johnson
+ */
 public class AdminController extends Controller {
-    //the Admin this controller is attached to
+    /** The {@link Admin} this controller is attached to. */
     private Admin admin;
-    //the view this is attached to
+    /** The {@link AdminCLI} this controller is attached to. */
     AdminCLI view;
 
+    /**
+     * Creates a new {@code AdminController} with the supplied view.
+     * @param view the view that will interact with the user
+     */
     public AdminController(AdminCLI view) {
         super(view);
         this.view = view;
     }
 
+    /**
+     * Starts the interactive command loop.
+     */
     public void start() {
         boolean more = true;
 
@@ -46,6 +74,7 @@ public class AdminController extends Controller {
 
                     if (testProgramme == null) {
                         view.error("Programme " + programmeName + " does not exist, so leader cannot be added, Please re-enter or create this programme.");
+                        continue MAIN_LOOP;
                     }
                     admin.appointLeader(testLeader, testProgramme);
                     view.print("Leader added to programme");
@@ -107,8 +136,7 @@ public class AdminController extends Controller {
                 }
                 //user creation mode
                 case "U": {
-                    boolean extra = true;
-                    while (extra) {
+                    while (true) {
                         command = view.prompt("L)eader S)tudent A)dmin B)ack\n");
                         switch (command) {
                             case "L": {
@@ -133,17 +161,14 @@ public class AdminController extends Controller {
                                 break;
                             }
                             case "B":
-                                extra = false;
                                 view.print("Backing out...");
                                 continue MAIN_LOOP;
                         }
                     }
-                    break;
                 }
                 //module creation mode
                 case "M": {
-                    boolean extra = true;
-                    while (extra) {
+                    while (true) {
                         command = view.prompt("P)rogramme M)odule B)ack\n");
                         switch (command) {
                             case "P": {
@@ -169,12 +194,10 @@ public class AdminController extends Controller {
                                 break;
                             }
                             case "B":
-                                extra = false;
                                 view.print("Backing out...");
                                 continue MAIN_LOOP;
                         }
                     }
-                    break;
                 }
                 //quit
                 case "Q":
@@ -185,7 +208,12 @@ public class AdminController extends Controller {
         }
     }
 
-    public User getUser() {
+    /**
+     * Helper method for getting a User from the persistence store. Automatically searches all User repositories;
+     * Admins, Leaders, and Students.
+     * @return the User located inside the persistence store.
+     */
+    private User getUser() {
         String username = view.prompt("Username: ");
         User testUser = null;
 

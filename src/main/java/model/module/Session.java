@@ -7,7 +7,8 @@ import persistence.AbstractPersistable;
 import persistence.PersistenceManager;
 
 /**
- * A Session represents the performance of a Module during a Timeslot. It is attended by a Subgroup of Students, and is conducted by a Leader.
+ * A Session represents the performance of a Module during a Timeslot.
+ * It is attended by a Subgroup of Students, and is conducted by a Leader.
  * A Session has a SessionType which delegates it as Lecture, Lab, or Tutorial.
  */
 public class Session extends AbstractPersistable {

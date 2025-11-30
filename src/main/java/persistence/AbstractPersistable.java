@@ -1,11 +1,13 @@
 package persistence;
 
-import util.TestID;
-
-import java.util.UUID;
-
+/**
+ * Base implementation of {@link IPersistable} that handles UUID
+ * generation and provides empty hook methods for reference
+ * resolution.
+ */
 public abstract class AbstractPersistable implements IPersistable {
-    private String uuid = TestID.getID();//UUID.randomUUID().toString();
+    /** The unique identifier for this object. */
+    private String uuid = ID.getID();
 
     @Override
     public String getUUID() {

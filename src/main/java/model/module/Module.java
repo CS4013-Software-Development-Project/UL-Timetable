@@ -57,7 +57,7 @@ public class Module extends AbstractPersistable {
     }
 
     /**
-     *
+     * Gets the Module Code.
      * @return The Module Code.
      */
     public String getModuleCode(){
