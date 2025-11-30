@@ -13,6 +13,9 @@ import model.user.Student;
 
 import java.util.LinkedHashMap;
 
+/**
+ * @author Kuba Rodak (24436755)
+ */
 public class PersistenceManager {
     String dataDirectory;
 

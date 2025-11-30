@@ -4,6 +4,8 @@ package persistence;
  * Base implementation of {@link IPersistable} that handles UUID
  * generation and provides empty hook methods for reference
  * resolution.
+ *
+ * @author Kuba Rodak (24436755)
  */
 public abstract class AbstractPersistable implements IPersistable {
     /** The unique identifier for this object. */

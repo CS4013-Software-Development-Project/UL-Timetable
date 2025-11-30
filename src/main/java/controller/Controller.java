@@ -11,7 +11,7 @@ import view.cli.CLIView;
  * </p>
  *
  * @see view.cli.CLIView
- * @author Kuba Rodak
+ * @author Kuba Rodak (24436755)
  */
 public abstract class Controller {
     CLIView view;

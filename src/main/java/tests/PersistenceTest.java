@@ -7,6 +7,11 @@ import model.user.Student;
 import org.junit.Test;
 import persistence.PersistenceManager;
 
+/**
+ * Class for testing persistence logic by repeatedly loading/unloading and saving data.
+ *
+ * @author Kuba Rodak (24436755)
+ */
 public class PersistenceTest {
 
     @Test

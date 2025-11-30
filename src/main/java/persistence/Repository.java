@@ -16,6 +16,8 @@ import java.util.List;
  * As a safety, ensures that the filestructure it is provided exists
  * before writing/reading from it. By default, will create missing files
  * as well as any missing directories.
+ *
+ * @author Kuba Rodak (24436755)
  */
 public class Repository {
     /** The absolute path of the backing CSV file. */

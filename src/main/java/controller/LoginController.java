@@ -24,7 +24,7 @@ import view.cli.StudentCLI;
  * @see controller.StudentController
  * @see view.cli.MainCLI
  *
- * @author Kuba Rodak
+ * @author Kuba Rodak (24436755)
  */
 public class LoginController extends Controller{
 

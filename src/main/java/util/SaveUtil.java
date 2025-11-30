@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * This class contains static methods that function as utilities for Persistence and
  * Serialization/Deserialization.
+ *
+ * @author Kuba Rodak (24436755)
  */
 public class SaveUtil {
 
