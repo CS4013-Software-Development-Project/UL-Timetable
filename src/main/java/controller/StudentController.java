@@ -17,23 +17,25 @@ public class StudentController extends Controller {
     public void start() {
         boolean more = true;
 
-        MAIN_LOOP:  while (more) {
+        MAIN_LOOP: while (more) {
             String command = view.prompt("D)isplay Course G)et Student SubGroup S)how Timetable Q)uit");
-            command = command.toUpperCase();
-            switch (command) {
+
+            switch (command.toUpperCase()) {
+                //Display course
                 case "D":
                     view.displayProgramme();
                     System.out.println(student.getProgramme());
                     view.print("Student Course Successfully Shown");
                     break;
+                    //Display the student group
                 case "G":
                     view.getGroups();
                     System.out.println(student.getSubgroups());
                     view.print("SubGroups successfully Shown");
                     break;
+                    //Show timetable
                 case "S":
                     view.displayTimetablePrompt();
-
 
                     view.print("Timetable successfully Shown");
                     break;

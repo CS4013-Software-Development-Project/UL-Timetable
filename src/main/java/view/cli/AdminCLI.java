@@ -5,22 +5,10 @@ public class AdminCLI extends MainCLI {
     public void displayPanel() {
         System.out.println("A)ppoint Leader to Programme R)emove Leader From Programme C)hange Password U)ser Creation M)odule Creation Q)uit");
     }
-    public void userDisplayPanel(){System.out.println("L)eader S)tudent A)dmin B)ack");}
-    public void moduleDisplayPanel(){System.out.println("P)rogramme M)odule B)ack");}
-    public void promptUsername() {
-        System.out.print("Enter Username: ");
-    }
-    public void promptPassword() {
-        System.out.print("Enter Password: ");
-    }
-    public void promptProgrammeName() {
-        System.out.print("Enter Programme name: ");
-    }
+
     public void changePassword(){
         System.out.print("Enter New Password: ");
     }
-    public void promptModuleCode(){System.out.print("Enter Module Code: ");}
-    public void promptModuleName(){System.out.print("Enter Module Name: ");}
 
     @Override
     public void print(String msg){

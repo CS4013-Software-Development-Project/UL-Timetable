@@ -1,8 +1,8 @@
 package controller;
+
 import java.util.List;
 import model.module.Programme;
 import model.user.Leader;
-import view.cli.AdminCLI;
 import view.cli.LeaderCLI;
 
 public class LeaderController extends Controller {
@@ -20,21 +20,23 @@ public class LeaderController extends Controller {
         MAIN_LOOP: while (more) {
             String command = view.prompt("D)isplay Led Programmes S)how Timetable Q)uit");
 
-            switch (command) {
-                case "D"://Display Led Programmes
+            switch (command.toUpperCase()) {
+                //Display Led Programmes
+                case "D":
                     view.displayLeaderProgrammes();
                     List<Programme> ledProgrammes = leader.getLedProgrammes();
                     for (Programme ledProgramme : ledProgrammes) {
                         view.print(ledProgramme.getName());
                     }
                     break;
-                case "S"://Show Timetable
+                //Show Timetable
+                case "S":
                     view.displayTimetable();
-
 
                     view.print("Timetable successfully Shown");
                     break;
-                case "Q"://Quit
+                //Quit
+                case "Q":
                     more = false;
                     view.print("Quitting...");
                     break;

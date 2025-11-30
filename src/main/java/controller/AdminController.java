@@ -25,7 +25,7 @@ public class AdminController extends Controller {
         while (more) {
             String command = view.prompt("A)ppoint Leader to Programme R)emove Leader From Programme C)hange Password U)ser Creation M)odule Creation Q)uit\n");
 
-            switch (command) {
+            switch (command.toUpperCase()) {
                 //appoint leader
                 case "A": {
                     String username = view.prompt("Enter Leader's username: ");

@@ -20,12 +20,21 @@ public class LoginController extends Controller{
     public void start() {
         User testUser = getUserFromUsername();
         if (testUser == null)
+        {
+            view.print("Username not found");
             return;
+        }
 
         Controller controller = getControllerFromPassword(testUser);
         if (controller == null)
+        {
+            view.print("Login failed.");
             return;
+        }
 
+        view.print(
+                "Login successful. Welcome " +
+                        testUser.getUsername() + ", " + testUser.getClass().getCanonicalName());
         controller.start();
     }
 
@@ -34,7 +43,6 @@ public class LoginController extends Controller{
     }
     private User getUserFromUsername(int attempts) {
         if (attempts > 1) {
-            view.print("Too many attempts.");
             return null;
         }
 
@@ -82,8 +90,6 @@ public class LoginController extends Controller{
         boolean loginSuccess = user.authenticate(password);
 
         if (loginSuccess) {
-            view.print("Login successful.");
-
             Controller controller = null;
 
             if (user instanceof Admin) {
@@ -98,6 +104,7 @@ public class LoginController extends Controller{
 
             return controller;
         }
+        view.print("Incorrect password.");
         return getControllerFromPassword(user, attempts + 1);
     }
 }
