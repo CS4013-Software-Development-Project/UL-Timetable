@@ -23,7 +23,7 @@ public class AdminController extends Controller {
 
         MAIN_LOOP:
         while (more) {
-            String command = view.prompt("A)ppoint Leader to Programme R)emove Leader From Programme C)hange Password U)ser Creation M)odule Creation Q)uit");
+            String command = view.prompt("A)ppoint Leader to Programme R)emove Leader From Programme C)hange Password U)ser Creation M)odule Creation Q)uit\n");
 
             switch (command) {
                 //appoint leader
@@ -109,7 +109,7 @@ public class AdminController extends Controller {
                 case "U": {
                     boolean extra = true;
                     while (extra) {
-                        command = view.prompt("L)eader S)tudent A)dmin B)ack");
+                        command = view.prompt("L)eader S)tudent A)dmin B)ack\n");
                         switch (command) {
                             case "L": {
                                 String username = view.prompt("Username: ");
@@ -144,7 +144,7 @@ public class AdminController extends Controller {
                 case "M": {
                     boolean extra = true;
                     while (extra) {
-                        command = view.prompt("P)rogramme M)odule B)ack");
+                        command = view.prompt("P)rogramme M)odule B)ack\n");
                         switch (command) {
                             case "P": {
                                 String name = view.prompt("Enter Programme name: ");
