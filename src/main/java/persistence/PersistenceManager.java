@@ -11,23 +11,21 @@ import model.user.Admin;
 import model.user.Leader;
 import model.user.Student;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 public class PersistenceManager {
     String dataDirectory;
 
-    private Repository moduleRepo;
-    private Repository programmeRepo;
-    private Repository adminRepo;
-    private Repository leaderRepo;
-    private Repository studentRepo;
-    private Repository roomRepo;
-    private Repository subgroupRepo;
-    private Repository timeslotRepo;
-    private Repository sessionRepo;
-    private Repository timetableRepo;
+    private final Repository moduleRepo;
+    private final Repository programmeRepo;
+    private final Repository adminRepo;
+    private final Repository leaderRepo;
+    private final Repository studentRepo;
+    private final Repository roomRepo;
+    private final Repository subgroupRepo;
+    private final Repository timeslotRepo;
+    private final Repository sessionRepo;
+    private final Repository timetableRepo;
 
     public static LinkedHashMap<String, Module> modules = new LinkedHashMap<>();
     public static LinkedHashMap<String, Programme> programmes = new LinkedHashMap<>();
@@ -58,75 +56,91 @@ public class PersistenceManager {
         //Phase 1: Load Modules
         for (String line : moduleRepo.readAll()) {
             String[] tokens = line.split(",");
-            modules.put(tokens[0], Module.deserialize(tokens));
+            if (tokens.length >= 1)
+                modules.put(tokens[0], Module.deserialize(tokens));
         }
 
         //Phase 2: Load Programmes
         for (String line : programmeRepo.readAll()) {
             String[] tokens = line.split(",");
-            programmes.put(tokens[0], Programme.deserialize(tokens));
+            if (tokens.length >= 1)
+                programmes.put(tokens[0], Programme.deserialize(tokens));
         }
 
         //Phase 3: Load Admins
         for (String line : adminRepo.readAll()) {
             String[] tokens = line.split(",");
-            admins.put(tokens[0], Admin.deserialize(tokens));
+            if (tokens.length >= 1)
+                admins.put(tokens[0], Admin.deserialize(tokens));
         }
 
         //Phase 4: Load Leaders
         for (String line : leaderRepo.readAll()) {
             String[] tokens = line.split(",");
-            leaders.put(tokens[0], Leader.deserialize(tokens));
+            if (tokens.length >= 1)
+                leaders.put(tokens[0], Leader.deserialize(tokens));
         }
 
         //Phase 5: Load Students
         for (String line : studentRepo.readAll()) {
             String[] tokens = line.split(",");
-            students.put(tokens[0], Student.deserialize(tokens));
+            if (tokens.length >= 1)
+                students.put(tokens[0], Student.deserialize(tokens));
         }
 
         //Phase 6: Load Rooms
         for (String line : roomRepo.readAll()) {
             String[] tokens = line.split(",");
-            rooms.put(tokens[0], Room.deserialize(tokens));
+            if (tokens.length >= 1)
+                rooms.put(tokens[0], Room.deserialize(tokens));
         }
 
         //Phase 7: Load Subgroups
         for (String line : subgroupRepo.readAll()) {
             String[] tokens = line.split(",");
-            subgroups.put(tokens[0], Subgroup.deserialize(tokens));
+            if (tokens.length >= 1)
+                subgroups.put(tokens[0], Subgroup.deserialize(tokens));
         }
 
         //Phase 8: Timeslots
         for (String line : timeslotRepo.readAll())  {
             String[] tokens = line.split(",");
-            timeslots.put(tokens[0], Timeslot.deserialize(tokens));
+            if (tokens.length >= 1)
+                timeslots.put(tokens[0], Timeslot.deserialize(tokens));
         }
 
         //Phase 9: Sessions
         for (String line : sessionRepo.readAll())  {
             String[] tokens = line.split(",");
-            sessions.put(tokens[0], Session.deserialize(tokens));
+            if (tokens.length >= 1)
+                sessions.put(tokens[0], Session.deserialize(tokens));
         }
 
         //Phase 10: Timetable
         for (String line : timetableRepo.readAll())  {
             String[] tokens = line.split(",");
-            timetables.put(tokens[0], Timetable.deserialize(tokens));
+            if (tokens.length >= 1)
+                timetables.put(tokens[0], Timetable.deserialize(tokens));
         }
 
         //Phase 11: Resolve references in Modules
         for (String line : moduleRepo.readAll())  {
             String[] tokens = line.split(",");
-            Module m = modules.get(tokens[0]);
-            m.resolveReferences(tokens);
+            if (tokens.length == 0)
+                break;
+            Module x = modules.get(tokens[0]);
+            if (x != null)
+                x.resolveReferences(tokens);
         }
 
         //Phase 12: Resolve references in Programmes
         for (String line : programmeRepo.readAll())  {
             String[] tokens = line.split(",");
+            if (tokens.length == 0)
+                break;
             Programme x = programmes.get(tokens[0]);
-            x.resolveReferences(tokens);
+            if (x != null)
+                x.resolveReferences(tokens);
         }
 
         //Phase 13: Admin is self-contained teehee
@@ -134,15 +148,21 @@ public class PersistenceManager {
         //Phase 14: Resolve references in Leader
         for (String line : leaderRepo.readAll())  {
             String[] tokens = line.split(",");
+            if (tokens.length == 0)
+                break;
             Leader x = leaders.get(tokens[0]);
-            x.resolveReferences(tokens);
+            if (x != null)
+                x.resolveReferences(tokens);
         }
 
         //Phase 15: Resolve references in Student
         for (String line : studentRepo.readAll())  {
             String[] tokens = line.split(",");
+            if (tokens.length == 0)
+                break;
             Student x = students.get(tokens[0]);
-            x.resolveReferences(tokens);
+            if (x != null)
+                x.resolveReferences(tokens);
         }
 
         //Phase 16: Room is self-contained
@@ -150,29 +170,41 @@ public class PersistenceManager {
         //Phase 17: Resolve references in Subgroup
         for (String line : subgroupRepo.readAll())  {
             String[] tokens = line.split(",");
+            if (tokens.length == 0)
+                break;
             Subgroup x = subgroups.get(tokens[0]);
-            x.resolveReferences(tokens);
+            if (x != null)
+                x.resolveReferences(tokens);
         }
 
         //Phase 18: Resolve references in Timeslot
         for (String line : timeslotRepo.readAll())  {
             String[] tokens = line.split(",");
+            if (tokens.length == 0)
+                break;
             Timeslot x = timeslots.get(tokens[0]);
-            x.resolveReferences(tokens);
+            if (x != null)
+                x.resolveReferences(tokens);
         }
 
         //Phase 19: Resolve references in Session
         for (String line : sessionRepo.readAll())  {
             String[] tokens = line.split(",");
+            if (tokens.length == 0)
+                break;
             Session x = sessions.get(tokens[0]);
-            x.resolveReferences(tokens);
+            if (x != null)
+                x.resolveReferences(tokens);
         }
 
         //Phase 20: Resolve references in Timetable
         for (String line : timetableRepo.readAll())  {
             String[] tokens = line.split(",");
+            if (tokens.length == 0)
+                break;
             Timetable x = timetables.get(tokens[0]);
-            x.resolveReferences(tokens);
+            if (x != null)
+                x.resolveReferences(tokens);
         }
     }
 
