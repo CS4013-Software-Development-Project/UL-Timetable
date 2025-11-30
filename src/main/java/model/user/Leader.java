@@ -88,6 +88,8 @@ public class Leader extends User {
 
     @Override
     public void resolveReferences(String[] tokens) {
+        // Temporary?
+        if (tokens.length != 4) { tokens = new String[] {tokens[0], tokens[1], tokens[2], "null"}; }
         this.ledProgrammes = SaveUtil.queryList(tokens[3], PersistenceManager.programmes);
     }
 

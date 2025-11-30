@@ -79,6 +79,8 @@ public class Subgroup extends AbstractPersistable {
 
     @Override
     public void resolveReferences(String[] tokens) {
+        // Temporary?
+        if (tokens.length != 3) { tokens = new String[] {tokens[0], tokens[1], "null"}; }
         this.students = SaveUtil.queryList(tokens[2], PersistenceManager.students);
     }
 
