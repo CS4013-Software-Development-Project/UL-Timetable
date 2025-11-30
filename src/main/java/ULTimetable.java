@@ -15,9 +15,10 @@ public class ULTimetable {
 
     public static void main(String[] args) {
         //On cold boot: Load everything!
-        PersistenceManager pm = new PersistenceManager(dataDir);
-        pm.load();
-
+        //PersistenceManager pm = new PersistenceManager(dataDir);
+        //pm.load();
+        Admin john = new Admin("test","welcome");
+        PersistenceManager.addAdmin(john);
         new TimetableController().start();
 
     }

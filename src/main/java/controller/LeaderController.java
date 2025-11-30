@@ -25,9 +25,8 @@ public class LeaderController extends Controller {
                     view.displayLeaderProgrammes();
                     List<Programme> ledProgrammes = leader.getLedProgrammes();
                     for (Programme ledProgramme : ledProgrammes) {
-                        System.out.println(ledProgramme);
+                        view.print(ledProgramme.getName());
                     }
-                    view.print("Leader Modules Successfully Shown");
                     break;
                 case "S"://Show Timetable
                     view.displayTimetable();

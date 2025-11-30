@@ -4,12 +4,10 @@ import model.user.Student;
 import view.cli.LeaderCLI;
 import view.cli.StudentCLI;
 
-import java.util.Scanner;
 
 public class StudentController extends Controller {
-    private Student student = new Student("username", "password");
-    private StudentCLI view = new StudentCLI();
-    private Scanner input = new Scanner(System.in);
+    private Student student;
+    StudentCLI view;
 
     public StudentController(StudentCLI view) {
         super(view);

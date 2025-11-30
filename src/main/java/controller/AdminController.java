@@ -22,7 +22,8 @@ public class AdminController extends Controller {
     public void start() {
         boolean more = true;
 
-        MAIN_LOOP: while(more){
+        MAIN_LOOP:
+        while (more) {
             String command = view.prompt("A)ppoint Leader to Programme R)emove Leader From Programme C)hange Password U)ser Creation M)odule Creation Q)uit");
 
             switch (command) {
@@ -46,7 +47,7 @@ public class AdminController extends Controller {
                     ).findFirst().orElse(null);
 
                     if (testProgramme == null) {
-                        view.print("Programme " +  programmeName + " does not exist, so it has been created.");
+                        view.print("Programme " + programmeName + " does not exist, so it has been created.");
                         testProgramme = new Programme(programmeName);
                         PersistenceManager.programmes.put(testProgramme.getName(), testProgramme);
                     }
@@ -208,6 +209,8 @@ public class AdminController extends Controller {
             return null;
         }
         return testUser;
+
+
     }
 
 }
