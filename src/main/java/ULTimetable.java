@@ -15,15 +15,22 @@ public class ULTimetable {
     private static final String dataDir = "persistence";
 
     public static void main(String[] args) {
-        //On cold boot: Load everything!
+        //on cold boot: load everything
         PersistenceManager pm = new PersistenceManager(dataDir);
         pm.load();
 
+        //add root testing admin
+        //TODO: Remove this once testing is complete.
         PersistenceManager.addAdmin(new Admin("root","root"));
 
+        //create a view & controller for logging in
         MainCLI loginView = new  MainCLI();
         LoginController loginController = new LoginController(loginView);
 
+        //enter main loop
         loginController.start();
+
+        //gracefully save all data
+        pm.save();
     }
 }
