@@ -6,7 +6,6 @@ import model.user.Student;
 import model.user.User;
 import persistence.PersistenceManager;
 import view.cli.AdminCLI;
-import java.util.Scanner;
 
 public class AdminController extends Controller {
     //the Admin this controller is attached to
@@ -29,17 +28,16 @@ public class AdminController extends Controller {
             switch (command) {
                 //appoint leader
                 case "A": {
-                    String username = view.prompt("Enter new username: ");
-                    String password = view.prompt("Enter new password: ");
+                    String username = view.prompt("Enter Leader's username: ");
 
-                    for (Leader leader : PersistenceManager.leaders.values()) {
-                        if (leader.getUsername().equals(username)) {
-                            view.print("Leader already exists for username " + username);
-                            continue MAIN_LOOP;
-                        }
+                    Leader testLeader = PersistenceManager.leaders.values().stream()
+                            .filter(l -> l.getUsername().equals(username))
+                            .findFirst().orElse(null);
+
+                    if (testLeader == null) {
+                        view.print("Leader does not exist for username " + username);
+                        continue MAIN_LOOP;
                     }
-
-                    Leader newLeader = new Leader(username, password);
 
                     String programmeName = view.prompt("Enter Programme name: ");
                     Programme testProgramme = PersistenceManager.programmes.values().stream().filter(
@@ -47,13 +45,10 @@ public class AdminController extends Controller {
                     ).findFirst().orElse(null);
 
                     if (testProgramme == null) {
-                        view.print("Programme " + programmeName + " does not exist, so it has been created.");
-                        testProgramme = new Programme(programmeName);
-                        PersistenceManager.programmes.put(testProgramme.getName(), testProgramme);
+                        view.error("Programme " + programmeName + " does not exist, so leader cannot be added, Please re-enter or create this programme.");
                     }
-                    admin.appointLeader(newLeader, testProgramme);
+                    admin.appointLeader(testLeader, testProgramme);
                     view.print("Leader added to programme");
-
                     break;
                 }
                 //remove a leader
@@ -65,36 +60,48 @@ public class AdminController extends Controller {
                             .findFirst().orElse(null);
 
                     if (testLeader == null) {
-                        view.print("Leader does not exist for username " + username);
+                        view.error("Leader does not exist for username " + username);
                         continue MAIN_LOOP;
                     }
 
-                    boolean check = false;
-                    Leader leader = new Leader("blank", "blank");
-                    for (int i = 0; i < PersistenceManager.getLeaders().size(); i++) {
-                        if (PersistenceManager.getLeaders().get(i).getUsername().equals(username)) {
-                            leader = PersistenceManager.getLeaders().get(i);
-                            check = true;
-                        }
+                    String programmeName = view.prompt("Enter Programme name: ");
+                    Programme testProgramme = PersistenceManager.programmes.values().stream().filter(
+                            p -> p.getName().equals(programmeName)
+                    ).findFirst().orElse(null);
+
+                    if (testProgramme == null) {
+                        view.error("Programme " + programmeName + " does not exist, so leader cannot be removed, Please re-enter programme name.");
+                        continue MAIN_LOOP;
                     }
-                    if (!check) {
-                        view.error("Leader not Found");
-                    } else {
-                        view.promptProgrammeName();
-                        String programmeName = input.nextLine();
-                        Programme programme = new Programme(programmeName);
-                        admin.removeLeader(leader, programme);
-                        view.print("Leader removed from module");
-                    }
+                    admin.removeLeader(testLeader, testProgramme);
+                    view.print("Leader removed from module");
                     break;
                 }
                 //change password
                 case "C": {
                     view.changePassword();
-                    String username = input.nextLine();
-                    String password = input.nextLine();
-                    Leader leader = new Leader(username, "welcome2025");
-                    leader.resetPassword(password);
+                    String username = view.prompt("Username: ");
+                    String password = view.prompt("New Password: ");
+
+                    User user = PersistenceManager.leaders.values().stream()
+                            .filter(l -> l.getUsername().equals(username))
+                            .findFirst().orElse(null);
+                    if (user == null) {
+                        user = PersistenceManager.students.values().stream()
+                                .filter(l -> l.getUsername().equals(username))
+                                .findFirst().orElse(null);
+                    }
+                    if (user == null) {
+                        user = PersistenceManager.admins.values().stream()
+                                .filter(l -> l.getUsername().equals(username))
+                                .findFirst().orElse(null);
+                    }
+                    if (user == null) {
+                        view.error("User does not exist for username " + username);
+                        continue MAIN_LOOP;
+                    }
+
+                    user.resetPassword(password);
                     view.print("Password Reset");
                     break;
                 }
@@ -102,33 +109,33 @@ public class AdminController extends Controller {
                 case "U": {
                     boolean extra = true;
                     while (extra) {
-                        view.userDisplayPanel();
-                        command = input.nextLine();
-                        if (command.equals("L")) {
-                            view.promptUsername();
-                            String username = input.nextLine();
-                            view.promptPassword();
-                            String password = input.nextLine();
-                            admin.addLeader(username, password);
-                            view.print("Leader Added");
-                        } else if (command.equals("S")) {
-                            view.promptUsername();
-                            String username = input.nextLine();
-                            view.promptPassword();
-                            String password = input.nextLine();
-                            admin.addStudent(username, password);
-                            view.print("Student Added");
-                        } else if (command.equals("A")) {
-                            view.promptUsername();
-                            String username = input.nextLine();
-                            view.promptPassword();
-                            String password = input.nextLine();
-                            admin.addAdmin(username, password);
-                            view.print("Admin Added");
-                        } else if (command.equals("B")) {
-                            extra = false;
-                            view.print("Backing out...");
-                            command = "invalid";
+                        command = view.prompt("L)eader S)tudent A)dmin B)ack");
+                        switch (command) {
+                            case "L": {
+                                String username = view.prompt("Username: ");
+                                String password = view.prompt("Password: ");
+                                admin.addLeader(username, password);
+                                view.print("Leader Added");
+                                break;
+                            }
+                            case "S": {
+                                String username = view.prompt("Username: ");
+                                String password = view.prompt("Password: ");
+                                admin.addStudent(username, password);
+                                view.print("Student Added");
+                                break;
+                            }
+                            case "A": {
+                                String username = view.prompt("Username: ");
+                                String password = view.prompt("Password: ");
+                                admin.addAdmin(username, password);
+                                view.print("Admin Added");
+                                break;
+                            }
+                            case "B":
+                                extra = false;
+                                view.print("Backing out...");
+                                continue MAIN_LOOP;
                         }
                     }
                     break;
@@ -137,36 +144,34 @@ public class AdminController extends Controller {
                 case "M": {
                     boolean extra = true;
                     while (extra) {
-                        view.moduleDisplayPanel();
-                        command = input.nextLine();
-                        if (command.equals("P")) {
-                            view.promptProgrammeName();
-                            String name = input.nextLine();
-                            admin.addProgramme(name);
-                            view.print("Programme Added");
-                        } else if (command.equals("M")) {
-                            view.promptProgrammeName();
-                            String name = input.nextLine();
-                            view.promptModuleCode();
-                            String code = input.nextLine();
-                            view.promptModuleName();
-                            String moduleName = input.nextLine();
-                            boolean checker = false;
+                        command = view.prompt("P)rogramme M)odule B)ack");
+                        switch (command) {
+                            case "P": {
+                                String name = view.prompt("Enter Programme name: ");
+                                admin.addProgramme(name);
+                                view.print("Programme Added");
+                                break;
+                            }
+                            case "M": {
+                                String name = view.prompt("Enter Programme name: ");
+                                String moduleName = view.prompt("Enter Module name: ");
+                                String code = view.prompt("Enter Module Code: ");
 
-                            for (int i = 0; i < PersistenceManager.getProgrammes().size(); i++) {
-                                if (PersistenceManager.getProgrammes().get(i).getName().equals(name)) {
-                                    admin.addModule(PersistenceManager.getProgrammes().get(i), code, moduleName);
-                                    view.print("Module Added");
-                                    checker = true;
+                                Programme testProgramme = PersistenceManager.programmes.values().stream().filter(
+                                        p -> p.getName().equals(name)
+                                ).findFirst().orElse(null);
+
+                                if (testProgramme == null) {
+                                    view.error("Programme not found");
+                                    continue MAIN_LOOP;
                                 }
+                                admin.addModule(testProgramme,code,moduleName);
+                                break;
                             }
-                            if (!checker) {
-                                view.error("Programme not found");
-                            }
-                        } else if (command.equals("B")) {
-                            extra = false;
-                            view.print("Backing out...");
-                            command = "Invalid";
+                            case "B":
+                                extra = false;
+                                view.print("Backing out...");
+                                continue MAIN_LOOP;
                         }
                     }
                     break;
