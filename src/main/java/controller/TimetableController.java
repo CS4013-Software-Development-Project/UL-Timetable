@@ -31,9 +31,8 @@ public class TimetableController {
 
         while(more){
             String command = view.prompt("L)ogin C)ourse Timetable M)odule Timetable R)oom Timetable Q)uit\n");
-            command = command.toUpperCase();
 
-            switch (command) {
+            switch (command.toUpperCase()) {
                 case "L":
                     LoginController login = new LoginController(view);
                     login.start();

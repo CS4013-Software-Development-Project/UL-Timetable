@@ -100,6 +100,8 @@ public class Student extends User {
 
     @Override
     public void resolveReferences(String[] tokens) {
+        // Temporary?
+        if (tokens.length != 5) { tokens = new String[] {tokens[0], tokens[1], tokens[2], tokens[3], "null"}; }
         this.programme = PersistenceManager.programmes.get(tokens[3]);
         this.subgroups = SaveUtil.queryList(tokens[4], PersistenceManager.subgroups);
     }
