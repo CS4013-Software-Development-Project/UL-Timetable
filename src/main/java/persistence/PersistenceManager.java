@@ -10,6 +10,7 @@ import model.schedule.Timetable;
 import model.user.Admin;
 import model.user.Leader;
 import model.user.Student;
+import util.TestID;
 
 import java.util.LinkedHashMap;
 
@@ -206,6 +207,31 @@ public class PersistenceManager {
             if (x != null)
                 x.resolveReferences(tokens);
         }
+
+        //we need to fix the counter also, so after loading everything
+        //new IDs will only ever add to the count - never overwrite
+        int maxID = 0;
+
+        for (AbstractPersistable x : modules.values())
+            maxID = Math.max(maxID, Integer.parseInt(x.getUUID()));
+        for (AbstractPersistable x : programmes.values())
+            maxID = Math.max(maxID, Integer.parseInt(x.getUUID()));
+        for (AbstractPersistable x : admins.values())
+            maxID = Math.max(maxID, Integer.parseInt(x.getUUID()));
+        for (AbstractPersistable x : leaders.values())
+            maxID = Math.max(maxID, Integer.parseInt(x.getUUID()));
+        for (AbstractPersistable x : students.values())
+            maxID = Math.max(maxID, Integer.parseInt(x.getUUID()));
+        for (AbstractPersistable x : subgroups.values())
+            maxID = Math.max(maxID, Integer.parseInt(x.getUUID()));
+        for (AbstractPersistable x : timeslots.values())
+            maxID = Math.max(maxID, Integer.parseInt(x.getUUID()));
+        for (AbstractPersistable x : sessions.values())
+            maxID = Math.max(maxID, Integer.parseInt(x.getUUID()));
+        for (AbstractPersistable x : timetables.values())
+            maxID = Math.max(maxID, Integer.parseInt(x.getUUID()));
+
+        TestID.setCounter(maxID);
     }
 
     public void save() {

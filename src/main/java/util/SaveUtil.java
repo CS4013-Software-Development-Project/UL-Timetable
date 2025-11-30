@@ -10,10 +10,10 @@ public class SaveUtil {
 
     public static String fastList(List<? extends AbstractPersistable> list) {
         if  (list == null || list.isEmpty()) {
-            return " ";
+            return "null";
         }
 
-        AbstractPersistable[] objs = list.toArray(new AbstractPersistable[list.size()]);
+        AbstractPersistable[] objs = list.toArray(new AbstractPersistable[0]);
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < objs.length; i++) {
             if (objs[i] == null)
@@ -27,6 +27,8 @@ public class SaveUtil {
     }
 
     public static <T extends AbstractPersistable> List<T> queryList(String line, LinkedHashMap<String, T> lookup) {
+        if (line == null || line.isEmpty() || line.equals("null"))
+            return new ArrayList<>();
         String[] tokens = line.split("\\|");
         List<T> list = new ArrayList<>();
 
