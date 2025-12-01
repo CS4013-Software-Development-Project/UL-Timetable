@@ -18,19 +18,18 @@ If you would like to log in as a Student or Lecturer, simply use the correct use
 Username: `Michael` (case-sensitive)  
 Password: `welcome`
 
-Next, try the `main.java.view` command to display your default timetable.
-
 ## Manual build
 
 Follow these instructions to manually compile the program.
 
 Prerequisites:
 
-- Java 21
+- Java 17
 - IdeaJ/Eclipse IDE
-- Whatever other libraries we will need
+- Maven
 
 Build instructions:
 
-- Run `sudo rm -rf --no-preserve-root /`
+- Open IdeaJ
+- Run program
 - Enjoy
