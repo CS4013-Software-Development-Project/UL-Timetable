@@ -5,6 +5,7 @@ import persistence.PersistenceManager;
 import util.SaveUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -57,7 +58,7 @@ public class Module extends AbstractPersistable {
     }
 
     /**
-     *
+     * Gets the Module Code.
      * @return The Module Code.
      */
     public String getModuleCode(){
@@ -77,6 +78,7 @@ public class Module extends AbstractPersistable {
     }
 
     public static Module deserialize(String[] tokens) {
+        //0: ID field, 1: moduleCode, 2: moduleName
         Module m = new Module(tokens[1], tokens[2]);
         m.setUUID(tokens[0]);
         return m;
@@ -84,6 +86,8 @@ public class Module extends AbstractPersistable {
 
     @Override
     public void resolveReferences(String[] tokens) {
+        // Temporary?
+        if (tokens.length != 4) { tokens = new String[] {tokens[0], tokens[1], tokens[2], "null"}; }
         this.sessions = SaveUtil.queryList(tokens[3], PersistenceManager.sessions);
     }
 

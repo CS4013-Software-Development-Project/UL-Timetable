@@ -1,5 +1,10 @@
 package model.schedule;
 
+/**
+ * Represents all the days scheduling can occur on.
+ * By using this enum instead of Date or LocalTime, we
+ * can more easily add/remove dates.
+ */
 public enum Day {
     Monday,
     Tuesday,

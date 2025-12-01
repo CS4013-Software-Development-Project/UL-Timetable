@@ -11,7 +11,6 @@ import persistence.PersistenceManager;
 public class Admin extends User {
 
     private Admin() { super(); }
-
     public Admin(String username, String password) {
         super(username, password);
     }

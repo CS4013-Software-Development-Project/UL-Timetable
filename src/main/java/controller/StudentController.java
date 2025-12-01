@@ -1,5 +1,6 @@
 package controller;
 
+import model.grouping.Subgroup;
 import model.module.Programme;
 import model.user.Student;
 import persistence.PersistenceManager;
@@ -47,14 +48,14 @@ public class StudentController extends Controller {
                     view.displayProgramme();
                     student.getProgramme().getName();
 
-                    System.out.println(student.getProgramme().getName());
-                    view.print("Student Course Successfully Shown");
+                    view.print(student.getProgramme().getName());
+
                     break;
                     //Display the student group
                 case "G":
                     view.getGroups();
-                    System.out.println(student.getSubgroups());
-                    view.print("SubGroups successfully Shown");
+                    for(Subgroup subgroups : student.getSubgroups())
+                        view.print(subgroups.getId());
                     break;
                     //Show timetable
                 case "S":

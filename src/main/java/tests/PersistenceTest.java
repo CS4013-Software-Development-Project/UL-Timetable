@@ -1,12 +1,20 @@
 package tests;
+
 import model.grouping.Subgroup;
 import model.module.Module;
 import model.module.Programme;
 import model.user.Leader;
 import model.user.Student;
-import org.junit.Test;
 import persistence.PersistenceManager;
 
+import org.junit.Test;
+import util.SaveUtil;
+
+/**
+ * Class for testing persistence logic by repeatedly loading/unloading and saving data.
+ *
+ * @author Kuba Rodak (24436755)
+ */
 public class PersistenceTest {
 
     @Test
@@ -76,6 +84,21 @@ public class PersistenceTest {
         PersistenceManager.addStudent(s);
 
         pm.save();
+    }
+
+
+    //RUN THIS ONE TO REGENERATE & RESERIALIZE ALL DATA
+    @Test
+    public void regenerateData() {
+        //delete persistence store first
+        try {
+            SaveUtil.deleteRecursive("persistence/");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        testSaveData();
     }
 
 }

@@ -12,7 +12,13 @@ import java.util.List;
  * Subgroup represents a group of Students that attends a Session together.
  */
 public class Subgroup extends AbstractPersistable {
+    /**
+     * The ID of this subgroup.
+     */
     String id;
+    /**
+     * The list of students this subgroup consists of.
+     */
     List<Student> students;
 
     private Subgroup() {}
@@ -24,6 +30,14 @@ public class Subgroup extends AbstractPersistable {
         this.id = id;
         this.students = new ArrayList<>();
     }
+
+    /**
+     * @return  id The String ID representing this Subgroup.
+     */
+    public String getId() {
+        return id;
+    }
+
     /**
      * Creates a new instance of Subgroup.
      * @param id The String ID representing this Subgroup.
@@ -79,6 +93,8 @@ public class Subgroup extends AbstractPersistable {
 
     @Override
     public void resolveReferences(String[] tokens) {
+        // Temporary?
+        if (tokens.length != 3) { tokens = new String[] {tokens[0], tokens[1], "null"}; }
         this.students = SaveUtil.queryList(tokens[2], PersistenceManager.students);
     }
 

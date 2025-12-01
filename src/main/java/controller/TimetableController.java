@@ -4,9 +4,6 @@ import model.module.Module;
 import model.module.Programme;
 import model.room.Room;
 import model.schedule.Timetable;
-import model.user.Admin;
-import model.user.Leader;
-import model.user.Student;
 import persistence.PersistenceManager;
 import view.cli.MainCLI;
 
@@ -34,9 +31,8 @@ public class TimetableController {
 
         while(more){
             String command = view.prompt("L)ogin C)ourse Timetable M)odule Timetable R)oom Timetable Q)uit\n");
-            command = command.toUpperCase();
 
-            switch (command) {
+            switch (command.toUpperCase()) {
                 case "L":
                     LoginController login = new LoginController(view);
                     login.start();

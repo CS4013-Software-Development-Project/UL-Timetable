@@ -5,6 +5,10 @@ import model.room.Room;
 
 import java.util.*;
 
+/**
+ * This behavioral service creates and schedules the TimeTable.
+ * @author Finn
+ */
 public class Scheduler {
 
     private final List<Timeslot> timeslots = new ArrayList<>();
@@ -95,6 +99,10 @@ public class Scheduler {
         return map;
     }
 
+    /**
+     * Gets the Timetable this Scheduler created.
+     * @return the created timetable.
+     */
     public Timetable getTimetable() {
         return timetable;
     }

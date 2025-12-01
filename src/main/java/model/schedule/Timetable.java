@@ -4,8 +4,6 @@ import model.module.Session;
 import persistence.AbstractPersistable;
 import persistence.PersistenceManager;
 
-import java.util.List;
-
 public class Timetable extends AbstractPersistable {
     //6x10 rigid array because we don't want to change it
     //but its also at the same time easy to change with editing the respective enums!

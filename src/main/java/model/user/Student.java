@@ -9,7 +9,7 @@ import util.SaveUtil;
 import java.util.List;
 
 /**
- * The Student
+ * Represents the {@link Student} user. It implements secure login logic from {@link User}.
  */
 public class Student extends User {
     Programme programme = new Programme("blank");
@@ -38,10 +38,18 @@ public class Student extends User {
         }
     }
 
+    /**
+     * Gets the {@link Programme} this {@link Student} is currently enrolled in.
+     * @return the {@link Programme} this {@link Student} is currently enrolled in.
+     */
     public Programme getProgramme() {
         return programme;
     }
 
+    /**
+     * Set the {@link Programme} this {@link Student} should now be enrolled in.
+     * @param programme the new {@link Programme}.
+     */
     public void setProgramme(Programme programme) {
         PersistenceManager pm = new PersistenceManager("persistence");
         this.programme = programme;
@@ -54,10 +62,18 @@ public class Student extends User {
     }
 
     // TODO: Account for group rework
+    /**
+     * Returns the subgroups this user is part of.
+     * @return the subgroups this user is in.
+     */
     public List<Subgroup> getSubgroups() {
         return this.subgroups;
     }
 
+    /**
+     * Add this user to a subgroup.
+     * @param subgroup a new subgroup this user should belong to.
+     */
     public void addSubgroup(Subgroup subgroup) {
         if (!this.subgroups.contains(subgroup))
             this.subgroups.add(subgroup);
@@ -88,6 +104,8 @@ public class Student extends User {
 
     @Override
     public void resolveReferences(String[] tokens) {
+        // Temporary?
+        if (tokens.length != 5) { tokens = new String[] {tokens[0], tokens[1], tokens[2], tokens[3], "null"}; }
         this.programme = PersistenceManager.programmes.get(tokens[3]);
         this.subgroups = SaveUtil.queryList(tokens[4], PersistenceManager.subgroups);
     }
