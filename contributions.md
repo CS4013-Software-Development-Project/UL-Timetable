@@ -17,6 +17,5 @@ It is your responsibility to add your contribution to this file.
 | 20 Nov 2025 | Kuba Rodak (24436755)     | Create UML Diagram                  | d4cdee4| 1     | Done   | UML exported as png and committed.        |
 | 28 Nov 2025 | Kuba Rodak (24436755)     | Develop Object Persistence          | 0ca7a73      | 15    | Done   | Saving/Loading data models via CSV files. |
 | 30 Nov 2025 | Finn  (25318756)          | Scheduler Algorithm                 | 285a86f      | 2     | Done   | Scheduler code committed.                 |
-| 30 Nov 2025 | Willow Johnson (24408379) | MVC Loop Completed                  | 9191a0b | 10    | Done   | MVC Architecture Polished and Completed   |
 | ...         | ...                       | ...                                 | ...    | ...   | ...    | ...                                       |
 
