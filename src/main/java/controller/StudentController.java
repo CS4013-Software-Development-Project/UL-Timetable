@@ -47,7 +47,7 @@ public class StudentController extends Controller {
                     //Display the student group
                 case "G":
                     view.getGroups();
-                    System.out.println(student.getSubgroups());
+                    System.out.println(student.getSessions());
                     view.print("SubGroups successfully Shown");
                     break;
                     //Show timetable
