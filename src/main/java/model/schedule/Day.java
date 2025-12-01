@@ -31,4 +31,12 @@ public enum Day {
         }
         return "";
     }
+
+    public static int first() {
+        return Day.values()[0].ordinal();
+    }
+
+    public static int last() {
+        return Day.values().length - 1;
+    }
 }

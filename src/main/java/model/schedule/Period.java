@@ -31,4 +31,12 @@ public enum Period {
             return this.hour + ":00";
         }
     }
+
+    public static int first() {
+        return Period.values()[0].ordinal();
+    }
+
+    public static int last() {
+        return Period.values().length - 1;
+    }
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import model.user.User;
 import view.cli.CLIView;
 
 /**
@@ -15,13 +16,15 @@ import view.cli.CLIView;
  */
 public abstract class Controller {
     CLIView view;
+    User user;
 
     /**
      * Creates a new controller with the provided view.
      * @param view the view that will be used for this controller
      */
-    public Controller(CLIView view) {
+    public Controller(CLIView view, User user) {
         this.view = view;
+        this.user = user;
     }
 
     /**

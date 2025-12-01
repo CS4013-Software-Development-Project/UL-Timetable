@@ -1,8 +1,7 @@
 package model.user;
 
-import model.grouping.Subgroup;
+import model.module.Session;
 import model.module.Programme;
-import persistence.AbstractPersistable;
 import persistence.PersistenceManager;
 import util.SaveUtil;
 
@@ -12,8 +11,8 @@ import java.util.List;
  * Represents the {@link Student} user. It implements secure login logic from {@link User}.
  */
 public class Student extends User {
-    Programme programme = new Programme("blank");
-    List<Subgroup> subgroups;
+    Programme programme;
+    List<Session> sessions;
 
     /**
      * Creates a new Student.
@@ -25,16 +24,16 @@ public class Student extends User {
     /**
      * Creates a new Student.
      */
-    public Student(String username, String passwordHash, Programme programme, List<Subgroup> subgroups) {
+    public Student(String username, String passwordHash, Programme programme, List<Session> sessions) {
         super(username, "");
         this.setPasswordHash(passwordHash);
 
         this.programme = programme;
-        this.subgroups = subgroups;
+        this.sessions = sessions;
 
         this.programme.addStudent(this);
-        for (Subgroup subgroup : subgroups) {
-            subgroup.addStudent(this);
+        for (Session session : sessions) {
+            session.getSubgroup().addStudent(this);
         }
     }
 
@@ -63,22 +62,22 @@ public class Student extends User {
 
     // TODO: Account for group rework
     /**
-     * Returns the subgroups this user is part of.
-     * @return the subgroups this user is in.
+     * Returns the sessions this user is part of.
+     * @return the sessions this user is in.
      */
-    public List<Subgroup> getSubgroups() {
-        return this.subgroups;
+    public List<Session> getSessions() {
+        return this.sessions;
     }
 
     /**
-     * Add this user to a subgroup.
-     * @param subgroup a new subgroup this user should belong to.
+     * Add this user to a session.
+     * @param session a new session this user should belong to.
      */
-    public void addSubgroup(Subgroup subgroup) {
-        if (!this.subgroups.contains(subgroup))
-            this.subgroups.add(subgroup);
-        if (!subgroup.getStudents().contains(this))
-            subgroup.addStudent(this);
+    public void addSession(Session session) {
+        if (!this.sessions.contains(session))
+            this.sessions.add(session);
+        if (!session.getSubgroup().getStudents().contains(this))
+            session.getSubgroup().addStudent(this);
     }
 
     @Override
@@ -88,8 +87,11 @@ public class Student extends User {
 
         line.append(this.getUsername()).append(",");
         line.append(this.passwordHash).append(",");
-        line.append(this.programme.getUUID()).append(",");
-        line.append(SaveUtil.fastList(this.subgroups));
+        if(this.programme != null)
+            line.append(this.programme.getUUID()).append(",");
+        else
+            line.append("null").append(",");
+        line.append(SaveUtil.fastList(this.sessions));
 
         return line.toString();
     }
@@ -107,7 +109,7 @@ public class Student extends User {
         // Temporary?
         if (tokens.length != 5) { tokens = new String[] {tokens[0], tokens[1], tokens[2], tokens[3], "null"}; }
         this.programme = PersistenceManager.programmes.get(tokens[3]);
-        this.subgroups = SaveUtil.queryList(tokens[4], PersistenceManager.subgroups);
+        this.sessions = SaveUtil.queryList(tokens[4], PersistenceManager.sessions);
     }
 
     @Override
@@ -118,12 +120,12 @@ public class Student extends User {
             PersistenceManager.programmes.put(programme.getUUID(), this.programme);
         }
 
-        if (this.subgroups == null || this.subgroups.isEmpty())
+        if (this.sessions == null || this.sessions.isEmpty())
             return;
-        for (Subgroup subgroup : this.subgroups) {
-            if (subgroup != null && !PersistenceManager.subgroups.containsKey(subgroup.getUUID())) {
-                subgroup.resolveDependencies();
-                PersistenceManager.subgroups.put(subgroup.getUUID(), subgroup);
+        for (Session session : this.sessions) {
+            if (session != null && !PersistenceManager.sessions.containsKey(session.getUUID())) {
+                session.resolveDependencies();
+                PersistenceManager.sessions.put(session.getUUID(), session);
             }
         }
     }

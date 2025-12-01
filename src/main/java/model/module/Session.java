@@ -32,6 +32,11 @@ public class Session extends AbstractPersistable {
         this.timeslot = timeslot;
         this.sessionType = sessionType;
 
+        int n = module.getSessions() == null ? 0 : module.getSessions().size();
+        this.groupAttending =
+                new Subgroup(module.getModuleCode() + " " + module.moduleName + " - Group " + n);
+
+        PersistenceManager.addSubgroup(this.groupAttending);
         module.addSession(this);
     }
 
@@ -43,6 +48,10 @@ public class Session extends AbstractPersistable {
         this.groupAttending = subgroup;
     }
 
+    public Subgroup getSubgroup() {
+        return groupAttending;
+    }
+
     /**
      * Sets the Leader that will conduct this Session.
      * @param leader The Leader that will conduct this Session.
@@ -50,6 +59,10 @@ public class Session extends AbstractPersistable {
     public void setLeader(Leader leader) {
         this.leader = leader;
 
+    }
+
+    public Leader getLeader() {
+        return leader;
     }
 
     /**
@@ -60,6 +73,10 @@ public class Session extends AbstractPersistable {
         this.timeslot = timeslot;
     }
 
+    public Timeslot getTimeslot() {
+        return timeslot;
+    }
+
     /**
      * Assigns a Module to this Session.
      * @param module The Module to assign to this Session.
@@ -68,6 +85,18 @@ public class Session extends AbstractPersistable {
         this.module = module;
         if (!module.getSessions().contains(this))
             module.addSession(this);
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setSessionType(SessionType sessionType) {
+        this.sessionType = sessionType;
+    }
+
+    public SessionType getSessionType() {
+        return sessionType;
     }
 
     @Override

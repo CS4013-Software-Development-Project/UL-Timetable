@@ -20,7 +20,7 @@ import view.cli.StudentCLI;
  *  </p>
  */
 public class StudentController extends Controller {
-    private Student student;// = new Student("username","password");
+    Student student;
     StudentCLI view;
 
     /**
@@ -28,7 +28,7 @@ public class StudentController extends Controller {
      * @param view the View to use for I/O ops.
      */
     public StudentController(StudentCLI view, Student student) {
-        super(view);
+        super(view, student);
         this.view = view;
         this.student = student;
     }
@@ -54,8 +54,8 @@ public class StudentController extends Controller {
                     //Display the student group
                 case "G":
                     view.getGroups();
-                    for(Subgroup subgroups : student.getSubgroups())
-                        view.print(subgroups.getId());
+                    System.out.println(student.getSessions());
+                    view.print("SubGroups successfully Shown");
                     break;
                     //Show timetable
                 case "S":

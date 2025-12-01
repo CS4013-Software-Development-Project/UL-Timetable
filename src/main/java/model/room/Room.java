@@ -86,7 +86,7 @@ public class Room extends AbstractPersistable {
         Room room = new Room(
                 tokens[1],
                 Integer.parseInt(tokens[2]),
-                RoomType.values()[Integer.parseInt(tokens[2])]
+                RoomType.values()[Integer.parseInt(tokens[3])]
         );
 
         room.setUUID(tokens[0]);
