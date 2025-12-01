@@ -2,7 +2,9 @@ package view.cli;
 
 import controller.TimetableController;
 import model.user.User;
-
+/**
+ * @author Willow
+ */
 public class MainCLI extends CLIView {
     @Override
     public void displayPanel() {

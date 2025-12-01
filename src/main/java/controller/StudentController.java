@@ -1,6 +1,10 @@
 package controller;
 
+import model.grouping.Subgroup;
+import model.module.Programme;
 import model.user.Student;
+import persistence.PersistenceManager;
+import view.cli.LeaderCLI;
 import view.cli.StudentCLI;
 
 /**
@@ -36,14 +40,16 @@ public class StudentController extends Controller {
         boolean more = true;
 
         MAIN_LOOP: while (more) {
-            String command = view.prompt("D)isplay Course G)et Student SubGroup S)how Timetable Q)uit");
+            String command = view.prompt("D)isplay Course G)et Student SubGroup S)how Timetable Q)uit\n");
 
             switch (command.toUpperCase()) {
                 //Display course
                 case "D":
                     view.displayProgramme();
-                    System.out.println(student.getProgramme());
-                    view.print("Student Course Successfully Shown");
+                    student.getProgramme().getName();
+
+                    view.print(student.getProgramme().getName());
+
                     break;
                     //Display the student group
                 case "G":

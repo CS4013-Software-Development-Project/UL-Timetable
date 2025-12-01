@@ -30,7 +30,8 @@ import view.cli.AdminCLI;
  */
 public class AdminController extends Controller {
     /** The {@link Admin} this controller is attached to. */
-    private Admin admin;
+    private Admin admin = new Admin("blank", "blank");
+    //the view this is attached to
     /** The {@link AdminCLI} this controller is attached to. */
     AdminCLI view;
 
@@ -76,7 +77,6 @@ public class AdminController extends Controller {
 
                     if (testProgramme == null) {
                         view.error("Programme " + programmeName + " does not exist, so leader cannot be added, Please re-enter or create this programme.");
-                        continue MAIN_LOOP;
                     }
                     admin.appointLeader(testLeader, testProgramme);
                     view.print("Leader added to programme");
@@ -139,7 +139,16 @@ public class AdminController extends Controller {
                             case "S": {
                                 String username = view.prompt("Username: ");
                                 String password = view.prompt("Password: ");
-                                admin.addStudent(username, password);
+                                String programmeName = view.prompt("Programme Name: ");
+                                Programme testProgramme = PersistenceManager.programmes.values().stream().filter(
+                                        p -> p.getName().equals(programmeName)
+                                ).findFirst().orElse(null);
+
+                                if (testProgramme == null) {
+                                    view.error("Programme " + programmeName + " does not exist, so student cannot be created, Please re-enter or create this programme.");
+                                }
+
+                                admin.addStudent(username, password, testProgramme);
                                 view.print("Student Added");
                                 break;
                             }
@@ -151,10 +160,12 @@ public class AdminController extends Controller {
                                 break;
                             }
                             case "B":
+                                extra = false;
                                 view.print("Backing out...");
                                 continue MAIN_LOOP;
                         }
                     }
+                    break;
                 }
                 //module creation mode
                 case "M": {
@@ -184,10 +195,12 @@ public class AdminController extends Controller {
                                 break;
                             }
                             case "B":
+                                extra = false;
                                 view.print("Backing out...");
                                 continue MAIN_LOOP;
                         }
                     }
+                    break;
                 }
                 //quit
                 case "Q":
@@ -198,12 +211,7 @@ public class AdminController extends Controller {
         }
     }
 
-    /**
-     * Helper method for getting a User from the persistence store. Automatically searches all User repositories;
-     * Admins, Leaders, and Students.
-     * @return the User located inside the persistence store.
-     */
-    private User getUser() {
+    public User getUser() {
         String username = view.prompt("Username: ");
         User testUser = null;
 

@@ -148,7 +148,7 @@ public class Programme extends AbstractPersistable {
      */
     public void removeLeader(Leader leader) {
         this.leaders.remove(leader);
-        leader.removeLedProgramme(this);
+        //leader.removeLedProgramme(this);
     }
 
     /**

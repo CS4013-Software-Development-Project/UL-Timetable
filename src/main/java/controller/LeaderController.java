@@ -46,7 +46,7 @@ public class LeaderController extends Controller {
         boolean more = true;
 
         MAIN_LOOP: while (more) {
-            String command = view.prompt("D)isplay Led Programmes S)how Timetable Q)uit");
+            String command = view.prompt("D)isplay Led Programmes S)how Timetable Q)uit\n");
 
             switch (command.toUpperCase()) {
                 //Display Led Programmes

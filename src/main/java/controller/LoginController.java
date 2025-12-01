@@ -47,14 +47,14 @@ public class LoginController extends Controller{
         User testUser = getUserFromUsername();
         if (testUser == null)
         {
-            view.error("Username not found");
+            view.print("Username not found");
             return;
         }
 
         Controller controller = getControllerFromPassword(testUser);
         if (controller == null)
         {
-            view.error("Login failed.");
+            view.print("Login failed.");
             return;
         }
 
@@ -127,7 +127,6 @@ public class LoginController extends Controller{
     private Controller getControllerFromPassword(User user) {
         return getControllerFromPassword(user, 0);
     }
-
     /**
      * Returns a {@link Controller} instance by asking the user to provide a password.
      * This is then authenticated with the provided User instance.
@@ -137,7 +136,7 @@ public class LoginController extends Controller{
      */
     private Controller getControllerFromPassword(User user, int attempts) {
         if (attempts > 1) {
-            view.print("Too many attempts.");
+            view.error("Too many attempts.");
             return null;
         }
 

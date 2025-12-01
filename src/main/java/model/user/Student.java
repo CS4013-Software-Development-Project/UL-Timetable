@@ -42,7 +42,7 @@ public class Student extends User {
      * @return the {@link Programme} this {@link Student} is currently enrolled in.
      */
     public Programme getProgramme() {
-        return this.programme;
+        return programme;
     }
 
     /**
@@ -50,9 +50,14 @@ public class Student extends User {
      * @param programme the new {@link Programme}.
      */
     public void setProgramme(Programme programme) {
+        PersistenceManager pm = new PersistenceManager("persistence");
         this.programme = programme;
-        if (programme.getSubgroup() != null && !programme.getSubgroup().getStudents().contains(this))
+        if (programme.getSubgroup() != null && !programme.getSubgroup().getStudents().contains(this)) {
             programme.addStudent(this);
+            programme.resolveDependencies();
+            this.resolveDependencies();
+        }
+        pm.save();
     }
 
     // TODO: Account for group rework
@@ -96,7 +101,6 @@ public class Student extends User {
         student.setUUID(tokens[0]);
 
         student.setPasswordHash(tokens[2]);
-
         return student;
     }
 

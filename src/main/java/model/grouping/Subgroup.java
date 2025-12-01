@@ -30,6 +30,14 @@ public class Subgroup extends AbstractPersistable {
         this.id = id;
         this.students = new ArrayList<>();
     }
+
+    /**
+     * @return  id The String ID representing this Subgroup.
+     */
+    public String getId() {
+        return id;
+    }
+
     /**
      * Creates a new instance of Subgroup.
      * @param id The String ID representing this Subgroup.

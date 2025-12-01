@@ -82,6 +82,7 @@ public class Leader extends User {
         Leader leader = new Leader(tokens[1], tokens[2]);
         leader.setUUID(tokens[0]);
 
+        leader.setPasswordHash(tokens[2]);
         return leader;
     }
 
