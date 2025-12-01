@@ -11,14 +11,18 @@ It is your responsibility to add your contribution to this file.
 |-------------|---------------------------|--------------------------------------------------------|---------|-------|--------|--------------------------------------------|
 | 10 Nov 2025 | Kuba Rodak (24436755)     | Repo set-up                                            | 812501a | 0.5   | Done   | Repo created                               |
 | 11 Nov 2025 | Kuba Rodak (24436755)     | Kanban created & members added                         | e4f5g6h | 0.75  | Done   | Kanban seeded & team complete              |
+| 15 Nov 2025 | Leonards Cirksis(24377384)| Short draft of rationale document                      | -       | 0.5   | Done   |                                            |
 | 16 Nov 2025 | Willow Johnson (24408379) | CRC Cards created and added                            | 9191a0b | 0.5   | Done   | Current CRC cards, may be updated          |
 | 17 Nov 2025 | Kuba Rodak (24436755)     | Create Code Skeleton                                   | c6df7ae | 2     | Done   | Project MVC skeleton created               |
 | 17 Nov 2025 | Kuba Rodak (24436755)     | Comment Everything & Export Javadoc                    | d02c950 | 1     | Done   | Javadoc committed to Repo                  |
 | 20 Nov 2025 | Kuba Rodak (24436755)     | Create UML Diagram                                     | d4cdee4 | 1     | Done   | UML exported as png and committed.         |
+| 26 Nov 2025 | Leonards Cirksis(24377384)| Grouping / Design Rework                               | 679c3fc | 2.5   | Done   |                                            |
 | 28 Nov 2025 | Kuba Rodak (24436755)     | Develop Object Persistence                             | 0ca7a73 | 20    | Done   | Saving/Loading data models via CSV files.  |
 | 30 Nov 2025 | Finn Frasca (25318756)    | Scheduler Algorithm                                    | 285a86f | 2     | Done   | Scheduler code committed.                  |
 | 30 Nov 2025 | Willow Johnson (24408379) | MVC Loop Completed                                     | e874d85 | 14.5  | Done   | MVC Architecture Polished and Completed    |
 | 30 Nov 2025 | Kuba Rodak (24436755)     | Comment all new functions and ensure they have JavaDoc | d091153       | 2     | Done   | New JavaDoc created and committed to repo. |
+| 30 Nov 2025 | Leonards Cirksis(24377384)| fix to non-occurring null for empty session columns    | -       | 0.5   | Done   |                                            |
 | 01 Dec 2025 | Kuba Rodak (24436755)     | README & Instructions for program operation            | -       | 3     | Done   | Created instructions and committed.        |
+| 01 Dec 2025 | Leonards Cirksis(24377384)| Rationale document                                     | -       | 2.0   | Done   |                                            |
 | ...         | ...                       | ...                                                    | ...     | ...   | ...    | ...                                        |
 
