@@ -7,28 +7,32 @@ import persistence.PersistenceManager;
 public class Timetable extends AbstractPersistable {
     //6x10 rigid array because we don't want to change it
     //but its also at the same time easy to change with editing the respective enums!
-    private static final int days = Day.values().length;
-    private static final int periods = Period.values().length;
+    public static final int days = Day.values().length;
+    public static final int periods = Period.values().length;
 
-    private Session[][] grid = new Session[days][periods];
+    private Session[][] sessionGrid = new Session[days][periods];
+
+    public Timetable() {
+
+    }
 
     public Session getSession(Day day, Period period) {
-        return this.grid[day.ordinal()][period.ordinal()];
+        return this.sessionGrid[day.ordinal()][period.ordinal()];
     }
 
     public void setSession(Day day, Period period, Session session) {
-        this.grid[day.ordinal()][period.ordinal()] = session;
+        this.sessionGrid[day.ordinal()][period.ordinal()] = session;
     }
 
-    public void clear(Day day, Period period) {
-        this.grid[day.ordinal()][period.ordinal()] = null;
+    public void clearSession(Day day, Period period) {
+        this.sessionGrid[day.ordinal()][period.ordinal()] = null;
     }
 
     @Override
     public String serialize() {
         StringBuilder line = new StringBuilder();
 
-        for (Session[] day : this.grid) {
+        for (Session[] day : this.sessionGrid) {
 
             for (Session session : day) {
                 if (session == null)
@@ -60,7 +64,7 @@ public class Timetable extends AbstractPersistable {
         int days = Timetable.days;
         int slots = Timetable.periods;
 
-        this.grid = new Session[days][slots];
+        this.sessionGrid = new Session[days][slots];
 
         for (int d = 0; d < days; d++) {
             if (dayStrings[d].isEmpty()) {
@@ -73,9 +77,9 @@ public class Timetable extends AbstractPersistable {
                 String token = items[s];
 
                 if (token.equals("null"))
-                    this.grid[d][s] = null;
+                    this.sessionGrid[d][s] = null;
                 else
-                    this.grid[d][s] = PersistenceManager.sessions.get(token);
+                    this.sessionGrid[d][s] = PersistenceManager.sessions.get(token);
             }
         }
     }

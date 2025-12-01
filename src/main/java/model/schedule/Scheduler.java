@@ -2,6 +2,7 @@ package model.schedule;
 
 import model.module.Session;
 import model.room.Room;
+import persistence.PersistenceManager;
 
 import java.util.*;
 
@@ -15,6 +16,36 @@ public class Scheduler {
     private final Timetable timetable = new Timetable();
 
     public Scheduler() {}
+
+    public static void populateRoomTimeslots() {
+
+        Timeslot[][] timeslotGrid = new Timeslot[Timetable.days][Timetable.periods];
+
+        for (Timeslot timeslot : PersistenceManager.timeslots.values()) {
+            if(timeslot != null)
+                timeslotGrid[timeslot.getDay().ordinal()][timeslot.getPeriod().ordinal()] = timeslot;
+        }
+
+        for (int day = Day.first(); day <= Day.last(); day++) {
+            for (int time = Period.first(); time <= Period.last(); time++) {
+                for (Room room : PersistenceManager.rooms.values()) {
+                    //timeslot exists here?
+                    if (room != null && timeslotGrid[day][time] == null) {
+                        Timeslot ts = new Timeslot(Day.values()[day], Period.values()[time], room);
+                        timeslotGrid[day][time] = ts; //potentially optional?
+                        //add timeslot to store
+                        PersistenceManager.addTimeslot(ts);
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+
+
 
     /**
      * Adds a timeslot to the scheduler.
@@ -58,7 +89,7 @@ public class Scheduler {
      * Unschedules a session from a specific day or period.
      */
     public void unschedule(Day day, Period period) {
-        timetable.clear(day, period);
+        timetable.clearSession(day, period);
     }
 
     /**
