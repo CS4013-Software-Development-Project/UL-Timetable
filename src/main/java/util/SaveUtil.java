@@ -5,6 +5,9 @@ import persistence.AbstractPersistable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 
 /**
  * This class contains static methods that function as utilities for Persistence and
@@ -57,5 +60,27 @@ public class SaveUtil {
         }
 
         return list;
+    }
+
+    public static void deleteRecursive(String path) throws IOException {
+        Path dir = Paths.get(path);
+
+        if (!Files.exists(dir)) return;
+
+        Files.walkFileTree(dir, new SimpleFileVisitor<>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+                    throws IOException {
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path directory, IOException exc)
+                    throws IOException {
+                Files.delete(directory);
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 }
