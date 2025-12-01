@@ -25,7 +25,7 @@ import view.cli.LeaderCLI;
  */
 public class LeaderController extends Controller {
     /** The leader this controller is attached to. */
-    private Leader leader;
+    Leader leader;
     /** The view that this controller uses for all I/O. */
     LeaderCLI view;
 
@@ -33,9 +33,10 @@ public class LeaderController extends Controller {
      * Constructs a new instance of {@code LeaderController} using the supplied view.
      * @param view the command‑line view used to display information and read commands
      */
-    public LeaderController(LeaderCLI view) {
-        super(view);
+    public LeaderController(LeaderCLI view, Leader leader) {
+        super(view, leader);
         this.view = view;
+        this.leader = leader;
     }
 
     /**

@@ -67,21 +67,23 @@ public class Admin extends User {
     }
 
     /**
-     * Adds leader to system.
+     * Adds programme to system.
      * @param name String to set programme name.
      */
     public void addProgramme(String name){
-        Programme addedProgramme = new Programme(username);
+        Programme addedProgramme = new Programme(name);
+        PersistenceManager.addProgramme(addedProgramme);
     }
 
     /**
-     * Adds leader to system.
+     * Adds module to system.
      * @param moduleCode String to set module code.
      * @param moduleName String to set module name.
      */
     public void addModule(Programme programme, String moduleCode, String moduleName){
         Module addedModule = new Module(moduleCode, moduleName);
         programme.addModule(addedModule);
+        PersistenceManager.addModule(addedModule);
     }
 
     @Override

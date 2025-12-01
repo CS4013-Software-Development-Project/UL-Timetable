@@ -38,9 +38,10 @@ public class AdminController extends Controller {
      * Creates a new {@code AdminController} with the supplied view.
      * @param view the view that will interact with the user
      */
-    public AdminController(AdminCLI view) {
-        super(view);
+    public AdminController(AdminCLI view, Admin admin) {
+        super(view, admin);
         this.view = view;
+        this.admin = admin;
     }
 
     /**
@@ -56,6 +57,7 @@ public class AdminController extends Controller {
             switch (command.toUpperCase()) {
                 //appoint leader
                 case "A": {
+                    view.display("Appoint an already existing Leader to an already existing Programme.");
                     String username = view.prompt("Enter Leader's username: ");
 
                     Leader testLeader = PersistenceManager.leaders.values().stream()
@@ -82,6 +84,7 @@ public class AdminController extends Controller {
                 }
                 //remove a leader
                 case "R": {
+                    view.display("Remove an existing Leader from a Programme.");
                     String username = view.prompt("Enter username: ");
 
                     Leader testLeader = PersistenceManager.leaders.values().stream()
@@ -108,36 +111,23 @@ public class AdminController extends Controller {
                 }
                 //change password
                 case "C": {
-                    view.changePassword();
-                    String username = view.prompt("Username: ");
+                    view.display("Change your password.");
                     String password = view.prompt("New Password: ");
+                    String passwordAgain = view.prompt("Password Again: ");
 
-                    User user = PersistenceManager.leaders.values().stream()
-                            .filter(l -> l.getUsername().equals(username))
-                            .findFirst().orElse(null);
-                    if (user == null) {
-                        user = PersistenceManager.students.values().stream()
-                                .filter(l -> l.getUsername().equals(username))
-                                .findFirst().orElse(null);
-                    }
-                    if (user == null) {
-                        user = PersistenceManager.admins.values().stream()
-                                .filter(l -> l.getUsername().equals(username))
-                                .findFirst().orElse(null);
-                    }
-                    if (user == null) {
-                        view.error("User does not exist for username " + username);
-                        continue MAIN_LOOP;
+                    if (password.equals(passwordAgain)) {
+                        admin.resetPassword(password);
+                        view.print("Password Reset");
+                    } else {
+                        view.error("Passwords do not match");
                     }
 
-                    user.resetPassword(password);
-                    view.print("Password Reset");
-                    break;
+                    continue MAIN_LOOP;
                 }
                 //user creation mode
                 case "U": {
                     while (true) {
-                        command = view.prompt("L)eader S)tudent A)dmin B)ack\n");
+                        command = view.prompt("L)eader S)tudent A)dmin B)ack\n").toUpperCase();
                         switch (command) {
                             case "L": {
                                 String username = view.prompt("Username: ");
@@ -169,7 +159,7 @@ public class AdminController extends Controller {
                 //module creation mode
                 case "M": {
                     while (true) {
-                        command = view.prompt("P)rogramme M)odule B)ack\n");
+                        command = view.prompt("P)rogramme M)odule B)ack\n").toUpperCase();
                         switch (command) {
                             case "P": {
                                 String name = view.prompt("Enter Programme name: ");
@@ -178,7 +168,7 @@ public class AdminController extends Controller {
                                 break;
                             }
                             case "M": {
-                                String name = view.prompt("Enter Programme name: ");
+                                String name = view.prompt("Enter Programme name to add modules to: ");
                                 String moduleName = view.prompt("Enter Module name: ");
                                 String code = view.prompt("Enter Module Code: ");
 

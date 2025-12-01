@@ -15,6 +15,8 @@ public class AdminCLI extends MainCLI {
         System.out.println("[Success] "+msg);
     }
 
+    public void display(String msg) { System.out.println(msg); }
+
     @Override
     public void error(String msg){
         System.out.println("[Error] "+msg);

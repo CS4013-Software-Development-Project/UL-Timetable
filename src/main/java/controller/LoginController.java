@@ -33,7 +33,7 @@ public class LoginController extends Controller{
      * @param view the view that this controller will use for I/O ops.
      */
     public LoginController(MainCLI view){
-        super(view);
+        super(view, new Admin("", ""));
     }
 
     /**
@@ -61,6 +61,8 @@ public class LoginController extends Controller{
         view.print(
                 "Login successful. Welcome " +
                         testUser.getUsername() + ", " + testUser.getClass().getCanonicalName());
+
+
         controller.start();
     }
 
@@ -109,7 +111,7 @@ public class LoginController extends Controller{
                 }
             }
         if (testUser == null) {
-            view.print("Invalid username.");
+            view.error("Invalid username.");
             testUser = getUserFromUsername(attempts + 1);
         }
 
@@ -146,18 +148,18 @@ public class LoginController extends Controller{
             Controller controller = null;
 
             if (user instanceof Admin) {
-                controller =  new AdminController(new AdminCLI());
+                controller =  new AdminController(new AdminCLI(), (Admin)user);
             }
             else if (user instanceof Leader) {
-                controller =  new LeaderController(new LeaderCLI());
+                controller =  new LeaderController(new LeaderCLI(), (Leader)user);
             }
             else if (user instanceof Student) {
-                controller =  new StudentController(new StudentCLI());
+                controller =  new StudentController(new StudentCLI(), (Student)user);
             }
 
             return controller;
         }
-        view.print("Incorrect password.");
+        view.error("Incorrect password.");
         return getControllerFromPassword(user, attempts + 1);
     }
 }

@@ -16,16 +16,17 @@ import view.cli.StudentCLI;
  *  </p>
  */
 public class StudentController extends Controller {
-    private Student student;
+    Student student;
     StudentCLI view;
 
     /**
      * Creates an instance of {@link StudentController} with the provided {@link StudentCLI}
      * @param view the View to use for I/O ops.
      */
-    public StudentController(StudentCLI view) {
-        super(view);
+    public StudentController(StudentCLI view, Student student) {
+        super(view, student);
         this.view = view;
+        this.student = student;
     }
 
     /**
