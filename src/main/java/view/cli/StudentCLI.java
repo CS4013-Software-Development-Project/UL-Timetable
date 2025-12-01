@@ -2,7 +2,9 @@ package view.cli;
 
 import model.user.Leader;
 import model.user.Student;
-
+/**
+ * @author Willow
+ */
 public class StudentCLI extends MainCLI {
 
     @Override

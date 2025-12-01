@@ -12,7 +12,7 @@ import java.util.List;
  * The Student
  */
 public class Student extends User {
-    Programme programme;
+    Programme programme = new Programme("blank");
     List<Subgroup> subgroups;
 
     /**
@@ -39,13 +39,18 @@ public class Student extends User {
     }
 
     public Programme getProgramme() {
-        return this.programme;
+        return programme;
     }
 
     public void setProgramme(Programme programme) {
+        PersistenceManager pm = new PersistenceManager("persistence");
         this.programme = programme;
-        if (programme.getSubgroup() != null && !programme.getSubgroup().getStudents().contains(this))
+        if (programme.getSubgroup() != null && !programme.getSubgroup().getStudents().contains(this)) {
             programme.addStudent(this);
+            programme.resolveDependencies();
+            this.resolveDependencies();
+        }
+        pm.save();
     }
 
     // TODO: Account for group rework
@@ -78,7 +83,6 @@ public class Student extends User {
         student.setUUID(tokens[0]);
 
         student.setPasswordHash(tokens[2]);
-
         return student;
     }
 

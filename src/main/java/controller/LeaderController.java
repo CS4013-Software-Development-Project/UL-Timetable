@@ -5,20 +5,25 @@ import model.module.Programme;
 import model.user.Leader;
 import view.cli.LeaderCLI;
 
+/**
+ * @author Willow
+ */
+
 public class LeaderController extends Controller {
     private Leader leader;
     LeaderCLI view;
 
-    public LeaderController(LeaderCLI view) {
+    public LeaderController(LeaderCLI view, Leader leader) {
         super(view);
         this.view = view;
+        this.leader = leader;
     }
 
     public void start() {
         boolean more = true;
 
         MAIN_LOOP: while (more) {
-            String command = view.prompt("D)isplay Led Programmes S)how Timetable Q)uit");
+            String command = view.prompt("D)isplay Led Programmes S)how Timetable Q)uit\n");
 
             switch (command.toUpperCase()) {
                 //Display Led Programmes

@@ -21,8 +21,8 @@ public class ULTimetable {
 
         //add root testing admin
         //TODO: Remove this once testing is complete.
-        PersistenceManager.addAdmin(new Admin("root","root"));
 
+        //PersistenceManager.addLeader(new Leader("TestLeader","test"));
         //create a view & controller for logging in
         MainCLI loginView = new  MainCLI();
         LoginController loginController = new LoginController(loginView);

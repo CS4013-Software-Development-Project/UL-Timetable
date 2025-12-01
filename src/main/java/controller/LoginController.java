@@ -70,7 +70,7 @@ public class LoginController extends Controller{
                 }
             }
         if (testUser == null) {
-            view.print("Invalid username.");
+            view.error("Invalid username.");
             testUser = getUserFromUsername(attempts + 1);
         }
 
@@ -82,7 +82,7 @@ public class LoginController extends Controller{
     }
     private Controller getControllerFromPassword(User user, int attempts) {
         if (attempts > 1) {
-            view.print("Too many attempts.");
+            view.error("Too many attempts.");
             return null;
         }
 
@@ -96,15 +96,15 @@ public class LoginController extends Controller{
                 controller =  new AdminController(new AdminCLI());
             }
             else if (user instanceof Leader) {
-                controller =  new LeaderController(new LeaderCLI());
+                controller =  new LeaderController(new LeaderCLI(), (Leader) user);
             }
             else if (user instanceof Student) {
-                controller =  new StudentController(new StudentCLI());
+                controller =  new StudentController(new StudentCLI(), (Student) user);
             }
 
             return controller;
         }
-        view.print("Incorrect password.");
+        view.error("Incorrect password.");
         return getControllerFromPassword(user, attempts + 1);
     }
 }

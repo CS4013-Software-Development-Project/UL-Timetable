@@ -10,6 +10,10 @@ import model.user.Student;
 import persistence.PersistenceManager;
 import view.cli.MainCLI;
 
+/**
+ * @author Willow
+ */
+
 public class TimetableController {
     private Timetable timetable = new Timetable();
     private MainCLI view = new MainCLI();

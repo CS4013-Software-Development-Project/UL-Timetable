@@ -7,9 +7,12 @@ import model.user.User;
 import persistence.PersistenceManager;
 import view.cli.AdminCLI;
 
+/**
+ * @author Willow
+ */
 public class AdminController extends Controller {
     //the Admin this controller is attached to
-    private Admin admin;
+    private Admin admin = new Admin("blank", "blank");
     //the view this is attached to
     AdminCLI view;
 
@@ -79,7 +82,6 @@ public class AdminController extends Controller {
                 }
                 //change password
                 case "C": {
-                    view.changePassword();
                     String username = view.prompt("Username: ");
                     String password = view.prompt("New Password: ");
 
@@ -121,7 +123,16 @@ public class AdminController extends Controller {
                             case "S": {
                                 String username = view.prompt("Username: ");
                                 String password = view.prompt("Password: ");
-                                admin.addStudent(username, password);
+                                String programmeName = view.prompt("Programme Name: ");
+                                Programme testProgramme = PersistenceManager.programmes.values().stream().filter(
+                                        p -> p.getName().equals(programmeName)
+                                ).findFirst().orElse(null);
+
+                                if (testProgramme == null) {
+                                    view.error("Programme " + programmeName + " does not exist, so student cannot be created, Please re-enter or create this programme.");
+                                }
+
+                                admin.addStudent(username, password, testProgramme);
                                 view.print("Student Added");
                                 break;
                             }

@@ -1,5 +1,7 @@
 package view.cli;
-
+/**
+ * @author Willow
+ */
 public class AdminCLI extends MainCLI {
     @Override
     public void displayPanel() {

@@ -6,6 +6,7 @@ import persistence.PersistenceManager;
 
 /**
  * The Admin can appoint and remove Leaders from Programmes.
+ * @author Willow
  */
 public class Admin extends User {
 
@@ -21,10 +22,14 @@ public class Admin extends User {
      * @param programme Programme to appoint the Leader to.
      */
     public void appointLeader(Leader leader, Programme programme) {
-        if (!programme.getLeaders().contains(leader))
+        PersistenceManager pm = new PersistenceManager("persistence");
+        if (!programme.getLeaders().contains(leader)){
             programme.addLeader(leader);
+            programme.resolveDependencies();
+        }
         if (!leader.getLedProgrammes().contains(programme))
             leader.addLedProgramme(programme);
+        pm.save();
     }
 
     /**
@@ -33,8 +38,10 @@ public class Admin extends User {
      * @param programme Programme to remove the Leader from.
      */
     public void removeLeader(Leader leader, Programme programme) {
-        programme.removeLeader(leader);
+        PersistenceManager pm = new PersistenceManager("persistence");
         leader.removeLedProgramme(programme);
+        programme.resolveDependencies();
+        pm.save();
     }
 
     /**
@@ -44,7 +51,10 @@ public class Admin extends User {
      */
     public void addAdmin(String username, String password){
         Admin addedAdmin = new Admin(username, password);
-        PersistenceManager.addAdmin(addedAdmin);
+        PersistenceManager pm = new PersistenceManager("persistence");
+        pm.addAdmin(addedAdmin);
+        pm.save();
+
     }
 
     /**
@@ -52,9 +62,12 @@ public class Admin extends User {
      * @param username String to set username.
      * @param password String to set password.
      */
-    public void addStudent(String username, String password){
+    public void addStudent(String username, String password, Programme programme){
         Student addedUser = new Student(username, password);
-        PersistenceManager.addStudent(addedUser);
+        addedUser.setProgramme(programme);
+        PersistenceManager pm = new PersistenceManager("persistence");
+        pm.addStudent(addedUser);
+        pm.save();
     }
 
     /**
@@ -64,7 +77,9 @@ public class Admin extends User {
      */
     public void addLeader(String username, String password){
         Leader addedUser = new Leader(username, password);
-        PersistenceManager.addLeader(addedUser);
+        PersistenceManager pm = new PersistenceManager("persistence");
+        pm.addLeader(addedUser);
+        pm.save();
     }
 
     /**
@@ -72,7 +87,10 @@ public class Admin extends User {
      * @param name String to set programme name.
      */
     public void addProgramme(String name){
-        Programme addedProgramme = new Programme(username);
+        Programme addedProgramme = new Programme(name);
+        PersistenceManager pm = new PersistenceManager("persistence");
+        pm.addProgramme(addedProgramme);
+        pm.save();
     }
 
     /**
@@ -83,6 +101,9 @@ public class Admin extends User {
     public void addModule(Programme programme, String moduleCode, String moduleName){
         Module addedModule = new Module(moduleCode, moduleName);
         programme.addModule(addedModule);
+        PersistenceManager pm = new PersistenceManager("persistence");
+        pm.addModule(addedModule);
+        pm.save();
     }
 
     @Override
