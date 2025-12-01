@@ -3,6 +3,8 @@ package tests;
 import model.grouping.Subgroup;
 import model.module.Module;
 import model.module.Programme;
+import model.room.Room;
+import model.room.RoomType;
 import model.user.Leader;
 import model.user.Student;
 import persistence.PersistenceManager;
@@ -26,6 +28,20 @@ public class PersistenceTest {
     @Test
     public void testSaveData() {
         PersistenceManager pm = new PersistenceManager("persistence");
+
+        Room[] r = {
+                new Room("A1 - Lecture", 200, RoomType.LectureHall),
+                new Room("B1 - Lecture", 200, RoomType.LectureHall),
+                new Room("C1 - Lecture", 200, RoomType.LectureHall),
+                new Room("D1 - Lecture", 200, RoomType.LectureHall),
+                new Room("E1 - Lecture", 200, RoomType.LectureHall),
+
+                new Room("A2 - Lab", 5, RoomType.Lab),
+                new Room("B2 - Lab", 5, RoomType.Lab),
+                new Room("C2 - Lab", 3, RoomType.Lab),
+                new Room("D2 - Lab", 3, RoomType.Lab),
+                new Room("E2 - Lab", 3, RoomType.Lab),
+        };
 
         Student[] s = {
                 new Student("Kuba", "welcome"),
@@ -78,6 +94,7 @@ public class PersistenceTest {
         p[0].addLeader(l[1]);
         p[0].addLeader(l[2]);
 
+        PersistenceManager.addRoom(r);
         PersistenceManager.addProgramme(p);
         PersistenceManager.addModule(m);
         PersistenceManager.addLeader(l);
@@ -85,7 +102,6 @@ public class PersistenceTest {
 
         pm.save();
     }
-
 
     //RUN THIS ONE TO REGENERATE & RESERIALIZE ALL DATA
     @Test
@@ -95,7 +111,7 @@ public class PersistenceTest {
             SaveUtil.deleteRecursive("persistence/");
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         testSaveData();
