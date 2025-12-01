@@ -78,7 +78,8 @@ public class Module extends AbstractPersistable {
     }
 
     public static Module deserialize(String[] tokens) {
-        Module m = new Module(tokens[0], tokens[2]);
+        //0: ID field, 1: moduleCode, 2: moduleName
+        Module m = new Module(tokens[1], tokens[2]);
         m.setUUID(tokens[0]);
         return m;
     }
