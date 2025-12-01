@@ -77,6 +77,7 @@ public class AdminController extends Controller {
 
                     if (testProgramme == null) {
                         view.error("Programme " + programmeName + " does not exist, so leader cannot be added, Please re-enter or create this programme.");
+                        continue MAIN_LOOP;
                     }
                     admin.appointLeader(testLeader, testProgramme);
                     view.print("Leader added to programme");
@@ -160,12 +161,10 @@ public class AdminController extends Controller {
                                 break;
                             }
                             case "B":
-                                extra = false;
                                 view.print("Backing out...");
                                 continue MAIN_LOOP;
                         }
                     }
-                    break;
                 }
                 //module creation mode
                 case "M": {
@@ -195,12 +194,10 @@ public class AdminController extends Controller {
                                 break;
                             }
                             case "B":
-                                extra = false;
                                 view.print("Backing out...");
                                 continue MAIN_LOOP;
                         }
                     }
-                    break;
                 }
                 //quit
                 case "Q":
