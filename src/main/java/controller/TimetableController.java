@@ -11,13 +11,24 @@ import persistence.PersistenceManager;
 import view.cli.MainCLI;
 
 /**
- * @author Willow
+ * Simple menu controller that allows a user to view various timetables
+ * (programme, module or room) after logging in.
+ *
+ * @author Willow Johnson
  */
-
 public class TimetableController {
+    /**
+     * Timetable data for this controller.
+     */
     private Timetable timetable = new Timetable();
+    /**
+     * The view used by this controller.
+     */
     private MainCLI view = new MainCLI();
 
+    /**
+     * Starts the interactive command loop.
+     */
     public void start(){
         boolean more = true;
 

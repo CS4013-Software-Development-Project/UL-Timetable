@@ -8,19 +8,45 @@ import persistence.PersistenceManager;
 import view.cli.AdminCLI;
 
 /**
- * @author Willow
+ * Controller class for {@link model.user.Admin} users.
+ * <p>
+ * The controller allows an Admin to:
+ * <ul>
+ *   <li>appoint or remove leaders from programmes</li>
+ *   <li>change the password of any user (leader, student or admin)</li>
+ *   <li>create new users (leaders, students or admins)</li>
+ *   <li>create new programmes and modules</li>
+ *   <li>quit the interface</li>
+ * </ul>
+ * Uses the {@link persistence.PersistenceManager} singleton.
+ * </p>
+ *
+ * @see model.user.Admin
+ * @see model.module.Programme
+ * @see view.cli.AdminCLI
+ * @see persistence.PersistenceManager
+ *
+ * @author Willow Johnson
  */
 public class AdminController extends Controller {
-    //the Admin this controller is attached to
+    /** The {@link Admin} this controller is attached to. */
     private Admin admin = new Admin("blank", "blank");
     //the view this is attached to
+    /** The {@link AdminCLI} this controller is attached to. */
     AdminCLI view;
 
+    /**
+     * Creates a new {@code AdminController} with the supplied view.
+     * @param view the view that will interact with the user
+     */
     public AdminController(AdminCLI view) {
         super(view);
         this.view = view;
     }
 
+    /**
+     * Starts the interactive command loop.
+     */
     public void start() {
         boolean more = true;
 
