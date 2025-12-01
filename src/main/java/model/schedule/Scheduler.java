@@ -8,9 +8,7 @@ import model.room.RoomType;
 import model.user.Student;
 import persistence.PersistenceManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This behavioral service creates and schedules the TimeTable.
@@ -25,7 +23,7 @@ public class Scheduler {
     static Timeslot[][] timeslotGrid;
 
 
-    
+
 
     public static void populateRoomTimeslots() {
         Scheduler.timeslotGrid = new Timeslot[Timetable.days][Timetable.periods];

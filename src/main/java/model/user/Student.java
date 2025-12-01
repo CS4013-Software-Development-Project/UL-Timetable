@@ -82,7 +82,10 @@ public class Student extends User {
 
         line.append(this.getUsername()).append(",");
         line.append(this.passwordHash).append(",");
-        line.append(this.programme.getUUID()).append(",");
+        if(this.programme != null)
+            line.append(this.programme.getUUID()).append(",");
+        else
+            line.append("null").append(",");
         line.append(SaveUtil.fastList(this.sessions));
 
         return line.toString();
